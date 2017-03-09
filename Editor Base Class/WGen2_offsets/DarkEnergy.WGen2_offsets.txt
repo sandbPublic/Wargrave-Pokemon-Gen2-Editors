@@ -1,0 +1,34 @@
+﻿006866 Item data
+00E7BE Item ASM
+011A66 TM codes
+051B23 TM sets
+0347CC Crit list pointer
+037FA1 New crit list
+038000 New crit list end
+041AFE Move data
+0427BD Moveset ptr table
+044000 Movesets end
+0509AE Type name ptr table
+1B0000 Item names
+1B0953 Item names end
+1B0B74 Pokemon names
+1B1574 Move names
+1B4000 Move names end
+1B4000 Move desc ptr table
+1B66F0 Move descs end
+1B8000 Item desc ptr table
+1BC000 Item descs end
+0B0220 Trainer ptr table
+0B4000 Trainer data end
+1B66F0 Trainer classes
+1B8000 Trainer classes end
+027283 Trainer DVs
+039562 Trainer attributes
+0C900A Battle animations ptr table // ptr (i=1) to D1 01 E0 01 31 D0 08 88 38 00 06 D0 01 88 38 00...
+0CBA4C Battle animations end // ...01 00 04 E0 01 B1 D0 00 88 30 00 08 FE B7 7C FF
+FB # of pokemon
+FB # of moves
+FF # of items
+BD last non TM item
+1C # of types
+116 # of animations

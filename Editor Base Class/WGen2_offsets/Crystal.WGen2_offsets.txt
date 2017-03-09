@@ -1,0 +1,38 @@
+﻿0067C1 Item data
+00E73C Item ASM
+01167A TM codes
+05143C TM sets
+03467C Crit list pointer
+037EE3 New crit list
+038000 New crit list end
+041AFB Move data
+0425B1 Moveset ptr table
+044000 Movesets end
+05097B Type name ptr table
+1C8000 Item names
+1C8953 Item names end
+053384 Pokemon names
+1C9F29 Move names
+1CA896 Move names end
+02CB52 Move desc ptr table
+02ED44 Move descs end
+1C8987 Item desc ptr table
+1C9F17 Item descs end
+039999 Trainer ptr table
+03C000 Trainer data end
+02C1EF Trainer classes
+02C41A Trainer classes end
+0270D6 Trainer DVs
+03959C Trainer attributes
+0C906F Battle animations ptr table // ptr (i=1) to D1 01 E0 01 31 D0 08 88 38 00 06 D0 01 88 38 00...
+0CBAB3 Battle animations end // ...01 00 04 E0 01 B1 D0 00 88 30 00 08 FE B7 7C FF
+02A5E9 Area wild pokemon
+1CA8C5 Area name table
+1CAEA1 Area name end // followed by short bit of data, then free bytes to end of bank
+FB # of pokemon
+FB # of moves
+FF # of items
+BD last non TM item
+1C # of types
+116 # of animations
+BF # of area names
