@@ -26,20 +26,24 @@ namespace Editor_Base_Class {
 
         public Gen2Editor() {
             ofdOffsets = new OpenFileDialog();
-            ofdOffsets.Filter = ".WGSC_offsets.txt|*.WGSC_offsets.txt|All Files|*";
+            ofdOffsets.Filter = ".WGen2_offsets.txt|*.WGen2_offsets.txt|All Files|*";
             ofdOffsets.Title = "Open offset file";
+            ofdOffsets.InitialDirectory = Application.StartupPath;
 
             ofdROM = new OpenFileDialog();
             ofdROM.Filter = ".gbc|*.gbc|All Files|*";
             ofdROM.Title = "Open ROM file";
+            ofdROM.InitialDirectory = Application.StartupPath;
 
             ofdData = new OpenFileDialog();
-            ofdData.Filter = ".WGSC_data.txt|*.WGSC_data.txt|All Files|*";
+            ofdData.Filter = ".WGen2_data.txt|*.WGen2_data.txt|All Files|*";
             ofdData.Title = "Open data file";
+            ofdData.InitialDirectory = Application.StartupPath;
 
             sfdData = new SaveFileDialog();
-            sfdData.Filter = ".WGSC_data.txt|*.WGSC_data.txt|All Files|*";
+            sfdData.Filter = ".WGen2_data.txt|*.WGen2_data.txt|All Files|*";
             sfdData.Title = "Save data file";
+            sfdData.InitialDirectory = Application.StartupPath;
 
             InitializeComponent();
 
