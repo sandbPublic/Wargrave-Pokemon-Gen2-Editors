@@ -8,7 +8,7 @@
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Wargrave_GSC_Move_Animation_Editor</RootNamespace>
-    <AssemblyName>Wargrave GSC Move Animation Editor</AssemblyName>
+    <AssemblyName>Wargrave Gen2 Move Animation Editor</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

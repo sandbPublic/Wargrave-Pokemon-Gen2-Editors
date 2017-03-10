@@ -216,7 +216,7 @@
             this.Controls.Add(this.comboEvolveFrom);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Evolution";
-            this.Text = "WGSC Evo Editor";
+            this.Text = "WGen2 Evo Editor";
             this.Controls.SetChildIndex(this.comboEvolveFrom, 0);
             this.Controls.SetChildIndex(this.comboEvolveTo, 0);
             this.Controls.SetChildIndex(this.spinEvoIndex, 0);

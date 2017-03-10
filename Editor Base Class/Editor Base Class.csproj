@@ -8,7 +8,7 @@
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>GSC_Editor_Base_Class</RootNamespace>
-    <AssemblyName>GSC Editor Base Class</AssemblyName>
+    <AssemblyName>Wargrave Gen2 Editor Base Class</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

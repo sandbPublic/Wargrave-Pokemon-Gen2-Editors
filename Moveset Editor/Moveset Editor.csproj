@@ -8,7 +8,7 @@
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Pkmn_C_Moveset_Editor</RootNamespace>
-    <AssemblyName>Wargrave GSC Moveset Editor</AssemblyName>
+    <AssemblyName>Wargrave Gen2 Moveset Editor</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
