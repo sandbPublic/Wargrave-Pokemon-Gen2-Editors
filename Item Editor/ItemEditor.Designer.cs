@@ -328,7 +328,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(6, 5, 6, 5);
             this.Name = "ItemEditor";
-            this.Text = "Wargrave GSC Item Editor";
+            this.Text = "Wargrave Gen2 Item Editor";
             this.Controls.SetChildIndex(this.tboxDeltaNameChars, 0);
             this.Controls.SetChildIndex(this.tboxDeltaDescChars, 0);
             this.Controls.SetChildIndex(this.spinItemID, 0);

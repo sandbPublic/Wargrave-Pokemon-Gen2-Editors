@@ -413,7 +413,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(6, 5, 6, 5);
             this.Name = "MoveEditor";
-            this.Text = "Wargrave GSC Move Editor";
+            this.Text = "Wargrave Gen2 Move Editor";
             this.Controls.SetChildIndex(this.spinMoveID, 0);
             this.Controls.SetChildIndex(this.tboxDeltaNameChars, 0);
             this.Controls.SetChildIndex(this.tboxDeltaDescChars, 0);

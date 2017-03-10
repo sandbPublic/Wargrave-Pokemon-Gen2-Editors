@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Wargrave GSC Trainer Editor")]
+[assembly: AssemblyTitle("Wargrave Gen2 Trainer Editor")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Toshiba")]
-[assembly: AssemblyProduct("Wargrave GSC Trainer Editor")]
+[assembly: AssemblyProduct("Wargrave Gen2 Trainer Editor")]
 [assembly: AssemblyCopyright("Copyright © Toshiba 2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Wargrave GSC Wild Pkmn Editor")]
+[assembly: AssemblyTitle("Wargrave Gen2 Wild Pkmn Editor")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Toshiba")]
-[assembly: AssemblyProduct("Wargrave GSC Wild Pkmn Editor")]
+[assembly: AssemblyProduct("Wargrave Gen2 Wild Pkmn Editor")]
 [assembly: AssemblyCopyright("Copyright © Toshiba 2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

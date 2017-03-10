@@ -355,7 +355,7 @@
             this.Controls.Add(this.comboRegion);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Wild";
-            this.Text = "Wargrave GSC Area Wild Pokemon Editor";
+            this.Text = "Wargrave Gen2 Area Wild Pokemon Editor";
             this.Controls.SetChildIndex(this.comboRegion, 0);
             this.Controls.SetChildIndex(this.comboArea, 0);
             this.Controls.SetChildIndex(this.groupMorning, 0);

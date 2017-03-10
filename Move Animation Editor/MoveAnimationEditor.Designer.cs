@@ -94,7 +94,7 @@
             this.Controls.Add(this.spinAnimID);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Animation";
-            this.Text = "Wargrave GSC Animation Editor";
+            this.Text = "Wargrave Gen2 Animation Editor";
             this.Controls.SetChildIndex(this.spinAnimID, 0);
             this.Controls.SetChildIndex(this.txtMoveName, 0);
             this.Controls.SetChildIndex(this.rTxtBytes, 0);

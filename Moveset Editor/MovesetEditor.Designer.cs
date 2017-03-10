@@ -312,7 +312,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(6, 5, 6, 5);
             this.Name = "MovesetEditor";
-            this.Text = "Wargrave GSC Moveset Editor";
+            this.Text = "Wargrave Gen2 Moveset Editor";
             this.Controls.SetChildIndex(this.checkConsecMode, 0);
             this.Controls.SetChildIndex(this.buttonEditTMs, 0);
             this.Controls.SetChildIndex(this.buttonCopyTMsA, 0);

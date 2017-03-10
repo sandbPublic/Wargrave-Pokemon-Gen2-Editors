@@ -436,7 +436,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(6, 5, 6, 5);
             this.Name = "TrainerEditor";
-            this.Text = "Wargrave GSC Trainer Editor";
+            this.Text = "Wargrave Gen2 Trainer Editor";
             this.Controls.SetChildIndex(this.groupTrClass, 0);
             this.Controls.SetChildIndex(this.groupTrTeam, 0);
             ((System.ComponentModel.ISupportInitialize)(this.spinReward)).EndInit();
