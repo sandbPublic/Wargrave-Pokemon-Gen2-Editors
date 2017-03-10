@@ -85,6 +85,7 @@ namespace Gen2_Evolution_Editor {
             comboEvolveTo.Enabled = enable;
             comboEvoMethod.Enabled = enable;
             spinEvoParam.Enabled = enable;
+            comboItems.Enabled = enable; // disable in EnableItems if needed
             btnRemoveEvo.Enabled = enable;
             spinDVbyte.Enabled = enable;
         }
@@ -218,6 +219,7 @@ namespace Gen2_Evolution_Editor {
 
         private void btnRemoveEvo_Click(object sender, EventArgs e) {
             movesets.data[sFrom_I()].evoList.RemoveAt(sEvo_I());
+            movesets.updatePtrs(sFrom_I());
             update();
         }
 
