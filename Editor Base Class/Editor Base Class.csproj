@@ -70,6 +70,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="WGen2_offsets\Crystal.WGen2_offsets.txt" />
+    <Content Include="WGen2_offsets\CrystalFr.WGen2_offsets.txt" />
     <Content Include="WGen2_offsets\DarkEnergy.WGen2_offsets.txt" />
     <Content Include="WGen2_offsets\Gold.WGen2_offsets.txt" />
     <Content Include="WGen2_offsets\Silver.WGen2_offsets.txt" />

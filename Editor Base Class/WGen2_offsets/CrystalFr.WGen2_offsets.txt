@@ -1,0 +1,38 @@
+﻿0067DB Item data /
+00E711 Item ASM /
+011679 TM codes /
+05144F TM sets /
+03467C Crit list pointer / same in English
+037EE7 New crit list /
+038000 New crit list end / same
+041B06 Move data /
+0425BC Moveset ptr table /
+044000 Movesets end / same
+050971 Type name ptr table /
+1C8000 Item names / same
+1C8998 Item names end /
+053377 Pokemon names /
+1C9F96 Move names /
+1CA952 Move names end /
+02CB60 Move desc ptr table /
+02EBCA Move descs end /
+1C89CC Item desc ptr table /
+1C9F84 Item descs end /
+039999 Trainer ptr table / same
+03C000 Trainer data end / same
+02C1EF Trainer classes / same
+02C428 Trainer classes end /
+0270E1 Trainer DVs /
+03959C Trainer attributes / same
+0C906F Battle animations ptr table / same
+0CBAB3 Battle animations end / same
+02A5F2 Area wild pokemon /
+1CA981 Area name table /
+1CAF2F Area name end /
+FB # of pokemon
+FB # of moves
+FF # of items
+BD last non TM item
+1C # of types
+116 # of animations
+BF # of area names
