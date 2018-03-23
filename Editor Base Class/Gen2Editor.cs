@@ -76,16 +76,36 @@ namespace Editor_Base_Class {
                     offsetsStrings.Add(s);
                 }
 
-                try {
-                    for (int offset_i = 0; offset_i < NUM_OF_OFFSETS; offset_i++) {
+                bool validOffsets = true;
+                if (offsetsStrings.Count < NUM_OF_OFFSETS) {
+                    FormMessage warning = new FormMessage(
+                        "Warning: not enough lines in offset file." + Environment.NewLine
+                        + offsets_FilePath + Environment.NewLine
+                        + "Lines read: " + offsetsStrings.Count + Environment.NewLine
+                        + "Lines expected: " + NUM_OF_OFFSETS);
+                    warning.Show();
+
+                    validOffsets = false;
+                }
+                
+                for (int offset_i = 0; offset_i < NUM_OF_OFFSETS; offset_i++) {
+                    try {
                         string[] s = offsetsStrings[offset_i].Split(' '); // read first word == offset
                         offset[offset_i] = Convert.ToInt32(s[0], 16);
+                    } catch (Exception e) { //FormatException
+                        FormMessage exception = new FormMessage(
+                            "Bad offset file: " + offsets_FilePath + Environment.NewLine
+                            + e.Message + Environment.NewLine
+                            + "Line# " + (offset_i+1));
+                        exception.Show();
+                        
+                        validOffsets = false;
                     }
-                } catch (Exception e) { //FormatException
-                    FormMessage exception = new FormMessage("Bad offset file: " 
-                        + offsets_FilePath + Environment.NewLine + e.Message);
-                    exception.Show();
+                }
 
+                // do not allow the user to open a ROM 
+                // if the offset file was invalid
+                if (!validOffsets) {
                     offsets_FilePath = null;
                 }
             }

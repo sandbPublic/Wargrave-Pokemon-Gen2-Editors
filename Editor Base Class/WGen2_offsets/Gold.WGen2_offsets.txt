@@ -26,9 +26,13 @@
 039562 Trainer attributes
 0C900A Battle animations ptr table // ptr (i=1) to D1 01 E0 01 31 D0 08 88 38 00 06 D0 01 88 38 00...
 0CBA4C Battle animations end // ...01 00 04 E0 01 B1 D0 00 88 30 00 08 FE B7 7C FF
+02AB35 Area wild pokemon
+092384 Area name table
+09294E Area name end // followed by short bit of data, then free bytes to end of bank
 FB # of pokemon
 FB # of moves
 FF # of items
 BD last non TM item
 1C # of types
 116 # of animations
+BF # of area names
