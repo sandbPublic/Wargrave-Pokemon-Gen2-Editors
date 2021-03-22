@@ -363,11 +363,6 @@ namespace Gen2_Wild_Pkmn_Editor
                 EnableWrite();
             }
         }
-        private void BadParse(TextBox tb)
-        {
-            tb.BackColor = System.Drawing.Color.FromArgb(255, 191, 191);
-            saveROM_TSMI.Enabled = false;
-        }
 
         private void ButtonAnalyze_Click(object sender, EventArgs e)
         {

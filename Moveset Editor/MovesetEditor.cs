@@ -332,11 +332,6 @@ namespace Gen2_Moveset_Editor
                 EnableWrite();
             }
         }
-        private void BadParse(TextBox tb) //TODO move to Gen2Editor?
-        {
-            tb.BackColor = System.Drawing.Color.FromArgb(255, 191, 191);
-            saveROM_TSMI.Enabled = false;
-        }
 
         private void TBox0_TextChanged(object sender, EventArgs e)
         {

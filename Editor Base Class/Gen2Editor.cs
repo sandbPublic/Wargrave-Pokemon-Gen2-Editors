@@ -395,10 +395,15 @@ namespace Editor_Base_Class
         protected virtual void EnableDataEntry() { }
         protected virtual void EnableWrite() { }
         protected virtual void UpdateEditor() { }
-
         protected virtual void ImportData(List<string> dataStrings) { }
         protected virtual void ExportData() { }
         protected virtual void ManagePointers() { }
+
+        protected void BadParse(TextBox tb)
+        {
+            tb.BackColor = System.Drawing.Color.FromArgb(255, 191, 191);
+            saveROM_TSMI.Enabled = false;
+        }
 
         protected void PrintWarningIfTooLong(string name, int maxLength) // TODO color red?
         {
