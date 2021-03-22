@@ -112,7 +112,7 @@ namespace Gen2_Trainer_Editor
                     for (int pkmn_i = 0; pkmn_i < numOfPkmn; pkmn_i++)
                     {
                         string[] pkmnString = dataStrings[curIndex++].Split(' ');
-                        TeamMember tm = new TeamMember();
+                        var tm = new TeamMember();
                         if (pkmnString.Length == 7)
                         {
                             tm.level = Convert.ToByte(pkmnString[0]);
@@ -145,7 +145,7 @@ namespace Gen2_Trainer_Editor
             //   list of pkmn
             // blank line
 
-            System.IO.StreamWriter file = new System.IO.StreamWriter(data_FilePath);
+            var file = new System.IO.StreamWriter(data_FilePath);
             file.WriteLine(trClassNames.end_i - trClassNames.start_i + 1); // num classes
             for (int class_i = trClassNames.start_i; class_i <= trClassNames.end_i; class_i++)
             {
@@ -532,7 +532,7 @@ namespace Gen2_Trainer_Editor
 
             // if not found, try prevos that haven't been tried recursively
             // create new list
-            List<byte> attSpec2 = new List<byte>();
+            var attSpec2 = new List<byte>();
             foreach (byte b in attemptedSpecies) attSpec2.Add(b);
             attSpec2.Add(species);
 
@@ -663,7 +663,7 @@ namespace Gen2_Trainer_Editor
                         if (teamMemb_i < sTr().team.Count) sTr().team[teamMemb_i].species = species;
                         else
                         { // new pokemon
-                            TeamMember TM = new TeamMember
+                            var TM = new TeamMember
                             {
                                 species = species,
                                 level = 1
@@ -731,7 +731,7 @@ namespace Gen2_Trainer_Editor
             // for each pokemon
             // if nothing evolves into it, add rarity from everything in it's tree
 
-            List<SortingString> L_ss = new List<SortingString>();
+            var L_ss = new List<SortingString>();
             bool[] usagePassed = new bool[pkmnNames.Length];
             for (int pkName_i = 1; pkName_i < pkmnNames.Length; pkName_i++)
             {
@@ -752,7 +752,7 @@ namespace Gen2_Trainer_Editor
             // in pokedex order aren't counted as seperate families
             for (int pkName_i = 1; pkName_i < pkmnNames.Length; pkName_i++)
             {
-                SortingString ss = new SortingString();
+                var ss = new SortingString();
                 if (!usagePassed[pkName_i])
                 {
                     ss.sortValue = usage[pkName_i];
@@ -761,8 +761,7 @@ namespace Gen2_Trainer_Editor
                 }
             }
 
-            FormAnalysis FA = new FormAnalysis(L_ss);
-            FA.Show();
+            new FormAnalysis(L_ss).Show();
         }
     }
 }

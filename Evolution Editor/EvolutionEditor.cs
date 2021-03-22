@@ -65,8 +65,7 @@ namespace Gen2_Evolution_Editor
 
                     if (sEvoData().method <= 5)
                     {
-                        comboEvoMethod.SelectedIndex =
-                            sEvoData().method - 1; // index from 1
+                        comboEvoMethod.SelectedIndex = sEvoData().method - 1; // index from 1
                     }
 
                     EnableItems();
@@ -77,10 +76,7 @@ namespace Gen2_Evolution_Editor
                     spinEvoParam.Value = sEvoData().param;
                     comboItems.SelectedIndex = sEvoData().param;
                 }
-                else
-                {
-                    spinEvoIndex.Minimum = 0;
-                }
+                else spinEvoIndex.Minimum = 0;
             }
 
             EnableWrite();
@@ -123,7 +119,7 @@ namespace Gen2_Evolution_Editor
         
         protected override void ExportData()
         {
-            System.IO.StreamWriter file = new System.IO.StreamWriter(data_FilePath);
+            var file = new System.IO.StreamWriter(data_FilePath);
 
             foreach (int pkmn_i in movesets.Range())
             {

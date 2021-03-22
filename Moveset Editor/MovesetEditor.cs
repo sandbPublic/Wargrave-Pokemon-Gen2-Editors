@@ -77,7 +77,7 @@ namespace Gen2_Moveset_Editor
                 int trueIndex = 0;
                 for (int lD_i = 0; lD_i < numOfLearnData; lD_i++)
                 {
-                    LearnData lD = new LearnData
+                    var lD = new LearnData
                     {
                         level = Convert.ToByte(lDStrings[trueIndex++]),
                         move = Convert.ToByte(lDStrings[trueIndex++])
@@ -108,7 +108,7 @@ namespace Gen2_Moveset_Editor
         // evodata not saved, considered immutable for this tool (load and maintain from ROM)
         protected override void ExportData()
         {
-            System.IO.StreamWriter file = new System.IO.StreamWriter(data_FilePath);
+            var file = new System.IO.StreamWriter(data_FilePath);
 
             foreach (int pkmn_i in movesets.Range())
             {
@@ -227,8 +227,7 @@ namespace Gen2_Moveset_Editor
 
         private void ButtonOpenTMs_Click(object sender, EventArgs e)
         {
-            FormTMdisplay tmd = new FormTMdisplay(this, (int)spinPkmnID_1.Value);
-            tmd.Show();
+            new FormTMdisplay(this, (int)spinPkmnID_1.Value).Show();
         }
 
         private void ButtonCopyTMsA_Click(object sender, EventArgs e)
@@ -318,7 +317,7 @@ namespace Gen2_Moveset_Editor
                 movesets.data[pkmn_i].learnList.Clear();
                 for (int move_i = 0; move_i < length; move_i++)
                 {
-                    LearnData lD = new LearnData
+                    var lD = new LearnData
                     {
                         level = movesetLevels[move_i],
                         move = movesetMoves[move_i]
@@ -381,10 +380,10 @@ namespace Gen2_Moveset_Editor
                 }
             }
 
-            List<SortingString> L_ss = new List<SortingString>();
+            var L_ss = new List<SortingString>();
             for (int moveID_i = 1; moveID_i < usage.Length; moveID_i++)
             {
-                SortingString ss = new SortingString
+                var ss = new SortingString
                 {
                     sortValue = usage[moveID_i],
                     me = usage[moveID_i].ToString("D3") + " - " + moveNames.data[moveID_i]
@@ -392,8 +391,7 @@ namespace Gen2_Moveset_Editor
                 L_ss.Add(ss);
             }
 
-            FormAnalysis FA = new FormAnalysis(L_ss);
-            FA.Show();
+            new FormAnalysis(L_ss).Show();
         }
     }
 

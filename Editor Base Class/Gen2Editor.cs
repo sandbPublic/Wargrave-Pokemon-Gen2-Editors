@@ -104,12 +104,11 @@ namespace Editor_Base_Class
                         offset[offset_i] = Convert.ToInt32(s[0], 16);
                     }
                     catch (Exception e)
-                    { //FormatException
-                        FormMessage exception = new FormMessage(
+                    {
+                        new FormMessage(
                             "Bad offset file: " + offsets_FilePath + Environment.NewLine
                             + e.Message + Environment.NewLine
-                            + "Line# " + (offset_i + 1));
-                        exception.Show();
+                            + "Line# " + (offset_i + 1)).Show();
 
                         validOffsets = false;
                     }
@@ -138,7 +137,7 @@ namespace Editor_Base_Class
                 }
                 else
                 {
-                    List<string> dataStrings = new List<string>();
+                    var dataStrings = new List<string>();
                     foreach (string s in File.ReadLines(data_FilePath)) dataStrings.Add(s);
 
                     try
@@ -146,10 +145,8 @@ namespace Editor_Base_Class
                         ImportData(dataStrings);
                     }
                     catch (Exception e)
-                    { //FormatException, ArgumentOutOfRangeException
-                        FormMessage exception = new FormMessage("Bad data file: "
-                            + data_FilePath + Environment.NewLine + e.Message);
-                        exception.Show();
+                    { 
+                        new FormMessage("Bad data file: "  + data_FilePath + Environment.NewLine + e.Message).Show();
                     }
                 }
                 EnableWrite();
@@ -268,6 +265,7 @@ namespace Editor_Base_Class
                     byte[] nameInBytes =
                         ROM_File.ReadBytes(offset[PKMN_NAME_I] + 10 * (pkmnName_i - 1), 10);
 
+                    //todo use PkmnReadString?
                     pkmnNames[pkmnName_i] = "";
                     foreach (byte b1 in nameInBytes)
                     {
@@ -308,14 +306,11 @@ namespace Editor_Base_Class
             JumpToIfLoading(TR_CLASS_NAME_I);
             while (ROM_File.Position < offset[TR_CLASS_NAME_END_I] - 1)
             {
-                if (ROM_File.ReadByte() == 0)
-                {
-                    break;
-                }
+                if (ROM_File.ReadByte() == 0) break;
                 else
                 {
                     ROM_File.Position--;
-                    string s = ROM_File.PkmnReadString(20);
+                    ROM_File.PkmnReadString(20); // just skipping forward
                     numOfTrC++;
                 }
             }
@@ -442,7 +437,7 @@ namespace Editor_Base_Class
     {
         static void Main()
         {
-            Gen2Editor gsc = new Gen2Editor();
+            var gsc = new Gen2Editor();
         }
     }
 }

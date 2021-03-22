@@ -120,12 +120,12 @@ namespace Gen2_Move_Animation_Editor
             if (rTxtBytes.Focused)
             {
                 int length = rTxtBytes.Lines.Length;
-                List<AnimeInstr> testCode = new List<AnimeInstr>();
+                var testCode = new List<AnimeInstr>();
 
                 // try parse
                 for (int line_i = 0; line_i < length; line_i++)
                 {
-                    AnimeInstr aI = new AnimeInstr();
+                    var aI = new AnimeInstr();
                     string[] animeStrs = rTxtBytes.Lines[line_i].Split(' ');
 
                     byte i = 0;

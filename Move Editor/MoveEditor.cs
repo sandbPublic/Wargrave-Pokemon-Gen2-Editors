@@ -248,7 +248,7 @@ namespace Gen2_Move_Editor
 
         protected override void ExportData()
         {
-            System.IO.StreamWriter file = new System.IO.StreamWriter(data_FilePath);
+            var file = new System.IO.StreamWriter(data_FilePath);
 
             foreach (int move_i in moveNames.Range())
             {

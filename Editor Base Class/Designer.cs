@@ -377,11 +377,8 @@ namespace Editor_Base_Class
         public FormAnalysis(List<SortingString> L_ss)
         {
             List<SortingString> sortedL_ss = L_ss.OrderBy(o => -o.sortValue).ToList();
-            List<string> analysis = new List<string>();
-            foreach (SortingString ss in sortedL_ss)
-            {
-                analysis.Add(ss.me);
-            }
+            var analysis = new List<string>();
+            foreach (SortingString ss in sortedL_ss) analysis.Add(ss.me);
 
             Font = new System.Drawing.Font("Consolas", 14F);
             Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
@@ -397,10 +394,7 @@ namespace Editor_Base_Class
                 ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedVertical,
                 Multiline = true
             };
-            foreach (string s in analysis)
-            {
-                textAnalysis.Text += s + Environment.NewLine;
-            }
+            foreach (string s in analysis) textAnalysis.Text += s + Environment.NewLine;
 
             // dimensions
             int maxLength = 0;

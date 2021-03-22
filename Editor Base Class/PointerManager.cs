@@ -46,15 +46,13 @@ namespace Editor_Base_Class
                 int row_i = check_i / checksPerRow;
                 int col_i = check_i % checksPerRow;
 
-                checkDiscontig[check_i].Size = new System.Drawing.Size(
-                    CHECK_WIDTH, CHECK_HEIGHT);
+                checkDiscontig[check_i].Size = new System.Drawing.Size(CHECK_WIDTH, CHECK_HEIGHT);
                 checkDiscontig[check_i].Location = new System.Drawing.Point(
                     5 + CHECK_WIDTH * col_i, baseHeight + CHECK_HEIGHT * row_i);
 
                 checkDiscontig[check_i].Checked = MyDB.discontigAt[check_i];
 
-                checkDiscontig[check_i].Text = check_i.ToString(
-                    asHex ? "X2" : "D3");
+                checkDiscontig[check_i].Text = check_i.ToString(asHex ? "X2" : "D3");
                 checkDiscontig[check_i].CheckedChanged +=
                     new System.EventHandler(this.Check_CheckedChanged);
                 Controls.Add(checkDiscontig[check_i]);

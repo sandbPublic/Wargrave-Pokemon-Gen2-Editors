@@ -422,8 +422,7 @@ namespace Gen2_Wild_Pkmn_Editor
                 }
             }
 
-            FormAnalysis FA = new FormAnalysis(L_ss);
-            FA.Show();
+            new FormAnalysis(L_ss).Show();
         }
 
         #region AREA NAMES

@@ -122,7 +122,7 @@ namespace Gen2_Item_Editor
 
         protected override void ExportData()
         {
-            System.IO.StreamWriter file = new System.IO.StreamWriter(data_FilePath);
+            var file = new System.IO.StreamWriter(data_FilePath);
 
             foreach (int item_i in itemNames.Range())
             {
