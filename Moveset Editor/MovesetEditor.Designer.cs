@@ -56,7 +56,7 @@
             this.checkConsecMode.Checked = true;
             this.checkConsecMode.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkConsecMode.Enabled = false;
-            this.checkConsecMode.Font = new System.Drawing.Font("Courier New", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkConsecMode.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.checkConsecMode.Location = new System.Drawing.Point(223, 36);
             this.checkConsecMode.Name = "checkConsecMode";
             this.checkConsecMode.Size = new System.Drawing.Size(205, 25);
@@ -101,7 +101,7 @@
             // tboxFreeBytes
             // 
             this.tboxFreeBytes.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tboxFreeBytes.Font = new System.Drawing.Font("Courier New", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tboxFreeBytes.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tboxFreeBytes.Location = new System.Drawing.Point(12, 35);
             this.tboxFreeBytes.Name = "tboxFreeBytes";
             this.tboxFreeBytes.ReadOnly = true;
@@ -171,7 +171,7 @@
             // tBoxPkmn_0
             // 
             this.tBoxPkmn_0.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tBoxPkmn_0.Font = new System.Drawing.Font("Courier New", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tBoxPkmn_0.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tBoxPkmn_0.Location = new System.Drawing.Point(79, 70);
             this.tBoxPkmn_0.Name = "tBoxPkmn_0";
             this.tBoxPkmn_0.ReadOnly = true;
@@ -181,7 +181,7 @@
             // tBoxPkmn_1
             // 
             this.tBoxPkmn_1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tBoxPkmn_1.Font = new System.Drawing.Font("Courier New", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tBoxPkmn_1.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tBoxPkmn_1.Location = new System.Drawing.Point(290, 70);
             this.tBoxPkmn_1.Name = "tBoxPkmn_1";
             this.tBoxPkmn_1.ReadOnly = true;
@@ -216,7 +216,7 @@
             // tBoxPkmn_2
             // 
             this.tBoxPkmn_2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tBoxPkmn_2.Font = new System.Drawing.Font("Courier New", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tBoxPkmn_2.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tBoxPkmn_2.Location = new System.Drawing.Point(501, 70);
             this.tBoxPkmn_2.Name = "tBoxPkmn_2";
             this.tBoxPkmn_2.ReadOnly = true;

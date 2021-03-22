@@ -60,7 +60,7 @@
             // tboxDeltaNameChars
             // 
             this.tboxDeltaNameChars.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.tboxDeltaNameChars.Font = new System.Drawing.Font("Courier New", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tboxDeltaNameChars.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tboxDeltaNameChars.Location = new System.Drawing.Point(271, 32);
             this.tboxDeltaNameChars.Name = "tboxDeltaNameChars";
             this.tboxDeltaNameChars.ReadOnly = true;
@@ -71,7 +71,7 @@
             // tboxDeltaDescChars
             // 
             this.tboxDeltaDescChars.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.tboxDeltaDescChars.Font = new System.Drawing.Font("Courier New", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tboxDeltaDescChars.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tboxDeltaDescChars.Location = new System.Drawing.Point(271, 60);
             this.tboxDeltaDescChars.Name = "tboxDeltaDescChars";
             this.tboxDeltaDescChars.ReadOnly = true;
@@ -152,7 +152,7 @@
             // grBoxByte2
             // 
             this.grBoxByte2.Controls.Add(this.spinHeldItemID);
-            this.grBoxByte2.Font = new System.Drawing.Font("Courier New", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.grBoxByte2.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.grBoxByte2.Location = new System.Drawing.Point(328, 129);
             this.grBoxByte2.Name = "grBoxByte2";
             this.grBoxByte2.Size = new System.Drawing.Size(134, 64);

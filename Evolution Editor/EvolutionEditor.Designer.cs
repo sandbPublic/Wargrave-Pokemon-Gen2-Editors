@@ -163,7 +163,7 @@
             // tboxFreeBytes
             // 
             this.tboxFreeBytes.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.tboxFreeBytes.Font = new System.Drawing.Font("Courier New", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tboxFreeBytes.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tboxFreeBytes.Location = new System.Drawing.Point(12, 32);
             this.tboxFreeBytes.Multiline = true;
             this.tboxFreeBytes.Name = "tboxFreeBytes";

@@ -128,7 +128,7 @@
             // tboxFreeTrBytes
             // 
             this.tboxFreeTrBytes.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.tboxFreeTrBytes.Font = new System.Drawing.Font("Courier New", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tboxFreeTrBytes.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tboxFreeTrBytes.Location = new System.Drawing.Point(570, 29);
             this.tboxFreeTrBytes.Margin = new System.Windows.Forms.Padding(6, 5, 6, 5);
             this.tboxFreeTrBytes.Name = "tboxFreeTrBytes";
@@ -345,7 +345,7 @@
             // tboxFreeTCBytes
             // 
             this.tboxFreeTCBytes.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tboxFreeTCBytes.Font = new System.Drawing.Font("Courier New", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tboxFreeTCBytes.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tboxFreeTCBytes.Location = new System.Drawing.Point(14, 65);
             this.tboxFreeTCBytes.Margin = new System.Windows.Forms.Padding(6, 5, 6, 5);
             this.tboxFreeTCBytes.Name = "tboxFreeTCBytes";

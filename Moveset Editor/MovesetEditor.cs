@@ -456,7 +456,7 @@ namespace Gen2_Moveset_Editor
             }
 
             ClientSize = new System.Drawing.Size(600, 400);
-            Font = new System.Drawing.Font("Courier New", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             Name = "formTMdisplay";
             ResumeLayout(false);

@@ -93,7 +93,7 @@
             // tboxDeltaNameChars
             // 
             this.tboxDeltaNameChars.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.tboxDeltaNameChars.Font = new System.Drawing.Font("Courier New", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tboxDeltaNameChars.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tboxDeltaNameChars.Location = new System.Drawing.Point(272, 31);
             this.tboxDeltaNameChars.Name = "tboxDeltaNameChars";
             this.tboxDeltaNameChars.ReadOnly = true;
@@ -105,7 +105,7 @@
             // tboxDeltaDescChars
             // 
             this.tboxDeltaDescChars.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.tboxDeltaDescChars.Font = new System.Drawing.Font("Courier New", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tboxDeltaDescChars.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tboxDeltaDescChars.Location = new System.Drawing.Point(271, 59);
             this.tboxDeltaDescChars.Name = "tboxDeltaDescChars";
             this.tboxDeltaDescChars.ReadOnly = true;
@@ -211,7 +211,7 @@
             // tboxEffect
             // 
             this.tboxEffect.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tboxEffect.Font = new System.Drawing.Font("Courier New", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tboxEffect.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tboxEffect.Location = new System.Drawing.Point(6, 63);
             this.tboxEffect.Multiline = true;
             this.tboxEffect.Name = "tboxEffect";
@@ -222,7 +222,7 @@
             // tboxEffectChance
             // 
             this.tboxEffectChance.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tboxEffectChance.Font = new System.Drawing.Font("Courier New", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tboxEffectChance.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tboxEffectChance.Location = new System.Drawing.Point(128, 28);
             this.tboxEffectChance.Name = "tboxEffectChance";
             this.tboxEffectChance.ReadOnly = true;
@@ -233,7 +233,7 @@
             // tboxAnimation
             // 
             this.tboxAnimation.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tboxAnimation.Font = new System.Drawing.Font("Courier New", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tboxAnimation.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tboxAnimation.Location = new System.Drawing.Point(67, 28);
             this.tboxAnimation.Name = "tboxAnimation";
             this.tboxAnimation.ReadOnly = true;
@@ -243,7 +243,7 @@
             // tboxAccuracy
             // 
             this.tboxAccuracy.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tboxAccuracy.Font = new System.Drawing.Font("Courier New", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tboxAccuracy.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tboxAccuracy.Location = new System.Drawing.Point(67, 30);
             this.tboxAccuracy.Name = "tboxAccuracy";
             this.tboxAccuracy.ReadOnly = true;
@@ -295,7 +295,7 @@
             // tboxDeltaCritBytes
             // 
             this.tboxDeltaCritBytes.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.tboxDeltaCritBytes.Font = new System.Drawing.Font("Courier New", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tboxDeltaCritBytes.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tboxDeltaCritBytes.Location = new System.Drawing.Point(272, 87);
             this.tboxDeltaCritBytes.Name = "tboxDeltaCritBytes";
             this.tboxDeltaCritBytes.ReadOnly = true;

@@ -46,7 +46,7 @@ namespace Editor_Base_Class
             // menuStrip1
             // 
             this.menuStrip1.BackColor = System.Drawing.SystemColors.Control;
-            this.menuStrip1.Font = new System.Drawing.Font("Courier New", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.menuStrip1.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.helpToolStripMenuItem});
@@ -140,7 +140,7 @@ namespace Editor_Base_Class
             // 
             this.ClientSize = new System.Drawing.Size(284, 261);
             this.Controls.Add(this.menuStrip1);
-            this.Font = new System.Drawing.Font("Courier New", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "GSCEditor";
             this.menuStrip1.ResumeLayout(false);
@@ -331,7 +331,7 @@ namespace Editor_Base_Class
 
         public FormMessage(string msg)
         {
-            Font = new System.Drawing.Font("Courier New", 14F);
+            Font = new System.Drawing.Font("Consolas", 14F);
             Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             Name = "formMessage";
             ResumeLayout(false);
@@ -339,7 +339,7 @@ namespace Editor_Base_Class
 
             txtMessage = new TextBox
             {
-                Font = new System.Drawing.Font("Courier New", 14.25F),
+                Font = new System.Drawing.Font("Consolas", 14.25F),
                 Location = new System.Drawing.Point(10, 10),
 
                 Multiline = true,
@@ -383,14 +383,14 @@ namespace Editor_Base_Class
                 analysis.Add(ss.me);
             }
 
-            Font = new System.Drawing.Font("Courier New", 14F);
+            Font = new System.Drawing.Font("Consolas", 14F);
             Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             ResumeLayout(false);
             PerformLayout();
 
             textAnalysis = new RichTextBox
             {
-                Font = new System.Drawing.Font("Courier New", 14.25F),
+                Font = new System.Drawing.Font("Consolas", 14.25F),
                 Location = new System.Drawing.Point(10, 10),
                 ReadOnly = true,
 
