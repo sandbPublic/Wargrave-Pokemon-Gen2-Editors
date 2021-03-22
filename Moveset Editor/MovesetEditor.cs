@@ -56,6 +56,97 @@ namespace Gen2_Moveset_Editor
             UpdateColumn(2);
         }
 
+        protected override void ImportData(List<string> dataStrings)
+        {
+            foreach (int pkmn_i in movesets.Range())
+            {
+                int stringIndex = 4 * (pkmn_i - movesets.start_i);
+
+                // get line and count
+                int numOfLearnData = 0;
+                string[] firstLine = dataStrings[stringIndex].Split(' ');
+                if (firstLine.Length == 2)
+                {
+                    movesets.SetRelativePtr(pkmn_i, Convert.ToInt32(firstLine[0]));
+                    numOfLearnData = Convert.ToInt32(firstLine[1]);
+                }
+
+                string[] lDStrings = dataStrings[stringIndex + 1].Split(' ');
+                movesets.data[pkmn_i].learnList.Clear();
+
+                int trueIndex = 0;
+                for (int lD_i = 0; lD_i < numOfLearnData; lD_i++)
+                {
+                    LearnData lD = new LearnData
+                    {
+                        level = Convert.ToByte(lDStrings[trueIndex++]),
+                        move = Convert.ToByte(lDStrings[trueIndex++])
+                    };
+
+                    movesets.data[pkmn_i].learnList.Add(lD);
+                }
+
+                string[] TMStrings = dataStrings[stringIndex + 2].Split(' ');
+                if (TMStrings.Length == 9)
+                { // extra "" string
+                    byte[] TMbytes = new byte[8];
+                    for (int byte_i = 0; byte_i < 8; byte_i++)
+                    {
+                        TMbytes[byte_i] = Convert.ToByte(TMStrings[byte_i]);
+                    }
+
+                    bool[] TMsetBools = ROM_FileStream.TMBoolsFromBytes(TMbytes);
+                    for (int bool_j = 0; bool_j < 64; bool_j++)
+                    {
+                        TMSets[pkmn_i, bool_j] = TMsetBools[bool_j];
+                    }
+                }
+            }
+            movesets.MakeContiguous();
+        }
+
+        // evodata not saved, considered immutable for this tool (load and maintain from ROM)
+        protected override void ExportData()
+        {
+            System.IO.StreamWriter file = new System.IO.StreamWriter(data_FilePath);
+
+            foreach (int pkmn_i in movesets.Range())
+            {
+                file.WriteLine(movesets.RelativePtr(pkmn_i) + " "
+                    + movesets.data[pkmn_i].learnList.Count);
+
+                string s = "";
+                foreach (LearnData lD in movesets.data[pkmn_i].learnList)
+                {
+                    s += lD.level.ToString() + " ";
+                    s += lD.move.ToString() + " ";
+                }
+                file.WriteLine(s);
+
+                bool[] TMbools = new bool[64];
+                for (int bool_i = 0; bool_i < 64; bool_i++)
+                {
+                    TMbools[bool_i] = TMSets[pkmn_i, bool_i];
+                }
+                byte[] TMbytes = ROM_FileStream.TMBytesFromBools(TMbools);
+
+                s = "";
+                foreach (byte b in TMbytes) s += b.ToString() + " ";
+                file.WriteLine(s);
+
+                file.WriteLine("");
+            }
+
+            file.Dispose();
+        }
+
+        protected override void ManagePointers()
+        {
+            new PointerManager<EvoAndLearnset>(movesets).Show();
+        }
+
+
+
         private const char SPLITING_CHAR = ':';
         private bool pauseParsing = false;
         private void UpdateColumn(int col_i)
@@ -258,96 +349,6 @@ namespace Gen2_Moveset_Editor
         private void TBox2_TextChanged(object sender, EventArgs e)
         {
             UpdateMovesetTbox((byte)spinPkmnID_2.Value, tBoxMoveset2);
-        }
-
-        protected override void ImportData(List<string> dataStrings)
-        {
-            foreach (int pkmn_i in movesets.Range())
-            {
-                int stringIndex = 4 * (pkmn_i - movesets.start_i);
-
-                // get line and count
-                int numOfLearnData = 0;
-                string[] firstLine = dataStrings[stringIndex].Split(' ');
-                if (firstLine.Length == 2)
-                {
-                    movesets.SetRelativePtr(pkmn_i, Convert.ToInt32(firstLine[0]));
-                    numOfLearnData = Convert.ToInt32(firstLine[1]);
-                }
-
-                string[] lDStrings = dataStrings[stringIndex + 1].Split(' ');
-                movesets.data[pkmn_i].learnList.Clear();
-
-                int trueIndex = 0;
-                for (int lD_i = 0; lD_i < numOfLearnData; lD_i++)
-                {
-                    LearnData lD = new LearnData
-                    {
-                        level = Convert.ToByte(lDStrings[trueIndex++]),
-                        move = Convert.ToByte(lDStrings[trueIndex++])
-                    };
-
-                    movesets.data[pkmn_i].learnList.Add(lD);
-                }
-
-                string[] TMStrings = dataStrings[stringIndex + 2].Split(' ');
-                if (TMStrings.Length == 9)
-                { // extra "" string
-                    byte[] TMbytes = new byte[8];
-                    for (int byte_i = 0; byte_i < 8; byte_i++)
-                    {
-                        TMbytes[byte_i] = Convert.ToByte(TMStrings[byte_i]);
-                    }
-
-                    bool[] TMsetBools = ROM_FileStream.TMBoolsFromBytes(TMbytes);
-                    for (int bool_j = 0; bool_j < 64; bool_j++)
-                    {
-                        TMSets[pkmn_i, bool_j] = TMsetBools[bool_j];
-                    }
-                }
-            }
-            movesets.MakeContiguous();
-        }
-
-        // evodata not saved, considered immutable (load and maintain from ROM)
-        protected override void ExportData()
-        {
-            System.IO.StreamWriter file = new System.IO.StreamWriter(data_FilePath);
-
-            foreach (int pkmn_i in movesets.Range())
-            {
-                file.WriteLine(movesets.RelativePtr(pkmn_i) + " "
-                    + movesets.data[pkmn_i].learnList.Count);
-
-                string s = "";
-                foreach (LearnData lD in movesets.data[pkmn_i].learnList)
-                {
-                    s += lD.level.ToString() + " ";
-                    s += lD.move.ToString() + " ";
-                }
-                file.WriteLine(s);
-
-                bool[] TMbools = new bool[64];
-                for (int bool_i = 0; bool_i < 64; bool_i++)
-                {
-                    TMbools[bool_i] = TMSets[pkmn_i, bool_i];
-                }
-                byte[] TMbytes = ROM_FileStream.TMBytesFromBools(TMbools);
-
-                s = "";
-                foreach (byte b in TMbytes) s += b.ToString() + " ";
-                file.WriteLine(s);
-
-                file.WriteLine("");
-            }
-
-            file.Dispose();
-        }
-
-        protected override void ManagePointers()
-        {
-            PointerManager<EvoAndLearnset> pm = new PointerManager<EvoAndLearnset>(movesets);
-            pm.Show();
         }
 
         private void ButtonAnalyze_Click(object sender, EventArgs e)

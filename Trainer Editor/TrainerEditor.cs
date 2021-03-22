@@ -58,15 +58,136 @@ namespace Gen2_Trainer_Editor
             buttonAnalyze.Enabled = true;
             #endregion
         }
+        
         protected override void EnableWrite()
         {
             UpdateTCNameBytesUsed();
             UpdateTrainerBytesUsed();
         }
+        
         protected override void UpdateEditor()
         {
             UpdateTrainerClassArea();
         }
+
+        protected override void ImportData(List<string> dataStrings)
+        {
+            int curIndex = 0;
+            int numClasses = Convert.ToInt32(dataStrings[curIndex++]);
+
+            for (int class_i = 0; class_i < numClasses; class_i++)
+            {
+                trClassNames.data[class_i] = dataStrings[curIndex++];
+
+                int numOfTrainers = 0;
+                string[] attributes = dataStrings[curIndex++].Split(' ');
+                if (attributes.Length == 7)
+                {
+                    trClassDVs[2 * class_i] = Convert.ToByte(attributes[0]);
+                    trClassDVs[2 * class_i + 1] = Convert.ToByte(attributes[1]);
+                    trClassItems[2 * class_i] = Convert.ToByte(attributes[2]);
+                    trClassItems[2 * class_i + 1] = Convert.ToByte(attributes[3]);
+                    trClassRewards[class_i] = Convert.ToByte(attributes[4]);
+                    trainerLists.SetRelativePtr(class_i, Convert.ToInt32(attributes[5]));
+                    numOfTrainers = Convert.ToInt32(attributes[6]);
+                }
+
+                trainerLists.data[class_i] = new DBTrainerList();
+                for (int trainer_i = 0; trainer_i < numOfTrainers; trainer_i++)
+                {
+                    Trainer t = new Trainer
+                    {
+                        name = dataStrings[curIndex++]
+                    };
+                    int numOfPkmn = 0;
+                    string[] has = dataStrings[curIndex++].Split(' ');
+                    if (has.Length == 3)
+                    {
+                        t.hasItems = (has[0] == "1");
+                        t.hasMoves = (has[1] == "1");
+                        numOfPkmn = Convert.ToInt32(has[2]);
+                    }
+
+                    t.team = new List<TeamMember>();
+                    for (int pkmn_i = 0; pkmn_i < numOfPkmn; pkmn_i++)
+                    {
+                        string[] pkmnString = dataStrings[curIndex++].Split(' ');
+                        TeamMember tm = new TeamMember();
+                        if (pkmnString.Length == 7)
+                        {
+                            tm.level = Convert.ToByte(pkmnString[0]);
+                            tm.species = Convert.ToByte(pkmnString[1]);
+                            tm.item = Convert.ToByte(pkmnString[2]);
+
+                            for (int move_i = 0; move_i < 4; move_i++)
+                            {
+                                tm.moves[move_i] = Convert.ToByte(pkmnString[move_i + 3]);
+                            }
+                        }
+                        t.team.Add(tm);
+                    } // end pkmn loop
+                    trainerLists.data[class_i].LT.Add(t);
+                } // end trainer loop
+                curIndex++;
+            }// end class loop
+            trainerLists.MakeContiguous();
+        }
+
+        protected override void ExportData()
+        {
+            // num of classes
+            // class data
+            //   name
+            //   attributes, list ptr, list count
+            // trainer list
+            //   name
+            //   has items, has moves, list count
+            //   list of pkmn
+            // blank line
+
+            System.IO.StreamWriter file = new System.IO.StreamWriter(data_FilePath);
+            file.WriteLine(trClassNames.end_i - trClassNames.start_i + 1); // num classes
+            for (int class_i = trClassNames.start_i; class_i <= trClassNames.end_i; class_i++)
+            {
+                file.WriteLine(trClassNames.data[class_i]);
+
+                string s = trClassDVs[2 * class_i]
+                    + " " + trClassDVs[2 * class_i + 1]
+                    + " " + trClassItems[2 * class_i]
+                    + " " + trClassItems[2 * class_i + 1]
+                    + " " + trClassRewards[class_i]
+                    + " " + trainerLists.RelativePtr(class_i)
+                    + " " + trainerLists.data[class_i].LT.Count;
+                file.WriteLine(s);
+
+                foreach (Trainer t in trainerLists.data[class_i].LT)
+                {
+                    file.WriteLine(t.name);
+
+                    s = (t.hasItems ? "1 " : "0 ") +
+                        (t.hasMoves ? "1 " : "0 ") +
+                        t.team.Count;
+                    file.WriteLine(s);
+
+                    foreach (TeamMember tm in t.team)
+                    {
+                        s = tm.level + " " + tm.species + " " + tm.item
+                            + " " + tm.moves[0] + " " + tm.moves[1]
+                            + " " + tm.moves[2] + " " + tm.moves[3];
+                        file.WriteLine(s);
+                    }
+                }
+                file.WriteLine("");
+            }
+            file.Dispose();
+        }
+
+        protected override void ManagePointers()
+        {
+            new PointerManager<DBTrainerList>(trainerLists, false).Show();
+        }
+
+
 
         /// <summary>
         /// selected TrainerClass value
@@ -593,124 +714,6 @@ namespace Gen2_Trainer_Editor
             tboxFreeTrBytes.Text = trainerLists.BytesFreeAt(sTcV()) + " trainer bytes free";
 
             saveROM_TSMI.Enabled = trClassNames.BytesFreeAt(0) >= 0  && trainerLists.BytesOverlapAt() == -1;
-        }
-
-        protected override void ImportData(List<string> dataStrings)
-        {
-            int curIndex = 0;
-            int numClasses = Convert.ToInt32(dataStrings[curIndex++]);
-
-            for (int class_i = 0; class_i < numClasses; class_i++)
-            {
-                trClassNames.data[class_i] = dataStrings[curIndex++];
-
-                int numOfTrainers = 0;
-                string[] attributes = dataStrings[curIndex++].Split(' ');
-                if (attributes.Length == 7)
-                {
-                    trClassDVs[2 * class_i] = Convert.ToByte(attributes[0]);
-                    trClassDVs[2 * class_i + 1] = Convert.ToByte(attributes[1]);
-                    trClassItems[2 * class_i] = Convert.ToByte(attributes[2]);
-                    trClassItems[2 * class_i + 1] = Convert.ToByte(attributes[3]);
-                    trClassRewards[class_i] = Convert.ToByte(attributes[4]);
-                    trainerLists.SetRelativePtr(class_i, Convert.ToInt32(attributes[5]));
-                    numOfTrainers = Convert.ToInt32(attributes[6]);
-                }
-
-                trainerLists.data[class_i] = new DBTrainerList();
-                for (int trainer_i = 0; trainer_i < numOfTrainers; trainer_i++)
-                {
-                    Trainer t = new Trainer
-                    {
-                        name = dataStrings[curIndex++]
-                    };
-                    int numOfPkmn = 0;
-                    string[] has = dataStrings[curIndex++].Split(' ');
-                    if (has.Length == 3)
-                    {
-                        t.hasItems = (has[0] == "1");
-                        t.hasMoves = (has[1] == "1");
-                        numOfPkmn = Convert.ToInt32(has[2]);
-                    }
-
-                    t.team = new List<TeamMember>();
-                    for (int pkmn_i = 0; pkmn_i < numOfPkmn; pkmn_i++)
-                    {
-                        string[] pkmnString = dataStrings[curIndex++].Split(' ');
-                        TeamMember tm = new TeamMember();
-                        if (pkmnString.Length == 7)
-                        {
-                            tm.level = Convert.ToByte(pkmnString[0]);
-                            tm.species = Convert.ToByte(pkmnString[1]);
-                            tm.item = Convert.ToByte(pkmnString[2]);
-
-                            for (int move_i = 0; move_i < 4; move_i++)
-                            {
-                                tm.moves[move_i] = Convert.ToByte(pkmnString[move_i + 3]);
-                            }
-                        }
-                        t.team.Add(tm);
-                    } // end pkmn loop
-                    trainerLists.data[class_i].LT.Add(t);
-                } // end trainer loop
-                curIndex++;
-            }// end class loop
-            trainerLists.MakeContiguous();
-        }
-
-        protected override void ExportData()
-        {
-            // num of classes
-            // class data
-            //   name
-            //   attributes, list ptr, list count
-            // trainer list
-            //   name
-            //   has items, has moves, list count
-            //   list of pkmn
-            // blank line
-
-            System.IO.StreamWriter file = new System.IO.StreamWriter(data_FilePath);
-            file.WriteLine(trClassNames.end_i - trClassNames.start_i + 1); // num classes
-            for (int class_i = trClassNames.start_i; class_i <= trClassNames.end_i; class_i++)
-            {
-                file.WriteLine(trClassNames.data[class_i]);
-
-                string s = trClassDVs[2 * class_i]
-                    + " " + trClassDVs[2 * class_i + 1]
-                    + " " + trClassItems[2 * class_i]
-                    + " " + trClassItems[2 * class_i + 1]
-                    + " " + trClassRewards[class_i]
-                    + " " + trainerLists.RelativePtr(class_i)
-                    + " " + trainerLists.data[class_i].LT.Count;
-                file.WriteLine(s);
-
-                foreach (Trainer t in trainerLists.data[class_i].LT)
-                {
-                    file.WriteLine(t.name);
-
-                    s = (t.hasItems ? "1 " : "0 ") +
-                        (t.hasMoves ? "1 " : "0 ") +
-                        t.team.Count;
-                    file.WriteLine(s);
-
-                    foreach (TeamMember tm in t.team)
-                    {
-                        s = tm.level + " " + tm.species + " " + tm.item
-                            + " " + tm.moves[0] + " " + tm.moves[1]
-                            + " " + tm.moves[2] + " " + tm.moves[3];
-                        file.WriteLine(s);
-                    }
-                }
-                file.WriteLine("");
-            }
-            file.Dispose();
-        }
-
-        protected override void ManagePointers()
-        {
-            PointerManager<DBTrainerList> pm = new PointerManager<DBTrainerList>(trainerLists, false);
-            pm.Show();
         }
 
         private void ButtonAnalyze_Click(object sender, EventArgs e)

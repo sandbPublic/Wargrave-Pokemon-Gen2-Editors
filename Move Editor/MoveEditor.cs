@@ -218,6 +218,68 @@ namespace Gen2_Move_Editor
             EnableWrite();
         }
 
+        protected override void ImportData(List<string> dataStrings)
+        {
+            foreach (int move_i in moveNames.Range())
+            {
+                int stringIndex = 4 * (move_i - moveNames.start_i);
+
+                moveNames.data[move_i] = dataStrings[stringIndex];
+                moveDescs.data[move_i] = dataStrings[stringIndex + 1];
+
+                string[] dataStruct = dataStrings[stringIndex + 2].Split(' ');
+
+                if (dataStruct.Length == 9)
+                {
+                    moveDescs.SetRelativePtr(move_i, Convert.ToInt32(dataStruct[0]));
+
+                    moveIsCrit[move_i] = (dataStruct[1] == "1");
+                    moves[move_i, ANIMATION_I] = Convert.ToByte(dataStruct[2]);
+                    moves[move_i, EFFECT_I] = Convert.ToByte(dataStruct[3]);
+                    moves[move_i, POWER_I] = Convert.ToByte(dataStruct[4]);
+                    moves[move_i, TYPE_I] = Convert.ToByte(dataStruct[5]);
+                    moves[move_i, ACCURACY_I] = Convert.ToByte(dataStruct[6]);
+                    moves[move_i, PP_I] = Convert.ToByte(dataStruct[7]);
+                    moves[move_i, EFFECT_CHANCE_I] = Convert.ToByte(dataStruct[8]);
+                }
+            }
+            moveDescs.MakeContiguous();
+        }
+
+        protected override void ExportData()
+        {
+            System.IO.StreamWriter file = new System.IO.StreamWriter(data_FilePath);
+
+            foreach (int move_i in moveNames.Range())
+            {
+                file.WriteLine(moveNames.data[move_i]);
+                file.WriteLine(moveDescs.data[move_i]);
+
+                string dataStruct =
+                    moveDescs.RelativePtr(move_i) + " " // ptrs
+                    + (moveIsCrit[move_i] ? "1" : "0") + " "
+                    + moves[move_i, ANIMATION_I] + " "
+                    + moves[move_i, EFFECT_I] + " "
+                    + moves[move_i, POWER_I] + " "
+                    + moves[move_i, TYPE_I] + " "
+                    + moves[move_i, ACCURACY_I] + " "
+                    + moves[move_i, PP_I] + " "
+                    + moves[move_i, EFFECT_CHANCE_I];
+
+                file.WriteLine(dataStruct);
+                file.WriteLine("");
+            }
+
+            file.Dispose();
+        }
+
+        protected override void ManagePointers()
+        {
+            new PointerManager<DBString>(moveDescs).Show();
+        }
+
+
+
         private int sMV()
         {
             return (int)spinMoveID.Value;
@@ -283,67 +345,5 @@ namespace Gen2_Move_Editor
             PrintWarningIfTooLong(splitDesc[0], 18);
             if (splitDesc.Length >= 2) PrintWarningIfTooLong(splitDesc[1], 18);
         }
-
-        protected override void ImportData(List<string> dataStrings)
-        {
-            foreach (int move_i in moveNames.Range())
-            {
-                int stringIndex = 4 * (move_i - moveNames.start_i);
-
-                moveNames.data[move_i] = dataStrings[stringIndex];
-                moveDescs.data[move_i] = dataStrings[stringIndex + 1];
-
-                string[] dataStruct = dataStrings[stringIndex + 2].Split(' ');
-
-                if (dataStruct.Length == 9)
-                {
-                    moveDescs.SetRelativePtr(move_i, Convert.ToInt32(dataStruct[0]));
-
-                    moveIsCrit[move_i] = (dataStruct[1] == "1");
-                    moves[move_i, ANIMATION_I] = Convert.ToByte(dataStruct[2]);
-                    moves[move_i, EFFECT_I] = Convert.ToByte(dataStruct[3]);
-                    moves[move_i, POWER_I] = Convert.ToByte(dataStruct[4]);
-                    moves[move_i, TYPE_I] = Convert.ToByte(dataStruct[5]);
-                    moves[move_i, ACCURACY_I] = Convert.ToByte(dataStruct[6]);
-                    moves[move_i, PP_I] = Convert.ToByte(dataStruct[7]);
-                    moves[move_i, EFFECT_CHANCE_I] = Convert.ToByte(dataStruct[8]);
-                }
-            }
-            moveDescs.MakeContiguous();
-        }
-
-        protected override void ExportData()
-        {
-            System.IO.StreamWriter file = new System.IO.StreamWriter(data_FilePath);
-
-            foreach (int move_i in moveNames.Range())
-            {
-                file.WriteLine(moveNames.data[move_i]);
-                file.WriteLine(moveDescs.data[move_i]);
-
-                string dataStruct =
-                    moveDescs.RelativePtr(move_i) + " " // ptrs
-                    + (moveIsCrit[move_i] ? "1" : "0") + " "
-                    + moves[move_i, ANIMATION_I] + " "
-                    + moves[move_i, EFFECT_I] + " "
-                    + moves[move_i, POWER_I] + " "
-                    + moves[move_i, TYPE_I] + " "
-                    + moves[move_i, ACCURACY_I] + " "
-                    + moves[move_i, PP_I] + " "
-                    + moves[move_i, EFFECT_CHANCE_I];
-
-                file.WriteLine(dataStruct);
-                file.WriteLine("");
-            }
-
-            file.Dispose();
-        }
-
-        protected override void ManagePointers()
-        {
-            PointerManager<DBString> pm = new PointerManager<DBString>(moveDescs);
-            pm.Show();
-        }
     }
 }
-//685

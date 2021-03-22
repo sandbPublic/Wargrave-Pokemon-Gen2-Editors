@@ -168,7 +168,7 @@ namespace Gen2_Wild_Pkmn_Editor
             file.Dispose();
         }
 
-        //protected override void managePointers() { }
+        //protected override void ManagePointers() { }
 
         private List<AreaWildData> AreaList(int region_i)
         {

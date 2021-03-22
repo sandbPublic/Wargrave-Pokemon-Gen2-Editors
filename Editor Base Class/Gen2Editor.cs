@@ -81,10 +81,7 @@ namespace Editor_Base_Class
                 ofdOffsets.Dispose();
 
                 List<string> offsetsStrings = new List<string>();
-                foreach (string s in File.ReadLines(offsets_FilePath))
-                {
-                    offsetsStrings.Add(s);
-                }
+                foreach (string s in File.ReadLines(offsets_FilePath)) offsetsStrings.Add(s);
 
                 bool validOffsets = true;
                 if (offsetsStrings.Count < NUM_OF_OFFSETS)
@@ -120,10 +117,7 @@ namespace Editor_Base_Class
 
                 // do not allow the user to open a ROM 
                 // if the offset file was invalid
-                if (!validOffsets)
-                {
-                    offsets_FilePath = null;
-                }
+                if (!validOffsets) offsets_FilePath = null;
             }
         }
 
@@ -145,10 +139,7 @@ namespace Editor_Base_Class
                 else
                 {
                     List<string> dataStrings = new List<string>();
-                    foreach (string s in File.ReadLines(data_FilePath))
-                    {
-                        dataStrings.Add(s);
-                    }
+                    foreach (string s in File.ReadLines(data_FilePath)) dataStrings.Add(s);
 
                     try
                     {
@@ -401,25 +392,20 @@ namespace Editor_Base_Class
             ROM_File.Dispose();
         }
 
-        /// <summary>
-        /// can disable menu items
-        /// </summary>
         protected virtual void EnableDataEntry() { }
         protected virtual void EnableWrite() { }
         protected virtual void UpdateEditor() { }
 
         protected virtual void ImportData(List<string> dataStrings) { }
         protected virtual void ExportData() { }
-        protected virtual void ManagePointers() { } //TODO implement here?
+        protected virtual void ManagePointers() { }
 
-        protected void PrintWarningIfTooLong(string name, int maxLength)
+        protected void PrintWarningIfTooLong(string name, int maxLength) // TODO color red?
         {
             if (name.Length > maxLength)
             {
-                // TODO assignment needed?
-                FormMessage msg = new FormMessage("Warning: " + Environment.NewLine +
-                    name + " is longer than " + maxLength + " characters");
-                msg.Show();
+                new FormMessage("Warning: " + Environment.NewLine + name 
+                    + " is longer than " + maxLength + " characters").Show();
             }
         }
 

@@ -37,7 +37,7 @@ namespace Gen2_Evolution_Editor
 
             comboEvolveFrom.SelectedIndex = 0;
         }
-
+        
         protected override void EnableWrite()
         {
             int bytesFree = movesets.BytesFreeAt(sFrom_I());
@@ -46,7 +46,7 @@ namespace Gen2_Evolution_Editor
 
             saveROM_TSMI.Enabled = bytesFree >= 0;
         }
-
+        
         protected override void UpdateEditor()
         {
             //spin evo index
@@ -86,6 +86,73 @@ namespace Gen2_Evolution_Editor
             EnableWrite();
         }
 
+        protected override void ImportData(List<string> dataStrings)
+        {
+            foreach (int pkmn_i in movesets.Range())
+            {
+                int stringIndex = 3 * (pkmn_i - movesets.start_i);
+
+                // get line and count
+                int numOfEvoData = 0;
+                string[] firstLine = dataStrings[stringIndex].Split(' ');
+                if (firstLine.Length == 2)
+                {
+                    movesets.SetRelativePtr(pkmn_i, Convert.ToInt32(firstLine[0]));
+                    numOfEvoData = Convert.ToInt32(firstLine[1]);
+                }
+
+                string[] eDStrings = dataStrings[stringIndex + 1].Split(' ');
+                movesets.data[pkmn_i].evoList.Clear();
+
+                int trueIndex = 0;
+                for (int eD_i = 0; eD_i < numOfEvoData; eD_i++)
+                {
+                    EvoData eD = new EvoData
+                    {
+                        method = Convert.ToByte(eDStrings[trueIndex++]),
+                        param = Convert.ToByte(eDStrings[trueIndex++])
+                    };
+                    if (eD.IsTyrogueEvoMethod()) eD.DVparam = Convert.ToByte(eDStrings[trueIndex++]);
+                    eD.species = Convert.ToByte(eDStrings[trueIndex++]);
+
+                    movesets.data[pkmn_i].evoList.Add(eD);
+                }
+            }
+            movesets.MakeContiguous();
+        }
+        
+        protected override void ExportData()
+        {
+            System.IO.StreamWriter file = new System.IO.StreamWriter(data_FilePath);
+
+            foreach (int pkmn_i in movesets.Range())
+            {
+                file.WriteLine(movesets.RelativePtr(pkmn_i) + " "
+                    + movesets.data[pkmn_i].evoList.Count);
+
+                string s = "";
+                foreach (EvoData eD in movesets.data[pkmn_i].evoList)
+                {
+                    s += eD.method.ToString() + " ";
+                    s += eD.param.ToString() + " ";
+                    if (eD.IsTyrogueEvoMethod()) s += eD.DVparam.ToString() + " ";
+                    s += eD.species.ToString() + " ";
+                }
+                s += "0";
+                file.WriteLine(s);
+                file.WriteLine("");
+            }
+
+            file.Dispose();
+        }
+        
+        protected override void ManagePointers()
+        {
+            new PointerManager<EvoAndLearnset>(movesets).Show();
+        }
+
+
+
         private void EnableItems()
         { // item or trade evolution
             comboItems.Enabled = (sEvoData().method == 2 ||
@@ -121,66 +188,6 @@ namespace Gen2_Evolution_Editor
         private int NumberOfEvos()
         {
             return movesets.data[sFrom_I()].evoList.Count;
-        }
-
-        protected override void ImportData(List<string> dataStrings)
-        {
-            foreach (int pkmn_i in movesets.Range())
-            {
-                int stringIndex = 3 * (pkmn_i - movesets.start_i);
-
-                // get line and count
-                int numOfEvoData = 0;
-                string[] firstLine = dataStrings[stringIndex].Split(' ');
-                if (firstLine.Length == 2)
-                {
-                    movesets.SetRelativePtr(pkmn_i, Convert.ToInt32(firstLine[0]));
-                    numOfEvoData = Convert.ToInt32(firstLine[1]);
-                }
-
-                string[] eDStrings = dataStrings[stringIndex + 1].Split(' ');
-                movesets.data[pkmn_i].evoList.Clear();
-
-                int trueIndex = 0;
-                for (int eD_i = 0; eD_i < numOfEvoData; eD_i++)
-                {
-                    EvoData eD = new EvoData
-                    {
-                        method = Convert.ToByte(eDStrings[trueIndex++]),
-                        param = Convert.ToByte(eDStrings[trueIndex++])
-                    };
-                    if (eD.IsTyrogueEvoMethod()) eD.DVparam = Convert.ToByte(eDStrings[trueIndex++]);
-                    eD.species = Convert.ToByte(eDStrings[trueIndex++]);
-
-                    movesets.data[pkmn_i].evoList.Add(eD);
-                }
-            }
-            movesets.MakeContiguous();
-        }
-
-        protected override void ExportData()
-        {
-            System.IO.StreamWriter file = new System.IO.StreamWriter(data_FilePath);
-
-            foreach (int pkmn_i in movesets.Range())
-            {
-                file.WriteLine(movesets.RelativePtr(pkmn_i) + " "
-                    + movesets.data[pkmn_i].evoList.Count);
-
-                string s = "";
-                foreach (EvoData eD in movesets.data[pkmn_i].evoList)
-                {
-                    s += eD.method.ToString() + " ";
-                    s += eD.param.ToString() + " ";
-                    if (eD.IsTyrogueEvoMethod()) s += eD.DVparam.ToString() + " ";
-                    s += eD.species.ToString() + " ";
-                }
-                s += "0";
-                file.WriteLine(s);
-                file.WriteLine("");
-            }
-
-            file.Dispose();
         }
 
         private void ComboEvolveFrom_SelectedIndexChanged(object sender, EventArgs e)
@@ -260,12 +267,6 @@ namespace Gen2_Evolution_Editor
             movesets.data[sFrom_I()].evoList.RemoveAt(sEvo_I());
             movesets.UpdatePtrs(sFrom_I());
             UpdateEditor();
-        }
-
-        protected override void ManagePointers()
-        {
-            PointerManager<EvoAndLearnset> pm = new PointerManager<EvoAndLearnset>(movesets);
-            pm.Show();
         }
     }
 }

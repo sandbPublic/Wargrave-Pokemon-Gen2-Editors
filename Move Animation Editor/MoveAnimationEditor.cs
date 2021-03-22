@@ -52,29 +52,28 @@ namespace Gen2_Move_Animation_Editor
         {
             rTxtBytes.BackColor = System.Drawing.SystemColors.Window;
 
-            if (moveNames.start_i <= sAnim() && sAnim() <= moveNames.end_i)
-                txtMoveName.Text = moveNames.data[sAnim()];
+            if (moveNames.start_i <= sAnim() && sAnim() <= moveNames.end_i) txtMoveName.Text = moveNames.data[sAnim()];
             else txtMoveName.Text = "0x" + sAnim().ToString("X3");
 
             //populate text boxs
             rTxtBytes.Text = "";
             for (int aI_i = 0; aI_i < sLAI().Count; aI_i++)
             {
-                rTxtBytes.Text += sLAI()[aI_i].ByteString()
-                    + (aI_i != sLAI().Count - 1 ? Environment.NewLine : "");
+                rTxtBytes.Text += sLAI()[aI_i].ByteString()  + (aI_i != sLAI().Count - 1 ? Environment.NewLine : "");
             }
             UpdateCode();
 
             EnableWrite();
         }
 
-        //protected override void importData(List<string> dataStrings) { }
-        //protected override void exportData() { }
+        //protected override void ImportData(List<string> dataStrings) { }
+        //protected override void ExportData() { }
         protected override void ManagePointers()
         {
-            PointerManager<AnimationCode> pm = new PointerManager<AnimationCode>(animations);
-            pm.Show();
+            new PointerManager<AnimationCode>(animations).Show();
         }
+
+
 
         private int sAnim()
         {

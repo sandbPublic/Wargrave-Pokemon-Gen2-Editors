@@ -85,16 +85,73 @@ namespace Gen2_Item_Editor
                 tboxDesc.Text = itemDescs.data[sIV()];
                 spinASM.Value = itemASM[sIV()];
             }
-            else
-            {
-                tboxDesc.Text = "MOVE DESCRIPTION";
-            }
+            else tboxDesc.Text = "MOVE DESCRIPTION";
 
             tboxDesc.Enabled = nonTM;
             spinASM.Enabled = nonTM;
 
             EnableWrite();
         }
+
+        protected override void ImportData(List<string> dataStrings)
+        {
+            foreach (int item_i in itemNames.Range())
+            {
+                int stringIndex = 4 * (item_i - itemNames.start_i);
+
+                itemNames.data[item_i] = dataStrings[stringIndex];
+                itemDescs.data[item_i] = dataStrings[stringIndex + 1];
+
+                string[] dataStruct = dataStrings[stringIndex + 2].Split(' ');
+
+                if (dataStruct.Length == 8)
+                {
+                    itemDescs.SetRelativePtr(item_i, Convert.ToInt32(dataStruct[0]));
+                    SetItemCost(item_i, Convert.ToInt32(dataStruct[1]));
+                    items[item_i, HELD_ITEM_ID_I] = Convert.ToByte(dataStruct[2]);
+                    items[item_i, PARAM_I] = Convert.ToByte(dataStruct[3]);
+                    items[item_i, FLAG_I] = Convert.ToByte(dataStruct[4]);
+                    items[item_i, POCKET_I] = Convert.ToByte(dataStruct[5]);
+                    items[item_i, USE_RESTRICTION_I] = Convert.ToByte(dataStruct[6]);
+                    //itemASM[item_i] = Convert.ToInt32(dataStruct[7]); 
+                    // omit, ASM is not portable across ROMs
+                }
+            }
+            itemDescs.MakeContiguous();
+        }
+
+        protected override void ExportData()
+        {
+            System.IO.StreamWriter file = new System.IO.StreamWriter(data_FilePath);
+
+            foreach (int item_i in itemNames.Range())
+            {
+                file.WriteLine(itemNames.data[item_i]);
+                file.WriteLine(itemDescs.data[item_i]);
+
+                string dataStruct =
+                    itemDescs.RelativePtr(item_i) + " " // ptrs
+                    + GetItemCost(item_i).ToString() + " "
+                    + items[item_i, HELD_ITEM_ID_I] + " "
+                    + items[item_i, PARAM_I] + " "
+                    + items[item_i, FLAG_I] + " "
+                    + items[item_i, POCKET_I] + " "
+                    + items[item_i, USE_RESTRICTION_I] + " "
+                    + itemASM[item_i].ToString();
+
+                file.WriteLine(dataStruct);
+                file.WriteLine("");
+            }
+
+            file.Dispose();
+        }
+
+        protected override void ManagePointers()
+        {
+            new PointerManager<DBString>(itemDescs).Show();
+        }
+
+
 
         private int sIV()
         {
@@ -180,65 +237,6 @@ namespace Gen2_Item_Editor
                         PrintWarningIfTooLong(splitDesc[1], 18);
                 }
             }
-        }
-
-        protected override void ImportData(List<string> dataStrings)
-        {
-            foreach (int item_i in itemNames.Range())
-            {
-                int stringIndex = 4 * (item_i - itemNames.start_i);
-
-                itemNames.data[item_i] = dataStrings[stringIndex];
-                itemDescs.data[item_i] = dataStrings[stringIndex + 1];
-
-                string[] dataStruct = dataStrings[stringIndex + 2].Split(' ');
-
-                if (dataStruct.Length == 8)
-                {
-                    itemDescs.SetRelativePtr(item_i, Convert.ToInt32(dataStruct[0]));
-                    SetItemCost(item_i, Convert.ToInt32(dataStruct[1]));
-                    items[item_i, HELD_ITEM_ID_I] = Convert.ToByte(dataStruct[2]);
-                    items[item_i, PARAM_I] = Convert.ToByte(dataStruct[3]);
-                    items[item_i, FLAG_I] = Convert.ToByte(dataStruct[4]);
-                    items[item_i, POCKET_I] = Convert.ToByte(dataStruct[5]);
-                    items[item_i, USE_RESTRICTION_I] = Convert.ToByte(dataStruct[6]);
-                    //itemASM[item_i] = Convert.ToInt32(dataStruct[7]); 
-                    // omit, ASM is not portable across ROMs
-                }
-            }
-            itemDescs.MakeContiguous();
-        }
-
-        protected override void ExportData()
-        {
-            System.IO.StreamWriter file = new System.IO.StreamWriter(data_FilePath);
-
-            foreach (int item_i in itemNames.Range())
-            {
-                file.WriteLine(itemNames.data[item_i]);
-                file.WriteLine(itemDescs.data[item_i]);
-
-                string dataStruct =
-                    itemDescs.RelativePtr(item_i) + " " // ptrs
-                    + GetItemCost(item_i).ToString() + " "
-                    + items[item_i, HELD_ITEM_ID_I] + " "
-                    + items[item_i, PARAM_I] + " "
-                    + items[item_i, FLAG_I] + " "
-                    + items[item_i, POCKET_I] + " "
-                    + items[item_i, USE_RESTRICTION_I] + " "
-                    + itemASM[item_i].ToString();
-
-                file.WriteLine(dataStruct);
-                file.WriteLine("");
-            }
-
-            file.Dispose();
-        }
-
-        protected override void ManagePointers()
-        {
-            PointerManager<DBString> pm = new PointerManager<DBString>(itemDescs);
-            pm.Show();
         }
     }
 }
