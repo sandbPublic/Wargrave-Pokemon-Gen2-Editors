@@ -220,16 +220,18 @@ namespace Editor_Base_Class
         public string PkmnReadString(int maxLength = 256)
         {
             string s = "";
-            byte b = 0;
-            int bytesRead = 0;
-            // TODO for loop
-            do
+
+            for (int bytesRead = 0; bytesRead < maxLength; bytesRead++)
             {
-                b = (byte)ReadByte();
+                byte b = (byte)ReadByte();
+
                 if (b == 0) return INVALID_STRING;
-                if (b != 0x50) s += PkmnByteToChar(b);
-                bytesRead++;
-            } while (b != 0x50 && bytesRead < maxLength);
+
+                if (b == 0x50) return s;
+
+                s += PkmnByteToChar(b);
+            }
+
             return s;
         }
 

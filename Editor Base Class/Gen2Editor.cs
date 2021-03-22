@@ -259,18 +259,10 @@ namespace Editor_Base_Class
             if (JumpToIfLoading(PKMN_NAME_I))
             {
                 pkmnNames = new string[offset[NUM_OF_PKMN_I] + 1];
-                // fixed to length 10
                 for (int pkmnName_i = 1; pkmnName_i <= offset[NUM_OF_PKMN_I]; pkmnName_i++)
-                {
-                    byte[] nameInBytes =
-                        ROM_File.ReadBytes(offset[PKMN_NAME_I] + 10 * (pkmnName_i - 1), 10);
-
-                    //todo use PkmnReadString?
-                    pkmnNames[pkmnName_i] = "";
-                    foreach (byte b1 in nameInBytes)
-                    {
-                        if (b1 != 0x50) pkmnNames[pkmnName_i] += ROM_FileStream.PkmnByteToChar(b1);
-                    }
+                { // fixed to length 10
+                    ROM_File.Position = offset[PKMN_NAME_I] + 10 * (pkmnName_i - 1);
+                    pkmnNames[pkmnName_i] = ROM_File.PkmnReadString(10);
                 }
             }
 
