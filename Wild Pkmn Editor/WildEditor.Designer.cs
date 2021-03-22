@@ -70,7 +70,7 @@
             this.comboRegion.Name = "comboRegion";
             this.comboRegion.Size = new System.Drawing.Size(144, 29);
             this.comboRegion.TabIndex = 1;
-            this.comboRegion.SelectedIndexChanged += new System.EventHandler(this.comboRegion_SelectedIndexChanged);
+            this.comboRegion.SelectedIndexChanged += new System.EventHandler(this.ComboRegion_SelectedIndexChanged);
             // 
             // comboArea
             // 
@@ -80,7 +80,7 @@
             this.comboArea.Name = "comboArea";
             this.comboArea.Size = new System.Drawing.Size(224, 29);
             this.comboArea.TabIndex = 2;
-            this.comboArea.SelectedIndexChanged += new System.EventHandler(this.comboArea_SelectedIndexChanged);
+            this.comboArea.SelectedIndexChanged += new System.EventHandler(this.ComboArea_SelectedIndexChanged);
             // 
             // textPkmnMorn
             // 
@@ -90,7 +90,7 @@
             this.textPkmnMorn.Name = "textPkmnMorn";
             this.textPkmnMorn.Size = new System.Drawing.Size(167, 157);
             this.textPkmnMorn.TabIndex = 4;
-            this.textPkmnMorn.TextChanged += new System.EventHandler(this.textPkmnMorn_TextChanged);
+            this.textPkmnMorn.TextChanged += new System.EventHandler(this.TextPkmnMorn_TextChanged);
             // 
             // spinMornFreq
             // 
@@ -106,7 +106,7 @@
             this.spinMornFreq.Size = new System.Drawing.Size(47, 29);
             this.spinMornFreq.TabIndex = 7;
             this.spinMornFreq.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.spinMornFreq.ValueChanged += new System.EventHandler(this.spinMornFreq_ValueChanged);
+            this.spinMornFreq.ValueChanged += new System.EventHandler(this.SpinMornFreq_ValueChanged);
             // 
             // textBox1
             // 
@@ -141,7 +141,7 @@
             this.buttonDecLevelsMorn.TabIndex = 21;
             this.buttonDecLevelsMorn.Text = "- Levels";
             this.buttonDecLevelsMorn.UseVisualStyleBackColor = true;
-            this.buttonDecLevelsMorn.Click += new System.EventHandler(this.buttonDecLevelsMorn_Click);
+            this.buttonDecLevelsMorn.Click += new System.EventHandler(this.ButtonDecLevelsMorn_Click);
             // 
             // buttonIncLevelsMorn
             // 
@@ -152,7 +152,7 @@
             this.buttonIncLevelsMorn.TabIndex = 20;
             this.buttonIncLevelsMorn.Text = "+ Levels";
             this.buttonIncLevelsMorn.UseVisualStyleBackColor = true;
-            this.buttonIncLevelsMorn.Click += new System.EventHandler(this.buttonIncLevelsMorn_Click);
+            this.buttonIncLevelsMorn.Click += new System.EventHandler(this.ButtonIncLevelsMorn_Click);
             // 
             // groupDay
             // 
@@ -177,7 +177,7 @@
             this.buttonDecLevelsDay.TabIndex = 23;
             this.buttonDecLevelsDay.Text = "- Levels";
             this.buttonDecLevelsDay.UseVisualStyleBackColor = true;
-            this.buttonDecLevelsDay.Click += new System.EventHandler(this.buttonDecLevelsDay_Click);
+            this.buttonDecLevelsDay.Click += new System.EventHandler(this.ButtonDecLevelsDay_Click);
             // 
             // textBox2
             // 
@@ -198,7 +198,7 @@
             this.buttonIncLevelsDay.TabIndex = 22;
             this.buttonIncLevelsDay.Text = "+ Levels";
             this.buttonIncLevelsDay.UseVisualStyleBackColor = true;
-            this.buttonIncLevelsDay.Click += new System.EventHandler(this.buttonIncLevelsDay_Click);
+            this.buttonIncLevelsDay.Click += new System.EventHandler(this.ButtonIncLevelsDay_Click);
             // 
             // textPkmnDay
             // 
@@ -208,7 +208,7 @@
             this.textPkmnDay.Name = "textPkmnDay";
             this.textPkmnDay.Size = new System.Drawing.Size(167, 157);
             this.textPkmnDay.TabIndex = 4;
-            this.textPkmnDay.TextChanged += new System.EventHandler(this.textPkmnDay_TextChanged);
+            this.textPkmnDay.TextChanged += new System.EventHandler(this.TextPkmnDay_TextChanged);
             // 
             // spinDayFreq
             // 
@@ -224,7 +224,7 @@
             this.spinDayFreq.Size = new System.Drawing.Size(47, 29);
             this.spinDayFreq.TabIndex = 7;
             this.spinDayFreq.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.spinDayFreq.ValueChanged += new System.EventHandler(this.spinDayFreq_ValueChanged);
+            this.spinDayFreq.ValueChanged += new System.EventHandler(this.SpinDayFreq_ValueChanged);
             // 
             // groupNight
             // 
@@ -249,7 +249,7 @@
             this.buttonDecLevelsNight.TabIndex = 25;
             this.buttonDecLevelsNight.Text = "- Levels";
             this.buttonDecLevelsNight.UseVisualStyleBackColor = true;
-            this.buttonDecLevelsNight.Click += new System.EventHandler(this.buttonDecLevelsNight_Click);
+            this.buttonDecLevelsNight.Click += new System.EventHandler(this.ButtonDecLevelsNight_Click);
             // 
             // textBox4
             // 
@@ -270,7 +270,7 @@
             this.buttonIncLevelsNight.TabIndex = 24;
             this.buttonIncLevelsNight.Text = "+ Levels";
             this.buttonIncLevelsNight.UseVisualStyleBackColor = true;
-            this.buttonIncLevelsNight.Click += new System.EventHandler(this.buttonIncLevelsNight_Click);
+            this.buttonIncLevelsNight.Click += new System.EventHandler(this.ButtonIncLevelsNight_Click);
             // 
             // textPkmnNight
             // 
@@ -280,7 +280,7 @@
             this.textPkmnNight.Name = "textPkmnNight";
             this.textPkmnNight.Size = new System.Drawing.Size(167, 157);
             this.textPkmnNight.TabIndex = 4;
-            this.textPkmnNight.TextChanged += new System.EventHandler(this.textPkmnNight_TextChanged);
+            this.textPkmnNight.TextChanged += new System.EventHandler(this.TextPkmnNight_TextChanged);
             // 
             // spinNightFreq
             // 
@@ -296,7 +296,7 @@
             this.spinNightFreq.Size = new System.Drawing.Size(47, 29);
             this.spinNightFreq.TabIndex = 7;
             this.spinNightFreq.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.spinNightFreq.ValueChanged += new System.EventHandler(this.spinNightFreq_ValueChanged);
+            this.spinNightFreq.ValueChanged += new System.EventHandler(this.SpinNightFreq_ValueChanged);
             // 
             // textMapBank
             // 
@@ -323,7 +323,7 @@
             this.buttonAnalyze.TabIndex = 18;
             this.buttonAnalyze.Text = "Analyze region Pokemon family rarity";
             this.buttonAnalyze.UseVisualStyleBackColor = true;
-            this.buttonAnalyze.Click += new System.EventHandler(this.buttonAnalyze_Click);
+            this.buttonAnalyze.Click += new System.EventHandler(this.ButtonAnalyze_Click);
             // 
             // comboVersion
             // 
@@ -337,7 +337,7 @@
             this.comboVersion.Name = "comboVersion";
             this.comboVersion.Size = new System.Drawing.Size(145, 29);
             this.comboVersion.TabIndex = 19;
-            this.comboVersion.SelectedIndexChanged += new System.EventHandler(this.comboVersion_SelectedIndexChanged);
+            this.comboVersion.SelectedIndexChanged += new System.EventHandler(this.ComboVersion_SelectedIndexChanged);
             // 
             // Wild
             // 

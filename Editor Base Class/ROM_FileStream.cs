@@ -5,16 +5,20 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO; // open save read write files
 
-namespace Editor_Base_Class {
-    public class ROM_FileStream : FileStream{
-        public ROM_FileStream(string path, FileMode mode) : base(path, mode){
+namespace Editor_Base_Class
+{
+    public class ROM_FileStream : FileStream
+    {
+        public ROM_FileStream(string path, FileMode mode) : base(path, mode)
+        {
         }
 
-        public byte[] readBytes(int offset, int lengthToRead) {
+        public byte[] ReadBytes(int offset, int lengthToRead)
+        {
             byte[] data = new byte[lengthToRead];
 
-            if ((offset + lengthToRead < Length) && (offset >= 0)) {
-
+            if ((offset + lengthToRead < Length) && (offset >= 0))
+            {
                 Position = offset;
                 Read(data, 0, lengthToRead);
             }
@@ -22,17 +26,20 @@ namespace Editor_Base_Class {
             return data;
         }
 
-        public void writeBytes(byte[] data, int offset) {
-            if ((offset + data.Length) < Length &&
-                offset >= 0) {
-
+        public void WriteBytes(byte[] data, int offset)
+        {
+            if ((offset + data.Length < Length) && offset >= 0)
+            {
                 Position = offset;
                 Write(data, 0, data.Length);
             }
         }
 
-        public static char pkmnByteToChar(byte b) {
-            switch (b) {
+        // TODO as dictionary?
+        public static char PkmnByteToChar(byte b)
+        {
+            switch (b)
+            {
                 case 0x1F: return ' '; // area names
                 case 0x4A: return '^'; // "pkmn" for pkmn trainer?
                 case 0x4E: return '|';
@@ -116,8 +123,10 @@ namespace Editor_Base_Class {
             return (char)b;
         }
 
-        public static byte pkmnCharToByte(char c) {
-            switch (c) {
+        public static byte PkmnCharToByte(char c)
+        {
+            switch (c)
+            {
                 case '^': return 0x4A;
                 case '|': return 0x4E;
                 case '~': return 0x50;
@@ -208,35 +217,40 @@ namespace Editor_Base_Class {
         /// </summary>
         /// <param name="maxLength"></param>
         /// <returns></returns>
-        public string pkmnReadString(int maxLength = 256) {
+        public string PkmnReadString(int maxLength = 256)
+        {
             string s = "";
             byte b = 0;
             int bytesRead = 0;
-            do {
+            // TODO for loop
+            do
+            {
                 b = (byte)ReadByte();
                 if (b == 0) return INVALID_STRING;
-                if (b != 0x50) s += pkmnByteToChar(b);
+                if (b != 0x50) s += PkmnByteToChar(b);
                 bytesRead++;
             } while (b != 0x50 && bytesRead < maxLength);
             return s;
         }
 
-        public void pkmnWriteString(string s) {
-            foreach (char c in s) {
-                WriteByte(pkmnCharToByte(c));
-            }
+        public void PkmnWriteString(string s)
+        {
+            foreach (char c in s) WriteByte(PkmnCharToByte(c));
             WriteByte(0x50);
         }
 
-        public static bool[] TMBoolsFromBytes(byte[] bytes) {
+        public static bool[] TMBoolsFromBytes(byte[] bytes)
+        {
             bool[] ret = new bool[64];
-            if (bytes.Length == 8) {
-                for (int byte_i = 0; byte_i < 8; byte_i++) {
+            if (bytes.Length == 8)
+            {
+                for (int byte_i = 0; byte_i < 8; byte_i++)
+                {
                     System.Diagnostics.Debug.Print(bytes[byte_i].ToString("X2"));
-                    for (int bit_i = 0; bit_i < 8; bit_i++) {
+                    for (int bit_i = 0; bit_i < 8; bit_i++)
+                    {
                         // extract single bit
                         ret[byte_i * 8 + bit_i] = ((bytes[byte_i] & (0x1 << bit_i)) != 0);
-
                     }
                 }
             }
@@ -244,12 +258,16 @@ namespace Editor_Base_Class {
             return ret;
         }
 
-        public static byte[] TMBytesFromBools(bool[] bools) {
+        public static byte[] TMBytesFromBools(bool[] bools)
+        {
             byte[] ret = new byte[8];
-            if (bools.Length == 64) {
-                for (int byte_i = 0; byte_i < 8; byte_i++) {
+            if (bools.Length == 64)
+            {
+                for (int byte_i = 0; byte_i < 8; byte_i++)
+                {
                     ret[byte_i] = 0;
-                    for (int bit_i = 0; bit_i < 8; bit_i++) {
+                    for (int bit_i = 0; bit_i < 8; bit_i++)
+                    {
                         // assemble byte from 8 bools
                         if (bools[byte_i * 8 + bit_i])
                             ret[byte_i] |= (byte)(0x1 << bit_i);
@@ -259,27 +277,30 @@ namespace Editor_Base_Class {
             return ret;
         }
 
-        public gbcPtr readGBCPtr() {
+        public GbcPtr ReadGBCPtr()
+        {
             int p = (int)Position; // don't want p+2 after reads
             byte Xp = (byte)ReadByte();
             byte Yp = (byte)ReadByte();
 
-            return new gbcPtr(Xp, Yp, p); //swap bytes
+            return new GbcPtr(Xp, Yp, p); //swap bytes
         }
 
         /// <summary>
         /// writes at current ROM_File position, advancing two bytes
         /// </summary>
         /// <param name="absolutePtr"></param>
-        public void writeLocalGBCPtr(gbcPtr ptr) {
+        public void WriteLocalGBCPtr(GbcPtr ptr)
+        {
             WriteByte(ptr.X);
             WriteByte(ptr.Y);
         }
 
         // put ROM_File in correct position first
-        public Trainer readTrainer() {
+        public Trainer ReadTrainer()
+        {
             Trainer t = new Trainer();
-            t.name = pkmnReadString();
+            t.name = PkmnReadString();
             int category = ReadByte();
             t.hasItems = (category >= 2);
             t.hasMoves = (category == 1 || category == 3);
@@ -287,15 +308,20 @@ namespace Editor_Base_Class {
             // read pokemon in team
             t.team = new List<TeamMember>();
             byte b = (byte)ReadByte();
-            for (int pkmn_i = 0; (b != 0xFF) && (pkmn_i < 6); pkmn_i++) {
-                TeamMember TM = new TeamMember();
-
-                TM.level = b;
-                TM.species = (byte)ReadByte();
-                if (t.hasItems) {
+            // TODO break on b, simplify loop
+            for (int pkmn_i = 0; (b != 0xFF) && (pkmn_i < 6); pkmn_i++)
+            {
+                TeamMember TM = new TeamMember
+                {
+                    level = b,
+                    species = (byte)ReadByte()
+                };
+                if (t.hasItems)
+                {
                     TM.item = (byte)ReadByte();
                 }
-                if (t.hasMoves) {
+                if (t.hasMoves)
+                {
                     TM.moves[0] = (byte)ReadByte();
                     TM.moves[1] = (byte)ReadByte();
                     TM.moves[2] = (byte)ReadByte();
@@ -308,16 +334,22 @@ namespace Editor_Base_Class {
             return t;
         }
 
-        public AreaWildData readWildArea(bool water = false) {
-            AreaWildData ret = new AreaWildData();
-            ret.water = water;
-            ret.mapBank = (byte)ReadByte();
-            ret.mapNum = (byte)ReadByte();
-            for (int time_i = 0; time_i < ret.times(); time_i++) {
+        public AreaWildData ReadWildArea(bool water = false)
+        {
+            AreaWildData ret = new AreaWildData
+            {
+                water = water,
+                mapBank = (byte)ReadByte(),
+                mapNum = (byte)ReadByte()
+            };
+            for (int time_i = 0; time_i < ret.Times(); time_i++)
+            {
                 ret.freq[time_i] = (byte)ReadByte();
             }
-            for (int time_i = 0; time_i < ret.times(); time_i++) {
-                for (int slot_j = 0; slot_j < ret.slots(); slot_j++) {
+            for (int time_i = 0; time_i < ret.Times(); time_i++)
+            {
+                for (int slot_j = 0; slot_j < ret.Slots(); slot_j++)
+                {
                     ret.levels[time_i, slot_j] = (byte)ReadByte();
                     ret.species[time_i, slot_j] = (byte)ReadByte();
                 }
@@ -325,18 +357,23 @@ namespace Editor_Base_Class {
             return ret;
         }
 
-        public void writeWildAreaList(List<AreaWildData> lAWD) {
-            foreach (AreaWildData awd in lAWD) {
+        public void WriteWildAreaList(List<AreaWildData> lAWD)
+        {
+            foreach (AreaWildData awd in lAWD)
+            {
                 WriteByte(awd.mapBank);
                 WriteByte(awd.mapNum);
                 WriteByte(awd.freq[0]);
-                if (!awd.water) {
+                if (!awd.water)
+                {
                     WriteByte(awd.freq[1]);
                     WriteByte(awd.freq[2]);
                 }
 
-                for (int time_i = 0; time_i < awd.times(); time_i++) {
-                    for (int slot_j = 0; slot_j < awd.slots(); slot_j++) {
+                for (int time_i = 0; time_i < awd.Times(); time_i++)
+                {
+                    for (int slot_j = 0; slot_j < awd.Slots(); slot_j++)
+                    {
                         WriteByte(awd.levels[time_i, slot_j]);
                         WriteByte(awd.species[time_i, slot_j]);
                     }

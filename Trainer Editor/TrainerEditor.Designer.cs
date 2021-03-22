@@ -47,7 +47,7 @@
                 spinLevels[pos_i].Maximum = new decimal(new int[] {255,0,0,0});
                 spinLevels[pos_i].Enabled = false;
                 spinLevels[pos_i].TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-                spinLevels[pos_i].ValueChanged += new System.EventHandler(spinLevels_ValueChanged);
+                spinLevels[pos_i].ValueChanged += new System.EventHandler(SpinLevels_ValueChanged);
                 groupTrTeam.Controls.Add(spinLevels[pos_i]);
 
                 cboxSpecies[pos_i].FormattingEnabled = true;
@@ -56,7 +56,7 @@
                 cboxSpecies[pos_i].Size = new System.Drawing.Size(133, rowHeight-6);
                 cboxSpecies[pos_i].Enabled = false;
                 cboxSpecies[pos_i].SelectedIndexChanged += 
-                    new System.EventHandler(cboxSpecies_SelectedIndexChanged);
+                    new System.EventHandler(CboxSpecies_SelectedIndexChanged);
                 groupTrTeam.Controls.Add(cboxSpecies[pos_i]);
 
                 cboxItems[pos_i].FormattingEnabled = true;
@@ -65,7 +65,7 @@
                 cboxItems[pos_i].Size = new System.Drawing.Size(153, rowHeight-6);
                 cboxItems[pos_i].Enabled = false;
                 cboxItems[pos_i].SelectedIndexChanged +=
-                    new System.EventHandler(cboxItems_SelectedIndexChanged);
+                    new System.EventHandler(CboxItems_SelectedIndexChanged);
                 groupTrTeam.Controls.Add(cboxItems[pos_i]);
 
                 for (int pos_j = 0; pos_j < 4; pos_j++) {
@@ -75,7 +75,7 @@
                     cboxMoves[pos_i, pos_j].Size = new System.Drawing.Size(157, 29);
                     cboxMoves[pos_i, pos_j].Enabled = false;
                     cboxMoves[pos_i, pos_j].SelectedIndexChanged +=
-                        new System.EventHandler(cboxMoves_SelectedIndexChanged);
+                        new System.EventHandler(CboxMoves_SelectedIndexChanged);
                     groupTrTeam.Controls.Add(cboxMoves[pos_i, pos_j]);
                 }
             }
@@ -151,7 +151,7 @@
             this.spinReward.Size = new System.Drawing.Size(58, 29);
             this.spinReward.TabIndex = 0;
             this.spinReward.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.spinReward.ValueChanged += new System.EventHandler(this.spinReward_ValueChanged);
+            this.spinReward.ValueChanged += new System.EventHandler(this.SpinReward_ValueChanged);
             // 
             // spinDVs1
             // 
@@ -167,7 +167,7 @@
             this.spinDVs1.Size = new System.Drawing.Size(48, 29);
             this.spinDVs1.TabIndex = 1;
             this.spinDVs1.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.spinDVs1.ValueChanged += new System.EventHandler(this.spinDVs1_ValueChanged);
+            this.spinDVs1.ValueChanged += new System.EventHandler(this.SpinDVs1_ValueChanged);
             // 
             // spinDVs0
             // 
@@ -183,7 +183,7 @@
             this.spinDVs0.Size = new System.Drawing.Size(48, 29);
             this.spinDVs0.TabIndex = 0;
             this.spinDVs0.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.spinDVs0.ValueChanged += new System.EventHandler(this.spinDVs0_ValueChanged);
+            this.spinDVs0.ValueChanged += new System.EventHandler(this.SpinDVs0_ValueChanged);
             // 
             // cboxItems1
             // 
@@ -193,7 +193,7 @@
             this.cboxItems1.Name = "cboxItems1";
             this.cboxItems1.Size = new System.Drawing.Size(159, 29);
             this.cboxItems1.TabIndex = 1;
-            this.cboxItems1.SelectedIndexChanged += new System.EventHandler(this.cboxItems1_SelectedIndexChanged);
+            this.cboxItems1.SelectedIndexChanged += new System.EventHandler(this.CboxItems1_SelectedIndexChanged);
             // 
             // cboxItems0
             // 
@@ -203,7 +203,7 @@
             this.cboxItems0.Name = "cboxItems0";
             this.cboxItems0.Size = new System.Drawing.Size(159, 29);
             this.cboxItems0.TabIndex = 0;
-            this.cboxItems0.SelectedIndexChanged += new System.EventHandler(this.cboxItems0_SelectedIndexChanged);
+            this.cboxItems0.SelectedIndexChanged += new System.EventHandler(this.CboxItems0_SelectedIndexChanged);
             // 
             // groupTrClass
             // 
@@ -236,7 +236,7 @@
             this.buttonAnalyze.TabIndex = 39;
             this.buttonAnalyze.Text = "Analyze Pokemon usage";
             this.buttonAnalyze.UseVisualStyleBackColor = true;
-            this.buttonAnalyze.Click += new System.EventHandler(this.buttonAnalyze_Click);
+            this.buttonAnalyze.Click += new System.EventHandler(this.ButtonAnalyze_Click);
             // 
             // txtClassPtr
             // 
@@ -300,7 +300,7 @@
             this.buttonRemoveTrainer.TabIndex = 23;
             this.buttonRemoveTrainer.Text = "-Trainer";
             this.buttonRemoveTrainer.UseVisualStyleBackColor = true;
-            this.buttonRemoveTrainer.Click += new System.EventHandler(this.buttonRemoveTrainer_Click);
+            this.buttonRemoveTrainer.Click += new System.EventHandler(this.ButtonRemoveTrainer_Click);
             // 
             // tboxReward
             // 
@@ -321,7 +321,7 @@
             this.buttonAddTrainer.TabIndex = 18;
             this.buttonAddTrainer.Text = "+Trainer";
             this.buttonAddTrainer.UseVisualStyleBackColor = true;
-            this.buttonAddTrainer.Click += new System.EventHandler(this.buttonAddTrainer_Click);
+            this.buttonAddTrainer.Click += new System.EventHandler(this.ButtonAddTrainer_Click);
             // 
             // tboxTCName
             // 
@@ -330,7 +330,7 @@
             this.tboxTCName.Name = "tboxTCName";
             this.tboxTCName.Size = new System.Drawing.Size(169, 29);
             this.tboxTCName.TabIndex = 22;
-            this.tboxTCName.TextChanged += new System.EventHandler(this.tboxTCName_TextChanged);
+            this.tboxTCName.TextChanged += new System.EventHandler(this.TboxTCName_TextChanged);
             // 
             // spinTC
             // 
@@ -340,7 +340,7 @@
             this.spinTC.Size = new System.Drawing.Size(58, 29);
             this.spinTC.TabIndex = 21;
             this.spinTC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.spinTC.ValueChanged += new System.EventHandler(this.spinTC_ValueChanged);
+            this.spinTC.ValueChanged += new System.EventHandler(this.SpinTC_ValueChanged);
             // 
             // tboxFreeTCBytes
             // 
@@ -388,7 +388,7 @@
             this.checkMoveset.TabIndex = 17;
             this.checkMoveset.Text = "custom movesets";
             this.checkMoveset.UseVisualStyleBackColor = true;
-            this.checkMoveset.CheckedChanged += new System.EventHandler(this.checkMoveset_CheckedChanged);
+            this.checkMoveset.CheckedChanged += new System.EventHandler(this.CheckMoveset_CheckedChanged);
             // 
             // checkItems
             // 
@@ -400,7 +400,7 @@
             this.checkItems.TabIndex = 16;
             this.checkItems.Text = "has items";
             this.checkItems.UseVisualStyleBackColor = true;
-            this.checkItems.CheckedChanged += new System.EventHandler(this.checkItems_CheckedChanged);
+            this.checkItems.CheckedChanged += new System.EventHandler(this.CheckItems_CheckedChanged);
             // 
             // tboxTrainerName
             // 
@@ -409,7 +409,7 @@
             this.tboxTrainerName.Name = "tboxTrainerName";
             this.tboxTrainerName.Size = new System.Drawing.Size(148, 29);
             this.tboxTrainerName.TabIndex = 1;
-            this.tboxTrainerName.TextChanged += new System.EventHandler(this.tboxTrainerName_TextChanged);
+            this.tboxTrainerName.TextChanged += new System.EventHandler(this.TboxTrainerName_TextChanged);
             // 
             // spinTrainerTeamID
             // 
@@ -424,7 +424,7 @@
             this.spinTrainerTeamID.Size = new System.Drawing.Size(53, 29);
             this.spinTrainerTeamID.TabIndex = 0;
             this.spinTrainerTeamID.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.spinTrainerTeamID.ValueChanged += new System.EventHandler(this.spinTrainerTeamID_ValueChanged);
+            this.spinTrainerTeamID.ValueChanged += new System.EventHandler(this.SpinTrainerTeamID_ValueChanged);
             // 
             // TrainerEditor
             // 

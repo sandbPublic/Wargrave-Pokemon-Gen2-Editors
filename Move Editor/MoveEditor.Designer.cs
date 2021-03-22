@@ -88,7 +88,7 @@
             0,
             0,
             0});
-            this.spinMoveID.ValueChanged += new System.EventHandler(this.spinMoveID_ValueChanged);
+            this.spinMoveID.ValueChanged += new System.EventHandler(this.SpinMoveID_ValueChanged);
             // 
             // tboxDeltaNameChars
             // 
@@ -127,7 +127,7 @@
             this.spinPower.Size = new System.Drawing.Size(55, 29);
             this.spinPower.TabIndex = 13;
             this.spinPower.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.spinPower.ValueChanged += new System.EventHandler(this.spinPower_ValueChanged);
+            this.spinPower.ValueChanged += new System.EventHandler(this.SpinPower_ValueChanged);
             // 
             // spinAccuracy
             // 
@@ -143,7 +143,7 @@
             this.spinAccuracy.Size = new System.Drawing.Size(55, 29);
             this.spinAccuracy.TabIndex = 14;
             this.spinAccuracy.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.spinAccuracy.ValueChanged += new System.EventHandler(this.spinAccuracy_ValueChanged);
+            this.spinAccuracy.ValueChanged += new System.EventHandler(this.SpinAccuracy_ValueChanged);
             // 
             // spinPP
             // 
@@ -158,7 +158,7 @@
             this.spinPP.Size = new System.Drawing.Size(55, 29);
             this.spinPP.TabIndex = 15;
             this.spinPP.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.spinPP.ValueChanged += new System.EventHandler(this.spinPP_ValueChanged);
+            this.spinPP.ValueChanged += new System.EventHandler(this.SpinPP_ValueChanged);
             // 
             // spinEffect
             // 
@@ -174,7 +174,7 @@
             this.spinEffect.Size = new System.Drawing.Size(55, 29);
             this.spinEffect.TabIndex = 16;
             this.spinEffect.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.spinEffect.ValueChanged += new System.EventHandler(this.spinEffect_ValueChanged);
+            this.spinEffect.ValueChanged += new System.EventHandler(this.SpinEffect_ValueChanged);
             // 
             // spinEffectChance
             // 
@@ -190,7 +190,7 @@
             this.spinEffectChance.Size = new System.Drawing.Size(55, 29);
             this.spinEffectChance.TabIndex = 17;
             this.spinEffectChance.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.spinEffectChance.ValueChanged += new System.EventHandler(this.spinEffectChance_ValueChanged);
+            this.spinEffectChance.ValueChanged += new System.EventHandler(this.SpinEffectChance_ValueChanged);
             // 
             // spinAnimation
             // 
@@ -206,7 +206,7 @@
             this.spinAnimation.Size = new System.Drawing.Size(55, 29);
             this.spinAnimation.TabIndex = 18;
             this.spinAnimation.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.spinAnimation.ValueChanged += new System.EventHandler(this.spinAnimation_ValueChanged);
+            this.spinAnimation.ValueChanged += new System.EventHandler(this.SpinAnimation_ValueChanged);
             // 
             // tboxEffect
             // 
@@ -259,7 +259,7 @@
             this.tboxDesc.Name = "tboxDesc";
             this.tboxDesc.Size = new System.Drawing.Size(252, 55);
             this.tboxDesc.TabIndex = 26;
-            this.tboxDesc.TextChanged += new System.EventHandler(this.tboxMoveDesc_TextChanged);
+            this.tboxDesc.TextChanged += new System.EventHandler(this.TboxMoveDesc_TextChanged);
             // 
             // tboxName
             // 
@@ -268,7 +268,7 @@
             this.tboxName.Name = "tboxName";
             this.tboxName.Size = new System.Drawing.Size(141, 29);
             this.tboxName.TabIndex = 27;
-            this.tboxName.TextChanged += new System.EventHandler(this.tboxMoveName_TextChanged);
+            this.tboxName.TextChanged += new System.EventHandler(this.TboxMoveName_TextChanged);
             // 
             // cboxType
             // 
@@ -278,7 +278,7 @@
             this.cboxType.Name = "cboxType";
             this.cboxType.Size = new System.Drawing.Size(173, 29);
             this.cboxType.TabIndex = 28;
-            this.cboxType.SelectedIndexChanged += new System.EventHandler(this.cboxType_SelectedIndexChanged);
+            this.cboxType.SelectedIndexChanged += new System.EventHandler(this.CboxType_SelectedIndexChanged);
             // 
             // cboxCrit
             // 
@@ -290,7 +290,7 @@
             this.cboxCrit.TabIndex = 30;
             this.cboxCrit.Text = "crit";
             this.cboxCrit.UseVisualStyleBackColor = true;
-            this.cboxCrit.CheckedChanged += new System.EventHandler(this.cboxCrit_CheckedChanged);
+            this.cboxCrit.CheckedChanged += new System.EventHandler(this.CboxCrit_CheckedChanged);
             // 
             // tboxDeltaCritBytes
             // 

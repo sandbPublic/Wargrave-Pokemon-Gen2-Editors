@@ -10,24 +10,30 @@ using System.Windows.Forms;
 using System.IO; // open save read write files
 using Editor_Base_Class;
 
-namespace Gen2_Item_Editor {
-    public partial class ItemEditor : Editor_Base_Class.Gen2Editor {
-        private int getItemCost(int item_i) {
+namespace Gen2_Item_Editor
+{
+    public partial class ItemEditor : Editor_Base_Class.Gen2Editor
+    {
+        private int GetItemCost(int item_i)
+        {
             return items[item_i, COST1_I] + 0x100 * items[item_i, COST2_I];
         }
-        private void setItemCost(int item_i, int cost) {
+        private void SetItemCost(int item_i, int cost)
+        {
             items[item_i, COST2_I] = (byte)(cost / 0x100);
             items[item_i, COST1_I] = (byte)(cost % 0x100);
         }
 
-        public ItemEditor() {
+        public ItemEditor()
+        {
             InitializeComponent();
 
-            int[] oTL = { ITEM_STRUCT_I, ITEM_ASM_I, ITEM_NAME_I, ITEM_DESC_PTR_I};
-            initOffsets(oTL, oTL);
+            int[] oTL = { ITEM_STRUCT_I, ITEM_ASM_I, ITEM_NAME_I, ITEM_DESC_PTR_I };
+            InitOffsets(oTL, oTL);
         }
 
-        protected override void enableDataEntry() {
+        protected override void EnableDataEntry()
+        {
             spinItemID.Maximum = offset[NUM_OF_ITEMS_I];
 
             spinItemID.Enabled = true;
@@ -42,22 +48,25 @@ namespace Gen2_Item_Editor {
             cboxUseRestriction.Enabled = true;
         }
 
-        protected override void enableWrite() {
-            tboxDeltaNameChars.Text = itemNames.bytesFreeAt(sIV()) + " bytes free for name";
-            tboxDeltaDescChars.Text = itemDescs.bytesFreeAt(sIV()) + " bytes free for desc";
+        protected override void EnableWrite()
+        {
+            tboxDeltaNameChars.Text = itemNames.BytesFreeAt(sIV()) + " bytes free for name";
+            tboxDeltaDescChars.Text = itemDescs.BytesFreeAt(sIV()) + " bytes free for desc";
 
-            saveROM_TSMI.Enabled = (itemNames.bytesFreeAt(0) >= 0
-                && itemDescs.bytesOverlapAt() == -1);
+            saveROM_TSMI.Enabled = (itemNames.BytesFreeAt(0) >= 0
+                && itemDescs.BytesOverlapAt() == -1);
         }
 
-        protected override void update() {
-            spinCost.Value = getItemCost(sIV());
+        protected override void UpdateEditor()
+        {
+            spinCost.Value = GetItemCost(sIV());
             spinHeldItemID.Value = items[sIV(), HELD_ITEM_ID_I];
             spinParam.Value = items[sIV(), PARAM_I];
-            cboxFlagtext.SelectedIndex = items[sIV(), FLAG_I]/0x40;
+            cboxFlagtext.SelectedIndex = items[sIV(), FLAG_I] / 0x40;
             cboxPocket.SelectedIndex = items[sIV(), POCKET_I] - 1;
             byte sI = 0;
-            switch (items[sIV(), USE_RESTRICTION_I]) {
+            switch (items[sIV(), USE_RESTRICTION_I])
+            {
                 case 0: sI = 0; break;
                 case 6: sI = 1; break;
                 case 0x40: sI = 2; break;
@@ -68,34 +77,42 @@ namespace Gen2_Item_Editor {
             }
             cboxUseRestriction.SelectedIndex = sI;
             tboxName.Text = itemNames.data[sIV()];
-            
+
             // desc data count < name data count
             bool nonTM = (sIV() <= itemDescs.end_i);
-            if (nonTM) {
+            if (nonTM)
+            {
                 tboxDesc.Text = itemDescs.data[sIV()];
                 spinASM.Value = itemASM[sIV()];
-            } else {
+            }
+            else
+            {
                 tboxDesc.Text = "MOVE DESCRIPTION";
             }
 
             tboxDesc.Enabled = nonTM;
             spinASM.Enabled = nonTM;
 
-            enableWrite();
+            EnableWrite();
         }
 
-        private int sIV() {
+        private int sIV()
+        {
             return (int)spinItemID.Value;
         }
 
-        private void spinItemID_ValueChanged(object sender, EventArgs e) {
-            if (spinItemID.Focused) update();
+        private void SpinItemID_ValueChanged(object sender, EventArgs e)
+        {
+            if (spinItemID.Focused) UpdateEditor();
         }
 
-        private void cboxUseRestriction_SelectedIndexChanged(object sender, EventArgs e) {
-            if (cboxUseRestriction.Focused) {
+        private void CboxUseRestriction_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cboxUseRestriction.Focused)
+            {
                 byte sI = 1;
-                switch (cboxUseRestriction.SelectedIndex) {
+                switch (cboxUseRestriction.SelectedIndex)
+                {
                     case 0: sI = 0; break;
                     case 1: sI = 6; break;
                     case 2: sI = 0x40; break;
@@ -108,54 +125,67 @@ namespace Gen2_Item_Editor {
                 items[sIV(), USE_RESTRICTION_I] = sI;
             }
         }
-        private void spinCost_ValueChanged(object sender, EventArgs e) {
-            setItemCost(sIV(), (int)spinCost.Value);
+        private void SpinCost_ValueChanged(object sender, EventArgs e)
+        {
+            SetItemCost(sIV(), (int)spinCost.Value);
         }
-        private void spinHeldItemID_ValueChanged(object sender, EventArgs e) {
+        private void SpinHeldItemID_ValueChanged(object sender, EventArgs e)
+        {
             items[sIV(), HELD_ITEM_ID_I] = (byte)spinHeldItemID.Value;
         }
-        private void spinParam_ValueChanged(object sender, EventArgs e) {
+        private void SpinParam_ValueChanged(object sender, EventArgs e)
+        {
             items[sIV(), PARAM_I] = (byte)spinParam.Value;
         }
-        private void cboxFlagtext_SelectedIndexChanged(object sender, EventArgs e) {
+        private void CboxFlagtext_SelectedIndexChanged(object sender, EventArgs e)
+        {
             items[sIV(), FLAG_I] = (byte)(cboxFlagtext.SelectedIndex * 0x40);
         }
 
-        private void cboxPocket_SelectedIndexChanged(object sender, EventArgs e) {
+        private void CboxPocket_SelectedIndexChanged(object sender, EventArgs e)
+        {
             items[sIV(), POCKET_I] = (byte)(cboxPocket.SelectedIndex + 1);
         }
-        private void spinASM_ValueChanged(object sender, EventArgs e) {
+        private void SpinASM_ValueChanged(object sender, EventArgs e)
+        {
             itemASM[sIV()] = (int)spinASM.Value;
         }
 
-        private void tboxName_TextChanged(object sender, EventArgs e) {
-            if (tboxName.Focused) {
+        private void TboxName_TextChanged(object sender, EventArgs e)
+        {
+            if (tboxName.Focused)
+            {
                 itemNames.data[sIV()] = tboxName.Text;
 
-                enableWrite();
+                EnableWrite();
 
-                printWarningIfTooLong(tboxName.Text, 12);
+                PrintWarningIfTooLong(tboxName.Text, 12);
             }
         }
-        private void tboxDesc_TextChanged(object sender, EventArgs e) {
-            if (tboxDesc.Focused) {
-                if (sIV() <= itemDescs.end_i) {
+        private void TboxDesc_TextChanged(object sender, EventArgs e)
+        {
+            if (tboxDesc.Focused)
+            {
+                if (sIV() <= itemDescs.end_i)
+                {
                     itemDescs.data[sIV()] = tboxDesc.Text;
 
-                    itemDescs.updatePtrs(sIV());
+                    itemDescs.UpdatePtrs(sIV());
 
-                    enableWrite();
+                    EnableWrite();
 
                     string[] splitDesc = tboxDesc.Text.Split('|');
-                    printWarningIfTooLong(splitDesc[0], 18);
+                    PrintWarningIfTooLong(splitDesc[0], 18);
                     if (splitDesc.Length >= 2)
-                        printWarningIfTooLong(splitDesc[1], 18);
+                        PrintWarningIfTooLong(splitDesc[1], 18);
                 }
             }
         }
 
-        protected override void importData(List<string> dataStrings) {
-            foreach (int item_i in itemNames.range()) {
+        protected override void ImportData(List<string> dataStrings)
+        {
+            foreach (int item_i in itemNames.Range())
+            {
                 int stringIndex = 4 * (item_i - itemNames.start_i);
 
                 itemNames.data[item_i] = dataStrings[stringIndex];
@@ -163,9 +193,10 @@ namespace Gen2_Item_Editor {
 
                 string[] dataStruct = dataStrings[stringIndex + 2].Split(' ');
 
-                if (dataStruct.Length == 8) {
-                    itemDescs.setRelativePtr(item_i, Convert.ToInt32(dataStruct[0]));
-                    setItemCost(item_i, Convert.ToInt32(dataStruct[1]));
+                if (dataStruct.Length == 8)
+                {
+                    itemDescs.SetRelativePtr(item_i, Convert.ToInt32(dataStruct[0]));
+                    SetItemCost(item_i, Convert.ToInt32(dataStruct[1]));
                     items[item_i, HELD_ITEM_ID_I] = Convert.ToByte(dataStruct[2]);
                     items[item_i, PARAM_I] = Convert.ToByte(dataStruct[3]);
                     items[item_i, FLAG_I] = Convert.ToByte(dataStruct[4]);
@@ -175,24 +206,26 @@ namespace Gen2_Item_Editor {
                     // omit, ASM is not portable across ROMs
                 }
             }
-            itemDescs.makeContiguous();
+            itemDescs.MakeContiguous();
         }
 
-        protected override void exportData() {
+        protected override void ExportData()
+        {
             System.IO.StreamWriter file = new System.IO.StreamWriter(data_FilePath);
 
-            foreach (int item_i in itemNames.range()) {
+            foreach (int item_i in itemNames.Range())
+            {
                 file.WriteLine(itemNames.data[item_i]);
                 file.WriteLine(itemDescs.data[item_i]);
 
-                string dataStruct = 
-                    itemDescs.relativePtr(item_i) + " " // ptrs
-                    + getItemCost(item_i).ToString() + " " 
-                    + items[item_i, HELD_ITEM_ID_I] + " " 
-                    + items[item_i, PARAM_I] + " " 
-                    + items[item_i, FLAG_I] + " " 
-                    + items[item_i, POCKET_I] + " " 
-                    + items[item_i, USE_RESTRICTION_I] + " " 
+                string dataStruct =
+                    itemDescs.RelativePtr(item_i) + " " // ptrs
+                    + GetItemCost(item_i).ToString() + " "
+                    + items[item_i, HELD_ITEM_ID_I] + " "
+                    + items[item_i, PARAM_I] + " "
+                    + items[item_i, FLAG_I] + " "
+                    + items[item_i, POCKET_I] + " "
+                    + items[item_i, USE_RESTRICTION_I] + " "
                     + itemASM[item_i].ToString();
 
                 file.WriteLine(dataStruct);
@@ -202,11 +235,10 @@ namespace Gen2_Item_Editor {
             file.Dispose();
         }
 
-        protected override void managePointers() {
+        protected override void ManagePointers()
+        {
             PointerManager<DBString> pm = new PointerManager<DBString>(itemDescs);
             pm.Show();
         }
-
-
     }
 }

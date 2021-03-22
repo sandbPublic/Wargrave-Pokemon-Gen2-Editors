@@ -10,40 +10,38 @@ using System.Windows.Forms;
 using System.IO; // open save read write files
 using Editor_Base_Class;
 
-namespace Gen2_Trainer_Editor {
-    public partial class TrainerEditor : Editor_Base_Class.Gen2Editor {        
+namespace Gen2_Trainer_Editor
+{
+    public partial class TrainerEditor : Editor_Base_Class.Gen2Editor
+    {
         // using a comboBox for TC and Tr names causes problems when trying to edit the names
         // instead use a spin and a text box
         // not ideal because multiple names can't be seen at once...
 
-        public TrainerEditor() {
+        public TrainerEditor()
+        {
             InitializeComponent();
             InitializeArrayComponents();
 
-            int[] oTL = { TM_CODE_I, TM_SET_I, MOVESET_PTR_I, ITEM_NAME_I, PKMN_NAME_I, 
-                            MOVE_NAME_I, TRAINER_PTR_I, TR_CLASS_NAME_I, TR_CLASS_DV_I, 
+            int[] oTL = { TM_CODE_I, TM_SET_I, MOVESET_PTR_I, ITEM_NAME_I, PKMN_NAME_I,
+                            MOVE_NAME_I, TRAINER_PTR_I, TR_CLASS_NAME_I, TR_CLASS_DV_I,
                             TR_CLASS_ATTRIBUTE_I};
-            int[] oTS = { TRAINER_PTR_I, TR_CLASS_NAME_I, TR_CLASS_DV_I, TR_CLASS_ATTRIBUTE_I};
-            initOffsets(oTL, oTS);
+            int[] oTS = { TRAINER_PTR_I, TR_CLASS_NAME_I, TR_CLASS_DV_I, TR_CLASS_ATTRIBUTE_I };
+            InitOffsets(oTL, oTS);
         }
 
-        protected override void enableDataEntry() {
+        protected override void EnableDataEntry()
+        {
             #region POPULATE BOXES
-            foreach (ComboBox CB in cboxSpecies) {
-                populateComboBox(CB, pkmnNames);
-            }
+            foreach (ComboBox CB in cboxSpecies) PopulateComboBox(CB, pkmnNames);
 
             // one list for all 24 ComboBoxes may be more efficient?
             // but CB.Items cannot be assigned to
-            foreach (ComboBox CB in cboxMoves) {
-                populateComboBox(CB, moveNames);
-            }
+            foreach (ComboBox CB in cboxMoves) PopulateComboBox(CB, moveNames);
 
-            populateComboBox(cboxItems0, itemNames);
-            populateComboBox(cboxItems1, itemNames);
-            foreach (ComboBox CB in cboxItems) {
-                populateComboBox(CB, itemNames);
-            }
+            PopulateComboBox(cboxItems0, itemNames);
+            PopulateComboBox(cboxItems1, itemNames);
+            foreach (ComboBox CB in cboxItems) PopulateComboBox(CB, itemNames);
 
             spinTC.Maximum = trClassNames.end_i;
             #endregion
@@ -60,19 +58,22 @@ namespace Gen2_Trainer_Editor {
             buttonAnalyze.Enabled = true;
             #endregion
         }
-        protected override void enableWrite() {
-            updateTCNameBytesUsed();
-            updateTrainerBytesUsed();
+        protected override void EnableWrite()
+        {
+            UpdateTCNameBytesUsed();
+            UpdateTrainerBytesUsed();
         }
-        protected override void update() {
-            updateTrainerClassArea();
+        protected override void UpdateEditor()
+        {
+            UpdateTrainerClassArea();
         }
 
         /// <summary>
         /// selected TrainerClass value
         /// </summary>
         /// <returns></returns>
-        private int sTcV() {
+        private int sTcV()
+        {
             return (int)spinTC.Value;
         }
 
@@ -80,7 +81,8 @@ namespace Gen2_Trainer_Editor {
         /// selected Trainer List
         /// </summary>
         /// <returns></returns>
-        private List<Trainer> sTrList() {
+        private List<Trainer> sTrList()
+        {
             return trainerLists.data[sTcV()].LT;
         }
 
@@ -88,23 +90,25 @@ namespace Gen2_Trainer_Editor {
         /// selected Trainer
         /// </summary>
         /// <returns></returns>
-        private Trainer sTr() {
+        private Trainer sTr()
+        {
             return sTrList()[(int)spinTrainerTeamID.Value];
         }
 
-        private void updateTrainerClassArea() {
+        private void UpdateTrainerClassArea()
+        {
             // update team area
-            if (sTrList().Count <= 0) {
-                disOrEnableTeamArea(false);
-            } else {
-                disOrEnableTeamArea(true);
+            if (sTrList().Count <= 0) EnOrDisableTeamArea(false);
+            else
+            {
+                EnOrDisableTeamArea(true);
                 spinTrainerTeamID.Maximum = sTrList().Count - 1;
-                updateTrainerTeamArea();
+                UpdateTrainerTeamArea();
             }
 
             tboxTCName.Text = trClassNames.data[sTcV()];
             spinReward.Value = trClassRewards[sTcV()];
-            updateDVArea();
+            UpdateDVArea();
             cboxItems0.SelectedIndex = trClassItems[2 * sTcV()];
             cboxItems1.SelectedIndex = trClassItems[2 * sTcV() + 1];
             tboxTrainerCount.Text = sTrList().Count.ToString() + " total";
@@ -112,18 +116,19 @@ namespace Gen2_Trainer_Editor {
         }
 
         private static readonly string[] HIDDEN_POWER_TYPES = {
-	        "Fighting", "Flying", "Poison", "Ground", "Rock", "Bug", "Ghost", "Steel",
-	        "Fire", "Water", "Grass", "Electric", "Psychic", "Ice", "Dragon", "Dark"
+            "Fighting", "Flying", "Poison", "Ground", "Rock", "Bug", "Ghost", "Steel",
+            "Fire", "Water", "Grass", "Electric", "Psychic", "Ice", "Dragon", "Dark"
         };
 
-        private void updateDVArea() {
+        private void UpdateDVArea()
+        {
             byte AD = trClassDVs[2 * sTcV()];
-            byte SSpc = trClassDVs[2 * sTcV()+1];
+            byte SSpc = trClassDVs[2 * sTcV() + 1];
 
             spinDVs0.Value = AD;
             spinDVs1.Value = SSpc;
 
-            int Attack = AD/0x10;
+            int Attack = AD / 0x10;
             int Defense = AD % 0x10;
             int Speed = SSpc / 0x10;
             int Special = SSpc % 0x10;
@@ -147,10 +152,10 @@ namespace Gen2_Trainer_Editor {
             if (Speed >= 8) hpPowerParam += 2;
             if (Special >= 8) hpPowerParam += 1;
 
-            int hpPower = 31 + ((5 * hpPowerParam + (Special%4)) / 2);
+            int hpPower = 31 + ((5 * hpPowerParam + (Special % 4)) / 2);
             int hpType = 4 * (Attack % 4) + (Defense % 4);
 
-            info += hpPower.ToString() + " " + HIDDEN_POWER_TYPES[hpType]; 
+            info += hpPower.ToString() + " " + HIDDEN_POWER_TYPES[hpType];
 
             // shiny
             bool shiny = ((Attack % 4 == 0x2 || Attack % 4 == 0x3) &&
@@ -161,86 +166,97 @@ namespace Gen2_Trainer_Editor {
             tboxDVinfo.Text = info;
         }
 
-        private void spinTC_ValueChanged(object sender, EventArgs e) {
-            updateTrainerClassArea();
+        private void SpinTC_ValueChanged(object sender, EventArgs e)
+        {
+            UpdateTrainerClassArea();
         }
 
-        private void tboxTCName_TextChanged(object sender, EventArgs e) {
+        private void TboxTCName_TextChanged(object sender, EventArgs e)
+        {
             trClassNames.data[sTcV()] = tboxTCName.Text;
 
-            printWarningIfTooLong(((string)trClassNames.data[sTcV()]), 12);
-            if (spinTrainerTeamID.Enabled) {
-                printWarningIfTooLong(
+            PrintWarningIfTooLong(((string)trClassNames.data[sTcV()]), 12);
+            if (spinTrainerTeamID.Enabled)
+            {
+                PrintWarningIfTooLong(
                     ((string)trClassNames.data[sTcV()]) + " " + sTr().name, 18);
             }
 
-            updateTCNameBytesUsed();
+            UpdateTCNameBytesUsed();
         }
 
         // for TCs like Pokemon Prof that have no trainers at all
-        private void disOrEnableTeamArea(bool enable) {
+        private void EnOrDisableTeamArea(bool enable)
+        {
             spinTrainerTeamID.Enabled = enable;
             tboxTrainerName.Enabled = enable;
             checkItems.Enabled = enable;
             checkMoveset.Enabled = enable;
 
-            for (int pkmn_i = 0; pkmn_i < 6; pkmn_i++) {
+            for (int pkmn_i = 0; pkmn_i < 6; pkmn_i++)
+            {
                 spinLevels[pkmn_i].Enabled = enable;
                 cboxSpecies[pkmn_i].Enabled = enable;
                 cboxItems[pkmn_i].Enabled = enable;
-                for (int move_j = 0; move_j < 4; move_j++) {
+                for (int move_j = 0; move_j < 4; move_j++)
+                {
                     cboxMoves[pkmn_i, move_j].Enabled = enable;
                 }
             }
         }
 
-        private void spinReward_ValueChanged(object sender, EventArgs e) {
+        private void SpinReward_ValueChanged(object sender, EventArgs e)
+        {
             trClassRewards[sTcV()] = (byte)spinReward.Value;
         }
-        private void spinDVs0_ValueChanged(object sender, EventArgs e) {
+        private void SpinDVs0_ValueChanged(object sender, EventArgs e)
+        {
             trClassDVs[2 * sTcV()] = (byte)spinDVs0.Value;
-            updateDVArea();
+            UpdateDVArea();
         }
-        private void spinDVs1_ValueChanged(object sender, EventArgs e) {
+        private void SpinDVs1_ValueChanged(object sender, EventArgs e)
+        {
             trClassDVs[2 * sTcV() + 1] = (byte)spinDVs1.Value;
-            updateDVArea();
+            UpdateDVArea();
         }
-        private void cboxItems0_SelectedIndexChanged(object sender, EventArgs e) {
+        private void CboxItems0_SelectedIndexChanged(object sender, EventArgs e)
+        {
             trClassItems[2 * sTcV()] = (byte)cboxItems0.SelectedIndex;
         }
-        private void cboxItems1_SelectedIndexChanged(object sender, EventArgs e) {
+        private void CboxItems1_SelectedIndexChanged(object sender, EventArgs e)
+        {
             trClassItems[2 * sTcV() + 1] = (byte)cboxItems1.SelectedIndex;
         }
 
-        private void buttonAddTrainer_Click(object sender, EventArgs e) {
-            Trainer Tr = new Trainer();
-            Tr.name = "new";
-            Tr.hasItems = false;
-            Tr.hasMoves = false;
-            Tr.team = new List<TeamMember>();
+        private void ButtonAddTrainer_Click(object sender, EventArgs e)
+        {
+            Trainer Tr = new Trainer
+            {
+                name = "new",
+                hasItems = false,
+                hasMoves = false,
+                team = new List<TeamMember>()
+            };
 
             sTrList().Insert((int)spinTrainerTeamID.Value, Tr);
 
-            if (sTrList().Count > 0) {
-                disOrEnableTeamArea(true);
-            }
+            if (sTrList().Count > 0) EnOrDisableTeamArea(true);
 
-            updateTrainerBytesUsed();
-            updateTrainerTeamArea();
+            UpdateTrainerBytesUsed();
+            UpdateTrainerTeamArea();
             tboxTrainerCount.Text = sTrList().Count.ToString() + " total";
         }
 
-        private void buttonRemoveTrainer_Click(object sender, EventArgs e) {
-            if (sTrList().Count > 0) {
+        private void ButtonRemoveTrainer_Click(object sender, EventArgs e)
+        {
+            if (sTrList().Count > 0)
+            {
                 sTrList().RemoveAt((int)spinTrainerTeamID.Value);
 
-                if (sTrList().Count <= 0) {
-                    disOrEnableTeamArea(false);
-                } else {
-                    updateTrainerTeamArea();
-                }
+                if (sTrList().Count <= 0) EnOrDisableTeamArea(false);
+                else UpdateTrainerTeamArea();
 
-                updateTrainerBytesUsed();
+                UpdateTrainerBytesUsed();
                 tboxTrainerCount.Text = sTrList().Count.ToString() + " total";
             }
         }
@@ -249,23 +265,32 @@ namespace Gen2_Trainer_Editor {
         // Trainer Area
         //
 
-        // don't actually give TM the moveset here, we want old moveset to still exist
+        // don't actually give the TeamMember the moveset here; we want old moveset to still exist
         // "underneath" so that unchecking custom moveset is reversible
-        private byte[] defaultMoveset(TeamMember TM){
+        private byte[] DefaultMoveset(TeamMember TM)
+        {
             byte[] ret = new byte[4];
-            if (TM.species >= movesets.start_i && TM.species <= movesets.end_i) {
+            if (TM.species >= movesets.start_i && TM.species <= movesets.end_i)
+            {
                 int movesLearned = 0; // crash with TM.ID == 0?
-                foreach (LearnData lD in movesets.data[TM.species].learnList) {
-                    if (lD.level <= TM.level) { // TM reached this level
+                foreach (LearnData lD in movesets.data[TM.species].learnList)
+                {
+                    if (lD.level <= TM.level)
+                    { // TM reached this level
                         bool newMove = true; // don't learn redundant moves
-                        for (int move_j = 0; move_j < 4; move_j++) {
+                        for (int move_j = 0; move_j < 4; move_j++)
+                        {
                             if (ret[move_j] == lD.move) newMove = false;
                         }
-                        if (newMove) {
-                            if (movesLearned < 4) {
+                        if (newMove)
+                        {
+                            if (movesLearned < 4)
+                            {
                                 ret[movesLearned] = lD.move;
                                 movesLearned++;
-                            } else {
+                            }
+                            else
+                            {
                                 ret[0] = ret[1];
                                 ret[1] = ret[2];
                                 ret[2] = ret[3];
@@ -278,126 +303,133 @@ namespace Gen2_Trainer_Editor {
             return ret;
         }
 
-        private void updateTrainerTeamArea() {
-            if (spinTrainerTeamID.Enabled) {
+        private void UpdateTrainerTeamArea()
+        {
+            if (spinTrainerTeamID.Enabled)
+            {
                 spinTrainerTeamID.Maximum = sTrList().Count - 1;
                 tboxTrainerName.Text = sTr().name;
                 checkItems.Checked = sTr().hasItems;
                 checkMoveset.Checked = sTr().hasMoves;
-                for (int teamMemb_i = 0; teamMemb_i < 6; teamMemb_i++) {
-                    updateTrainerTeamRow(teamMemb_i);
-                }
-                disOrEnableItems(checkItems.Checked);
-                disOrEnableMoves(checkMoveset.Checked);
-                updateTrainerBytesUsed();
+                for (int teamMemb_i = 0; teamMemb_i < 6; teamMemb_i++) UpdateTrainerTeamRow(teamMemb_i);
+                EnOrDisableItems(checkItems.Checked);
+                EnOrDisableMoves(checkMoveset.Checked);
+                UpdateTrainerBytesUsed();
             }
         }
 
-        private void updateTrainerTeamRow(int teamMemb_i) {
+        private void UpdateTrainerTeamRow(int teamMemb_i)
+        {
             bool enableRow = (teamMemb_i < sTr().team.Count);
 
             spinLevels[teamMemb_i].Enabled = enableRow;
             cboxSpecies[teamMemb_i].Enabled = enableRow;
 
-            if (enableRow) {
+            if (enableRow)
+            {
                 spinLevels[teamMemb_i].Value = sTr().team[teamMemb_i].level;
                 cboxSpecies[teamMemb_i].SelectedIndex = sTr().team[teamMemb_i].species;
                 cboxItems[teamMemb_i].SelectedIndex = sTr().team[teamMemb_i].item;
-                for (int move_j = 0; move_j < 4; move_j++) {
-                    cboxMoves[teamMemb_i, move_j].SelectedIndex =
-                        sTr().team[teamMemb_i].moves[move_j];
+                for (int move_j = 0; move_j < 4; move_j++)
+                {
+                    cboxMoves[teamMemb_i, move_j].SelectedIndex = sTr().team[teamMemb_i].moves[move_j];
                 }
-                updateForCanLearn(teamMemb_i);
-            } else if (teamMemb_i == sTr().team.Count) { // allow adding new pokemon
+                UpdateForCanLearn(teamMemb_i);
+            }
+            else if (teamMemb_i == sTr().team.Count)
+            { // allow adding new pokemon
                 cboxSpecies[teamMemb_i].SelectedIndex = 0;
                 cboxSpecies[teamMemb_i].Enabled = true;
-            } else {
+            }
+            else
+            {
                 spinLevels[teamMemb_i].Value = 0;
                 cboxSpecies[teamMemb_i].SelectedIndex = 0;
                 cboxItems[teamMemb_i].SelectedIndex = 0;
 
-                for (int move_j = 0; move_j < 4; move_j++) {
-                    cboxMoves[teamMemb_i, move_j].SelectedIndex = 0;
-                }
+                for (int move_j = 0; move_j < 4; move_j++) cboxMoves[teamMemb_i, move_j].SelectedIndex = 0;
             }
         }
 
-        private void spinTrainerTeamID_ValueChanged(object sender, EventArgs e) {
-            updateTrainerTeamArea();
+        private void SpinTrainerTeamID_ValueChanged(object sender, EventArgs e)
+        {
+            UpdateTrainerTeamArea();
         }
 
-        private void checkItems_CheckedChanged(object sender, EventArgs e) {
+        private void CheckItems_CheckedChanged(object sender, EventArgs e)
+        {
             sTr().hasItems = checkItems.Checked;
-            disOrEnableItems(checkItems.Checked);
-            updateTrainerBytesUsed();
+            EnOrDisableItems(checkItems.Checked);
+            UpdateTrainerBytesUsed();
         }
 
-        private void checkMoveset_CheckedChanged(object sender, EventArgs e) {
+        private void CheckMoveset_CheckedChanged(object sender, EventArgs e)
+        {
             sTr().hasMoves = checkMoveset.Checked;
-            disOrEnableMoves(checkMoveset.Checked);
-            updateTrainerBytesUsed();
+            EnOrDisableMoves(checkMoveset.Checked);
+            UpdateTrainerBytesUsed();
         }
 
-        private void tboxTrainerName_TextChanged(object sender, EventArgs e) {
+        private void TboxTrainerName_TextChanged(object sender, EventArgs e)
+        {
             sTr().name = tboxTrainerName.Text;
 
-            if (spinTrainerTeamID.Enabled) {
-                printWarningIfTooLong(sTr().name, 12);
-                printWarningIfTooLong(
-                    ((string)trClassNames.data[sTcV()]) + " " + sTr().name, 18);
+            if (spinTrainerTeamID.Enabled)
+            {
+                PrintWarningIfTooLong(sTr().name, 12);
+                PrintWarningIfTooLong(((string)trClassNames.data[sTcV()]) + " " + sTr().name, 18);
             }
 
-            updateTrainerBytesUsed();
+            UpdateTrainerBytesUsed();
         }
 
-        private bool canLearnFn(byte species, byte moveID, byte level) {
-            return canLearnFn(species, moveID, level, new List<byte>());
+        private bool CanLearnFn(byte species, byte moveID, byte level)
+        {
+            return CanLearnFn(species, moveID, level, new List<byte>());
         }
 
         // note: does not account for egg moves (special or inate) or tutor moves
-        private bool canLearnFn(byte species, byte moveID, byte level, 
-            List<byte> attemptedSpecies) {
-            
+        private bool CanLearnFn(byte species, byte moveID, byte level, List<byte> attemptedSpecies)
+        {
             if (moveID == 0) return true;
 
             // tm
-            for (int TM_i = 0; TM_i < TMCodes.Length; TM_i++) {
-                if ((TMCodes[TM_i] == moveID) && TMSets[species, TM_i]) {
-                    return true;
-                }
+            for (int TM_i = 0; TM_i < TMCodes.Length; TM_i++)
+            {
+                if ((TMCodes[TM_i] == moveID) && TMSets[species, TM_i]) return true;
             }
-            for (int HM_j = 0; HM_j < HMCodes.Length; HM_j++) {
-                if ((HMCodes[HM_j] == moveID) && TMSets[species, HM_j + 50]) {
-                    return true;
-                }
+            for (int HM_j = 0; HM_j < HMCodes.Length; HM_j++)
+            {
+                if ((HMCodes[HM_j] == moveID) && TMSets[species, HM_j + 50]) return true;
             }
 
             // scan current movelist
-            foreach (LearnData lD in movesets.data[species].learnList){
+            foreach (LearnData lD in movesets.data[species].learnList)
+            {
                 if (lD.level <= level && lD.move == moveID) return true;
             }
 
             // if not found, try prevos that haven't been tried recursively
             // create new list
             List<byte> attSpec2 = new List<byte>();
-            foreach (byte b in attemptedSpecies) {
-                attSpec2.Add(b);
-            }
+            foreach (byte b in attemptedSpecies) attSpec2.Add(b);
             attSpec2.Add(species);
 
             // scan for prevos
-            foreach (byte prevoID in movesets.range()) {
-                foreach (EvoData eD in movesets.data[prevoID].evoList) {
+            foreach (byte prevoID in movesets.Range())
+            {
+                foreach (EvoData eD in movesets.data[prevoID].evoList)
+                {
                     if (eD.species == species &&  // if a prevo
-                        (eD.method != 1 || eD.param <= level)) { // that can evolve by this level
+                        (eD.method != 1 || eD.param <= level))
+                    { // that can evolve by this level
 
                         bool tried = false;
-                        foreach (byte b in attSpec2) {
+                        foreach (byte b in attSpec2)
+                        {
                             if (b == prevoID) tried = true;
                         }
-                        if (!tried && canLearnFn(prevoID, moveID, level, attSpec2)) {
-                            return true;
-                        }
+                        if (!tried && CanLearnFn(prevoID, moveID, level, attSpec2)) return true;
                     }
                 }
             }
@@ -407,26 +439,31 @@ namespace Gen2_Trainer_Editor {
         }
 
         // highlight in pink when a move can't be learned
-        private void updateForCanLearn() {
-            for (int teamMemb_i = 0; teamMemb_i < 6; teamMemb_i++) {
-                updateForCanLearn(teamMemb_i);
+        private void UpdateForCanLearn()
+        {
+            for (int teamMemb_i = 0; teamMemb_i < 6; teamMemb_i++)
+            {
+                UpdateForCanLearn(teamMemb_i);
             }
         }
 
-        private void updateForCanLearn(int teamMemb_i) {
-            if (cboxSpecies[teamMemb_i].SelectedIndex > 0) {
-                for (int move_j = 0; move_j < 4; move_j++) {
+        private void UpdateForCanLearn(int teamMemb_i)
+        {
+            if (cboxSpecies[teamMemb_i].SelectedIndex > 0)
+            {
+                for (int move_j = 0; move_j < 4; move_j++)
+                {
                     byte moveID = (byte)cboxMoves[teamMemb_i, move_j].SelectedIndex;
 
                     cboxMoves[teamMemb_i, move_j].BackColor = System.Drawing.SystemColors.Window;
 
                     if (cboxMoves[teamMemb_i, move_j].SelectedIndex < 0 || // selected index can be -1
                         (moveID != 0 && cboxMoves[teamMemb_i, move_j].Enabled
-                        && !canLearnFn(
+                        && !CanLearnFn(
                         (byte)cboxSpecies[teamMemb_i].SelectedIndex,
                         moveID,
-                        (byte)spinLevels[teamMemb_i].Value))) {
-
+                        (byte)spinLevels[teamMemb_i].Value)))
+                    {
                         cboxMoves[teamMemb_i, move_j].BackColor =
                             System.Drawing.Color.FromArgb(255, 191, 191);
                     }
@@ -438,30 +475,39 @@ namespace Gen2_Trainer_Editor {
         // array components
         //
 
-        private void disOrEnableItems(bool enable) {
-            for (int pkmn_i = 0; pkmn_i < 6; pkmn_i++) {
+        private void EnOrDisableItems(bool enable)
+        {
+            for (int pkmn_i = 0; pkmn_i < 6; pkmn_i++)
+            {
                 cboxItems[pkmn_i].Enabled = (enable && (pkmn_i < sTr().team.Count));
-                
+
                 cboxItems[pkmn_i].SelectedIndex =
                     (cboxItems[pkmn_i].Enabled ? sTr().team[pkmn_i].item : 0);
             }
         }
 
-        private void disOrEnableMoves(bool enable) {
-            for (int pkmn_i = 0; pkmn_i < 6; pkmn_i++) {
-                if (pkmn_i < sTr().team.Count) {
-                    byte[] dMoves = defaultMoveset(sTr().team[pkmn_i]);
+        private void EnOrDisableMoves(bool enable)
+        {
+            for (int pkmn_i = 0; pkmn_i < 6; pkmn_i++)
+            {
+                if (pkmn_i < sTr().team.Count)
+                {
+                    byte[] dMoves = DefaultMoveset(sTr().team[pkmn_i]);
 
-                    for (int move_j = 0; move_j < 4; move_j++) {
+                    for (int move_j = 0; move_j < 4; move_j++)
+                    {
                         cboxMoves[pkmn_i, move_j].Enabled = enable;
 
                         cboxMoves[pkmn_i, move_j].SelectedIndex =
-                            (enable ? 
+                            (enable ?
                             sTr().team[pkmn_i].moves[move_j] :
                             dMoves[move_j]);
                     }
-                } else {
-                    for (int move_j = 0; move_j < 4; move_j++) {
+                }
+                else
+                {
+                    for (int move_j = 0; move_j < 4; move_j++)
+                    {
                         cboxMoves[pkmn_i, move_j].Enabled = false;
                         cboxMoves[pkmn_i, move_j].SelectedIndex = 0;
                     }
@@ -469,119 +515,137 @@ namespace Gen2_Trainer_Editor {
             }
         }
 
-        private void spinLevels_ValueChanged(object sender, EventArgs e) {
-            for (int teamMemb_i = 0; teamMemb_i < sTr().team.Count; teamMemb_i++) {
-                if (spinLevels[teamMemb_i].Focused) {
-                    sTr().team[teamMemb_i].level = (byte) spinLevels[teamMemb_i].Value;
-                    updateForCanLearn(teamMemb_i);
+        private void SpinLevels_ValueChanged(object sender, EventArgs e)
+        {
+            for (int teamMemb_i = 0; teamMemb_i < sTr().team.Count; teamMemb_i++)
+            {
+                if (spinLevels[teamMemb_i].Focused)
+                {
+                    sTr().team[teamMemb_i].level = (byte)spinLevels[teamMemb_i].Value;
+                    UpdateForCanLearn(teamMemb_i);
                 }
             }
         }
 
         // change species OR add/remove pokemon
-        private void cboxSpecies_SelectedIndexChanged(object sender, EventArgs e) {
-            for (int teamMemb_i = 0; teamMemb_i <= sTr().team.Count && teamMemb_i < 6; teamMemb_i++) {
-                if (cboxSpecies[teamMemb_i].Focused) {
+        private void CboxSpecies_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            for (int teamMemb_i = 0; teamMemb_i <= sTr().team.Count && teamMemb_i < 6; teamMemb_i++)
+            {
+                if (cboxSpecies[teamMemb_i].Focused)
+                {
                     byte species = (byte)cboxSpecies[teamMemb_i].SelectedIndex;
 
-                    if (species == 0){ // shorten team
-                        sTr().team.RemoveAt(teamMemb_i);
-                    } else {
-                        if (teamMemb_i < sTr().team.Count) {
-                            sTr().team[teamMemb_i].species = species;
-                        } else { // new pokemon
-                            TeamMember TM = new TeamMember();
-                            TM.species = species;
-                            TM.level = 1;
+                    if (species == 0) sTr().team.RemoveAt(teamMemb_i); // shorten team
+                    else
+                    {
+                        if (teamMemb_i < sTr().team.Count) sTr().team[teamMemb_i].species = species;
+                        else
+                        { // new pokemon
+                            TeamMember TM = new TeamMember
+                            {
+                                species = species,
+                                level = 1
+                            };
 
                             sTr().team.Add(TM);
                         }
                     }
-                    updateTrainerTeamArea();
+                    UpdateTrainerTeamArea();
                 }
             }
         }
 
-        private void cboxItems_SelectedIndexChanged(object sender, EventArgs e) {
-            for (int pkmn_i = 0; pkmn_i < sTr().team.Count; pkmn_i++) {
-                if (cboxItems[pkmn_i].Focused) {
-                    sTr().team[pkmn_i].item = (byte)cboxItems[pkmn_i].SelectedIndex;
-                }
+        private void CboxItems_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            for (int pkmn_i = 0; pkmn_i < sTr().team.Count; pkmn_i++)
+            {
+                if (cboxItems[pkmn_i].Focused) sTr().team[pkmn_i].item = (byte)cboxItems[pkmn_i].SelectedIndex;
             }
         }
 
-        private void cboxMoves_SelectedIndexChanged(object sender, EventArgs e) {
-            for (int pkmn_i = 0; pkmn_i < sTr().team.Count; pkmn_i++) {
-                for (int move_j = 0; move_j < 4; move_j++) {
-                    if (cboxMoves[pkmn_i, move_j].Focused) {
-                        sTr().team[pkmn_i].moves[move_j] =
-                            (byte)cboxMoves[pkmn_i, move_j].SelectedIndex;
+        private void CboxMoves_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            for (int pkmn_i = 0; pkmn_i < sTr().team.Count; pkmn_i++)
+            {
+                for (int move_j = 0; move_j < 4; move_j++)
+                {
+                    if (cboxMoves[pkmn_i, move_j].Focused)
+                    {
+                        sTr().team[pkmn_i].moves[move_j] = (byte)cboxMoves[pkmn_i, move_j].SelectedIndex;
                     }
                 }
             }
 
-            updateForCanLearn();
+            UpdateForCanLearn();
         }
 
-        private void updateTCNameBytesUsed() {
-            tboxFreeTCBytes.Text = trClassNames.bytesFreeAt(sTcV()) +
-                " class bytes free";
+        private void UpdateTCNameBytesUsed()
+        {
+            tboxFreeTCBytes.Text = trClassNames.BytesFreeAt(sTcV()) + " class bytes free";
 
-            saveROM_TSMI.Enabled = trClassNames.bytesFreeAt(0) >= 0
-                && trainerLists.bytesOverlapAt() == -1;
+            saveROM_TSMI.Enabled = trClassNames.BytesFreeAt(0) >= 0 && trainerLists.BytesOverlapAt() == -1;
         }
 
-        private void updateTrainerBytesUsed() {
-            trainerLists.updatePtrs(sTcV());
-            tboxFreeTrBytes.Text = trainerLists.bytesFreeAt(sTcV())
-                + " trainer bytes free";
+        private void UpdateTrainerBytesUsed()
+        {
+            trainerLists.UpdatePtrs(sTcV());
+            tboxFreeTrBytes.Text = trainerLists.BytesFreeAt(sTcV()) + " trainer bytes free";
 
-            saveROM_TSMI.Enabled = trClassNames.bytesFreeAt(0) >= 0
-                && trainerLists.bytesOverlapAt() == -1;
+            saveROM_TSMI.Enabled = trClassNames.BytesFreeAt(0) >= 0  && trainerLists.BytesOverlapAt() == -1;
         }
 
-        protected override void importData(List<string> dataStrings) {
+        protected override void ImportData(List<string> dataStrings)
+        {
             int curIndex = 0;
             int numClasses = Convert.ToInt32(dataStrings[curIndex++]);
 
-            for (int class_i = 0; class_i < numClasses; class_i++) {
+            for (int class_i = 0; class_i < numClasses; class_i++)
+            {
                 trClassNames.data[class_i] = dataStrings[curIndex++];
 
                 int numOfTrainers = 0;
                 string[] attributes = dataStrings[curIndex++].Split(' ');
-                if (attributes.Length == 7) {
+                if (attributes.Length == 7)
+                {
                     trClassDVs[2 * class_i] = Convert.ToByte(attributes[0]);
                     trClassDVs[2 * class_i + 1] = Convert.ToByte(attributes[1]);
                     trClassItems[2 * class_i] = Convert.ToByte(attributes[2]);
                     trClassItems[2 * class_i + 1] = Convert.ToByte(attributes[3]);
                     trClassRewards[class_i] = Convert.ToByte(attributes[4]);
-                    trainerLists.setRelativePtr(class_i, Convert.ToInt32(attributes[5]));
+                    trainerLists.SetRelativePtr(class_i, Convert.ToInt32(attributes[5]));
                     numOfTrainers = Convert.ToInt32(attributes[6]);
                 }
 
                 trainerLists.data[class_i] = new DBTrainerList();
-                for (int trainer_i = 0; trainer_i < numOfTrainers; trainer_i++) {
-                    Trainer t = new Trainer();
-
-                    t.name = dataStrings[curIndex++];
+                for (int trainer_i = 0; trainer_i < numOfTrainers; trainer_i++)
+                {
+                    Trainer t = new Trainer
+                    {
+                        name = dataStrings[curIndex++]
+                    };
                     int numOfPkmn = 0;
                     string[] has = dataStrings[curIndex++].Split(' ');
-                    if (has.Length == 3) {
+                    if (has.Length == 3)
+                    {
                         t.hasItems = (has[0] == "1");
                         t.hasMoves = (has[1] == "1");
                         numOfPkmn = Convert.ToInt32(has[2]);
                     }
 
                     t.team = new List<TeamMember>();
-                    for (int pkmn_i = 0; pkmn_i < numOfPkmn; pkmn_i++) {
+                    for (int pkmn_i = 0; pkmn_i < numOfPkmn; pkmn_i++)
+                    {
                         string[] pkmnString = dataStrings[curIndex++].Split(' ');
                         TeamMember tm = new TeamMember();
-                        if (pkmnString.Length == 7) {
+                        if (pkmnString.Length == 7)
+                        {
                             tm.level = Convert.ToByte(pkmnString[0]);
                             tm.species = Convert.ToByte(pkmnString[1]);
                             tm.item = Convert.ToByte(pkmnString[2]);
 
-                            for (int move_i = 0; move_i < 4; move_i++) {
+                            for (int move_i = 0; move_i < 4; move_i++)
+                            {
                                 tm.moves[move_i] = Convert.ToByte(pkmnString[move_i + 3]);
                             }
                         }
@@ -591,10 +655,11 @@ namespace Gen2_Trainer_Editor {
                 } // end trainer loop
                 curIndex++;
             }// end class loop
-            trainerLists.makeContiguous();
+            trainerLists.MakeContiguous();
         }
 
-        protected override void exportData() { 
+        protected override void ExportData()
+        {
             // num of classes
             // class data
             //   name
@@ -607,7 +672,8 @@ namespace Gen2_Trainer_Editor {
 
             System.IO.StreamWriter file = new System.IO.StreamWriter(data_FilePath);
             file.WriteLine(trClassNames.end_i - trClassNames.start_i + 1); // num classes
-            for (int class_i = trClassNames.start_i; class_i <= trClassNames.end_i; class_i++) {
+            for (int class_i = trClassNames.start_i; class_i <= trClassNames.end_i; class_i++)
+            {
                 file.WriteLine(trClassNames.data[class_i]);
 
                 string s = trClassDVs[2 * class_i]
@@ -615,11 +681,12 @@ namespace Gen2_Trainer_Editor {
                     + " " + trClassItems[2 * class_i]
                     + " " + trClassItems[2 * class_i + 1]
                     + " " + trClassRewards[class_i]
-                    + " " + trainerLists.relativePtr(class_i)
+                    + " " + trainerLists.RelativePtr(class_i)
                     + " " + trainerLists.data[class_i].LT.Count;
                 file.WriteLine(s);
 
-                foreach (Trainer t in trainerLists.data[class_i].LT) {
+                foreach (Trainer t in trainerLists.data[class_i].LT)
+                {
                     file.WriteLine(t.name);
 
                     s = (t.hasItems ? "1 " : "0 ") +
@@ -627,9 +694,10 @@ namespace Gen2_Trainer_Editor {
                         t.team.Count;
                     file.WriteLine(s);
 
-                    foreach (TeamMember tm in t.team) {
+                    foreach (TeamMember tm in t.team)
+                    {
                         s = tm.level + " " + tm.species + " " + tm.item
-                            + " " + tm.moves[0] + " " + tm.moves[1] 
+                            + " " + tm.moves[0] + " " + tm.moves[1]
                             + " " + tm.moves[2] + " " + tm.moves[3];
                         file.WriteLine(s);
                     }
@@ -639,19 +707,20 @@ namespace Gen2_Trainer_Editor {
             file.Dispose();
         }
 
-        protected override void managePointers() {
-            PointerManager<DBTrainerList> pm = 
-                new PointerManager<DBTrainerList>(trainerLists, false);
+        protected override void ManagePointers()
+        {
+            PointerManager<DBTrainerList> pm = new PointerManager<DBTrainerList>(trainerLists, false);
             pm.Show();
         }
 
-        private void buttonAnalyze_Click(object sender, EventArgs e) {
+        private void ButtonAnalyze_Click(object sender, EventArgs e)
+        {
             int[] usage = new int[pkmnNames.Length];
-            foreach (DBTrainerList dbtl in trainerLists.data) {
-                foreach (Trainer tr in dbtl.LT) {
-                    foreach (TeamMember tm in tr.team) {
-                        usage[tm.species]++;
-                    }
+            foreach (DBTrainerList dbtl in trainerLists.data)
+            {
+                foreach (Trainer tr in dbtl.LT)
+                {
+                    foreach (TeamMember tm in tr.team) usage[tm.species]++;
                 }
             }
 
@@ -661,11 +730,15 @@ namespace Gen2_Trainer_Editor {
 
             List<SortingString> L_ss = new List<SortingString>();
             bool[] usagePassed = new bool[pkmnNames.Length];
-            for (int pkName_i = 1; pkName_i < pkmnNames.Length; pkName_i++) {
+            for (int pkName_i = 1; pkName_i < pkmnNames.Length; pkName_i++)
+            {
                 // get rarity from evolutions
-                for (int evo_j = 1; evo_j < pkmnNames.Length; evo_j++) {
-                    foreach (EvoData ed in movesets.data[pkName_i].evoList) {
-                        if (ed.species == evo_j && !usagePassed[evo_j]) {
+                for (int evo_j = 1; evo_j < pkmnNames.Length; evo_j++)
+                {
+                    foreach (EvoData ed in movesets.data[pkName_i].evoList)
+                    {
+                        if (ed.species == evo_j && !usagePassed[evo_j])
+                        {
                             usage[pkName_i] += usage[evo_j];
                             usagePassed[evo_j] = true;
                         }
@@ -674,9 +747,11 @@ namespace Gen2_Trainer_Editor {
             }
             // do this seperately, second so that evos that precede their prevos
             // in pokedex order aren't counted as seperate families
-            for (int pkName_i = 1; pkName_i < pkmnNames.Length; pkName_i++) {
+            for (int pkName_i = 1; pkName_i < pkmnNames.Length; pkName_i++)
+            {
                 SortingString ss = new SortingString();
-                if (!usagePassed[pkName_i]) {
+                if (!usagePassed[pkName_i])
+                {
                     ss.sortValue = usage[pkName_i];
                     ss.me = usage[pkName_i].ToString("D3") + " - " + pkmnNames[pkName_i];
                     L_ss.Add(ss);
@@ -688,4 +763,3 @@ namespace Gen2_Trainer_Editor {
         }
     }
 }
-//991

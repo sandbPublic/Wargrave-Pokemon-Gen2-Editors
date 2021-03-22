@@ -37,17 +37,21 @@ using Editor_Base_Class;
  * 2*7*3=42 data bytes, level+species 2, seven slots 14, three times 42
  * */
 
-namespace Gen2_Wild_Pkmn_Editor {
-    public partial class WildEditor : Editor_Base_Class.Gen2Editor {
-        public WildEditor() {
+namespace Gen2_Wild_Pkmn_Editor
+{
+    public partial class WildEditor : Editor_Base_Class.Gen2Editor
+    {
+        public WildEditor()
+        {
             InitializeComponent();
 
-            int[] oTL = { PKMN_NAME_I, WILD_I, MOVESET_PTR_I, AREA_NAME_PTR_I};
+            int[] oTL = { PKMN_NAME_I, WILD_I, MOVESET_PTR_I, AREA_NAME_PTR_I };
             int[] oTS = { WILD_I };
-            initOffsets(oTL, oTS);
+            InitOffsets(oTL, oTS);
         }
 
-        protected override void enableDataEntry() {
+        protected override void EnableDataEntry()
+        {
             comboRegion.Enabled = true;
             comboArea.Enabled = true;
             comboVersion.Enabled = true;
@@ -59,20 +63,23 @@ namespace Gen2_Wild_Pkmn_Editor {
             comboArea.SelectedIndex = 0;
         }
 
-        protected override void enableWrite() {
+        protected override void EnableWrite()
+        {
             saveROM_TSMI.Enabled = true;
         }
 
-        protected override void update() {
-            updateRegion();
-            updateComboArea();
-            updateArea();
+        protected override void UpdateEditor()
+        {
+            UpdateRegion();
+            UpdateComboArea();
+            UpdateArea();
         }
-       
-        private void importListAWD(List<string> dataStrings, List<AreaWildData> lAWD, 
-            ref int stringIndex, int count) {
 
-            for (int area_i = 0; area_i < count; area_i++) {
+        private void ImportListAWD(List<string> dataStrings, List<AreaWildData> lAWD, ref int stringIndex, int count)
+        {
+
+            for (int area_i = 0; area_i < count; area_i++)
+            {
                 AreaWildData awd = new AreaWildData();
 
                 string[] mapBankAndNum = dataStrings[stringIndex++].Split(' ');
@@ -82,14 +89,14 @@ namespace Gen2_Wild_Pkmn_Editor {
                 string[] freqs = dataStrings[stringIndex++].Split(' ');
                 awd.water = (freqs.Length == 1);
 
-                foreach (int time_i in awd.timeRange()) {
-                    awd.freq[time_i] = Convert.ToByte(freqs[time_i]);
-                }
+                foreach (int time_i in awd.TimeRange()) awd.freq[time_i] = Convert.ToByte(freqs[time_i]);
 
                 string[] levelAndSpecies = dataStrings[stringIndex++].Split(' ');
-                foreach (int time_i in awd.timeRange()) {
-                    foreach (int slot_j in awd.slotRange()) {
-                        int index = 2*(time_i * awd.slots() + slot_j);
+                foreach (int time_i in awd.TimeRange())
+                {
+                    foreach (int slot_j in awd.SlotRange())
+                    {
+                        int index = 2 * (time_i * awd.Slots() + slot_j);
 
                         awd.levels[time_i, slot_j] = Convert.ToByte(levelAndSpecies[index]);
                         awd.species[time_i, slot_j] = Convert.ToByte(levelAndSpecies[index + 1]);
@@ -101,35 +108,40 @@ namespace Gen2_Wild_Pkmn_Editor {
             }
         }
 
-        protected override void importData(List<string> dataStrings) {
+        protected override void ImportData(List<string> dataStrings)
+        {
             List<int> counts = new List<int>();
             // get counts
             string[] firstLine = dataStrings[0].Split(' ');
-            foreach (string s in firstLine) {
-                counts.Add(Convert.ToInt32(s));
-            }
+            foreach (string s in firstLine) counts.Add(Convert.ToInt32(s));
 
             int stringIndex = 2;
             // read each list in order
-            for (int region_i = 0; region_i < 5; region_i++) {
-                areaList(region_i).Clear();
-                importListAWD(dataStrings, areaList(region_i), ref stringIndex, counts[region_i]);
+            for (int region_i = 0; region_i < 5; region_i++)
+            {
+                AreaList(region_i).Clear();
+                ImportListAWD(dataStrings, AreaList(region_i), ref stringIndex, counts[region_i]);
             }
         }
 
-        private void exportListAWD(System.IO.StreamWriter file, List<AreaWildData> lAWD) {
+        private void ExportListAWD(System.IO.StreamWriter file, List<AreaWildData> lAWD)
+        {
             // four lines per awd, one blank
-            foreach (AreaWildData awd in lAWD) {
+            foreach (AreaWildData awd in lAWD)
+            {
                 file.WriteLine(awd.mapBank + " " + awd.mapNum);
                 string freqs = "";
-                foreach (int time_i in awd.timeRange()) {
+                foreach (int time_i in awd.TimeRange())
+                {
                     freqs += (time_i == 0 ? "" : " ") + awd.freq[time_i];
                 }
                 file.WriteLine(freqs);
                 string data = "";
-                foreach (int time_i in awd.timeRange()) {
-                    foreach (int slot_j in awd.slotRange()) {
-                        data += (time_i+slot_j == 0 ? "" : " ") + 
+                foreach (int time_i in awd.TimeRange())
+                {
+                    foreach (int slot_j in awd.SlotRange())
+                    {
+                        data += (time_i + slot_j == 0 ? "" : " ") +
                             awd.levels[time_i, slot_j] + " " +
                             awd.species[time_i, slot_j];
                     }
@@ -139,7 +151,8 @@ namespace Gen2_Wild_Pkmn_Editor {
             }
         }
 
-        protected override void exportData() {
+        protected override void ExportData()
+        {
             System.IO.StreamWriter file = new System.IO.StreamWriter(data_FilePath);
 
             // export list of counts
@@ -150,17 +163,17 @@ namespace Gen2_Wild_Pkmn_Editor {
             file.WriteLine("");
 
             // then export lists
-            for (int region_i = 0; region_i < 5; region_i++) {
-                exportListAWD(file, areaList(region_i));
-            }
+            for (int region_i = 0; region_i < 5; region_i++) ExportListAWD(file, AreaList(region_i));
 
             file.Dispose();
         }
 
         //protected override void managePointers() { }
 
-        private List<AreaWildData> areaList(int region_i) {
-            switch (region_i) {
+        private List<AreaWildData> AreaList(int region_i)
+        {
+            switch (region_i)
+            {
                 default: return johtoLand;
                 case 1: return johtoWater;
                 case 2: return kantoLand;
@@ -169,42 +182,50 @@ namespace Gen2_Wild_Pkmn_Editor {
             }
         }
 
-        private int sRegion_i() {
+        private int sRegion_i()
+        {
             return (comboRegion.SelectedIndex < 0 ? 0 : comboRegion.SelectedIndex);
         }
-        private List<AreaWildData> sList() {
-            return areaList(sRegion_i());
+        private List<AreaWildData> sList()
+        {
+            return AreaList(sRegion_i());
         }
 
-        private void updateRegion() {
+        private void UpdateRegion()
+        {
             comboArea.Items.Clear();
-            for (int area_i = 0; area_i < sList().Count; area_i++) {
-                comboArea.Items.Add(area_i.ToString());
-            }
-            textPkmn(0).BackColor = System.Drawing.SystemColors.Window;
-            textPkmn(1).BackColor = System.Drawing.SystemColors.Window;
-            textPkmn(2).BackColor = System.Drawing.SystemColors.Window;
+            for (int area_i = 0; area_i < sList().Count; area_i++) comboArea.Items.Add(area_i.ToString());
+            TextPkmn(0).BackColor = System.Drawing.SystemColors.Window;
+            TextPkmn(1).BackColor = System.Drawing.SystemColors.Window;
+            TextPkmn(2).BackColor = System.Drawing.SystemColors.Window;
         }
 
-        private void comboRegion_SelectedIndexChanged(object sender, EventArgs e) {
-            update();
+        private void ComboRegion_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            UpdateEditor();
         }
 
-        private int sArea_i() {
+        private int sArea_i()
+        {
             return (comboArea.SelectedIndex < 0 ? 0 : comboArea.SelectedIndex);
         }
-        private AreaWildData sArea() {
+        private AreaWildData sArea()
+        {
             return sList()[sArea_i()];
         }
-        private NumericUpDown spinFreq(int time_i) {
-            switch (time_i) {
+        private NumericUpDown SpinFreq(int time_i)
+        {
+            switch (time_i)
+            {
                 default: return spinMornFreq;
                 case 1: return spinDayFreq;
                 case 2: return spinNightFreq;
             }
         }
-        private TextBox textPkmn(int time_i) {
-            switch (time_i) {
+        private TextBox TextPkmn(int time_i)
+        {
+            switch (time_i)
+            {
                 default: return textPkmnMorn;
                 case 1: return textPkmnDay;
                 case 2: return textPkmnNight;
@@ -213,129 +234,159 @@ namespace Gen2_Wild_Pkmn_Editor {
 
         private const char SPLITING_CHAR = ':';
         private bool pauseParsing = false;
-        private void updateAreaTime(int time_i) {
+        private void UpdateAreaTime(int time_i)
+        {
             pauseParsing = true;
-            spinFreq(time_i).Value = sArea().freq[time_i];
-            spinFreq(time_i).Enabled = true;
+            SpinFreq(time_i).Value = sArea().freq[time_i];
+            SpinFreq(time_i).Enabled = true;
 
-            buttonLevel(0, time_i).Enabled = true;
-            buttonLevel(1, time_i).Enabled = true;
+            ButtonLevel(0, time_i).Enabled = true;
+            ButtonLevel(1, time_i).Enabled = true;
 
             // load text Pkmn
-            textPkmn(time_i).Clear();
-            textPkmn(time_i).Enabled = true;
-            foreach (int slot_j in sArea().slotRange()) {
+            TextPkmn(time_i).Clear();
+            TextPkmn(time_i).Enabled = true;
+            foreach (int slot_j in sArea().SlotRange())
+            {
                 byte level = sArea().levels[time_i, slot_j];
                 byte species = sArea().species[time_i, slot_j];
 
-                textPkmn(time_i).Text += (slot_j == 0 ? "" : Environment.NewLine)
+                TextPkmn(time_i).Text += (slot_j == 0 ? "" : Environment.NewLine)
                     + level.ToString("D3") + SPLITING_CHAR + pkmnNames[species];
             }
             pauseParsing = false;
         }
-        
-        private void updateArea() {
+
+        private void UpdateArea()
+        {
             textMapBank.Text = sArea().mapBank.ToString("X2");
             textMapNum.Text = sArea().mapNum.ToString("X2");
 
-            for (int time_i = 0; time_i < 3; time_i++) {
-                spinFreq(time_i).Enabled = false;
-                textPkmn(time_i).Enabled = false;
-                buttonLevel(0, time_i).Enabled = false;
-                buttonLevel(1, time_i).Enabled = false;
+            for (int time_i = 0; time_i < 3; time_i++)
+            {
+                SpinFreq(time_i).Enabled = false;
+                TextPkmn(time_i).Enabled = false;
+                ButtonLevel(0, time_i).Enabled = false;
+                ButtonLevel(1, time_i).Enabled = false;
             }
-            foreach (int time_i in sArea().timeRange()) {
-                updateAreaTime(time_i);
-            }
+            foreach (int time_i in sArea().TimeRange()) UpdateAreaTime(time_i);
         }
 
-        private void comboArea_SelectedIndexChanged(object sender, EventArgs e) {
-            updateArea();
+        private void ComboArea_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            UpdateArea();
         }
 
-        private void spinMornFreq_ValueChanged(object sender, EventArgs e) {
-            sArea().freq[0] = (byte) spinMornFreq.Value;
+        private void SpinMornFreq_ValueChanged(object sender, EventArgs e)
+        {
+            sArea().freq[0] = (byte)spinMornFreq.Value;
         }
-        private void spinDayFreq_ValueChanged(object sender, EventArgs e) {
+        private void SpinDayFreq_ValueChanged(object sender, EventArgs e)
+        {
             sArea().freq[1] = (byte)spinDayFreq.Value;
         }
-        private void spinNightFreq_ValueChanged(object sender, EventArgs e) {
+        private void SpinNightFreq_ValueChanged(object sender, EventArgs e)
+        {
             sArea().freq[2] = (byte)spinNightFreq.Value;
         }
-        
-        private void textPkmnMorn_TextChanged(object sender, EventArgs e) {
-            updatePkmnTbox(textPkmnMorn, 0);
+
+        private void TextPkmnMorn_TextChanged(object sender, EventArgs e)
+        {
+            UpdatePkmnTbox(textPkmnMorn, 0);
         }
-        private void textPkmnDay_TextChanged(object sender, EventArgs e) {
-            updatePkmnTbox(textPkmnDay, 1);
+        private void TextPkmnDay_TextChanged(object sender, EventArgs e)
+        {
+            UpdatePkmnTbox(textPkmnDay, 1);
         }
-        private void textPkmnNight_TextChanged(object sender, EventArgs e) {
-            updatePkmnTbox(textPkmnNight, 2);
+        private void TextPkmnNight_TextChanged(object sender, EventArgs e)
+        {
+            UpdatePkmnTbox(textPkmnNight, 2);
         }
-        private void updatePkmnTbox(TextBox tb, int time_i) {
-            if (tb.Focused && !pauseParsing) {//attempt to parse
+        private void UpdatePkmnTbox(TextBox tb, int time_i)
+        {
+            if (tb.Focused && !pauseParsing)
+            {//attempt to parse
                 int length = tb.Lines.Length;
-                if (length != sArea().slots()) {
-                    badParse(tb); return;
+                if (length != sArea().Slots())
+                {
+                    BadParse(tb); 
+                    return;
                 }
 
                 byte[] areaLevels = new byte[length];
                 byte[] areaSpecies = new byte[length];
 
-                for (int move_i = 0; move_i < length; move_i++) {
+                for (int move_i = 0; move_i < length; move_i++)
+                {
                     string[] areaStrs = tb.Lines[move_i].Split(SPLITING_CHAR);
 
-                    if (areaStrs.Length == 2) {
+                    if (areaStrs.Length == 2)
+                    {
                         byte i = 0;
-                        if (byte.TryParse(areaStrs[0], out i)) {
-                            areaLevels[move_i] = i;
-                        } else {
-                            badParse(tb); return;
+                        if (byte.TryParse(areaStrs[0], out i)) areaLevels[move_i] = i;
+                        else
+                        {
+                            BadParse(tb);
+                            return;
                         }
 
                         bool nameParsed = false;
-                        for (int pkmnName_i = 1; pkmnName_i <= offset[NUM_OF_PKMN_I]; pkmnName_i++) {
-                            if (pkmnNames[pkmnName_i] == areaStrs[1]) {
+                        for (int pkmnName_i = 1; pkmnName_i <= offset[NUM_OF_PKMN_I]; pkmnName_i++)
+                        {
+                            if (pkmnNames[pkmnName_i] == areaStrs[1])
+                            {
                                 areaSpecies[move_i] = (byte)pkmnName_i;
                                 nameParsed = true;
                             }
                         }
-                        if (!nameParsed) {
-                            badParse(tb); return;
+                        if (!nameParsed)
+                        {
+                            BadParse(tb);
+                            return;
                         }
-                    } else {
-                        badParse(tb); return;
+                    }
+                    else
+                    {
+                        BadParse(tb); 
+                        return;
                     }
                 }
 
                 //if parse failed/succeded, indicate with color
                 //if success, update movesets
                 tb.BackColor = System.Drawing.SystemColors.Window;
-                for (int slot_i = 0; slot_i < length; slot_i++) {
+                for (int slot_i = 0; slot_i < length; slot_i++)
+                {
                     sArea().levels[time_i, slot_i] = areaLevels[slot_i];
                     sArea().species[time_i, slot_i] = areaSpecies[slot_i];
                 }
-                enableWrite();
+                EnableWrite();
             }
         }
-        private void badParse(TextBox tb) {
+        private void BadParse(TextBox tb)
+        {
             tb.BackColor = System.Drawing.Color.FromArgb(255, 191, 191);
             saveROM_TSMI.Enabled = false;
         }
 
-        private void buttonAnalyze_Click(object sender, EventArgs e) {
+        private void ButtonAnalyze_Click(object sender, EventArgs e)
+        {
             // iterate through each List Area to count how often each pokemon shows up
             int[] rarity = new int[pkmnNames.Length];
             // select Johto or Kanto
             int minRegion = (sRegion_i() <= 1 ? 0 : 2);
             int maxRegion = (sRegion_i() <= 1 ? 1 : 3);
 
-            for (int region_i = minRegion; region_i <= maxRegion; region_i++) {
-                foreach (AreaWildData awd in areaList(region_i)) {
-                    foreach (int time_j in awd.timeRange()) {
-                        foreach (int slot_k in awd.slotRange()) {
-                            rarity[awd.species[time_j, slot_k]] += 
-                                awd.duration(slot_k)*awd.freq[time_j]*
+            for (int region_i = minRegion; region_i <= maxRegion; region_i++)
+            {
+                foreach (AreaWildData awd in AreaList(region_i))
+                {
+                    foreach (int time_j in awd.TimeRange())
+                    {
+                        foreach (int slot_k in awd.SlotRange())
+                        {
+                            rarity[awd.species[time_j, slot_k]] +=
+                                awd.Duration(slot_k) * awd.freq[time_j] *
                                 (awd.water ? 7 : 3);// weight because water routes have only 3 slots
                         }
                     }
@@ -348,11 +399,15 @@ namespace Gen2_Wild_Pkmn_Editor {
 
             List<SortingString> L_ss = new List<SortingString>();
             bool[] rarityPassed = new bool[pkmnNames.Length];
-            for (int pkName_i = 1; pkName_i < pkmnNames.Length; pkName_i++) {
+            for (int pkName_i = 1; pkName_i < pkmnNames.Length; pkName_i++)
+            {
                 // get rarity from evolutions
-                for (int evo_j = 1; evo_j < pkmnNames.Length; evo_j++) {
-                    foreach (EvoData ed in movesets.data[pkName_i].evoList) {
-                        if (ed.species == evo_j && !rarityPassed[evo_j]) {
+                for (int evo_j = 1; evo_j < pkmnNames.Length; evo_j++)
+                {
+                    foreach (EvoData ed in movesets.data[pkName_i].evoList)
+                    {
+                        if (ed.species == evo_j && !rarityPassed[evo_j])
+                        {
                             rarity[pkName_i] += rarity[evo_j];
                             rarityPassed[evo_j] = true;
                         }
@@ -361,9 +416,11 @@ namespace Gen2_Wild_Pkmn_Editor {
             }
             // do this seperately, second so that evos that precede their prevos
             // in pokedex order aren't counted as seperate families
-            for (int pkName_i = 1; pkName_i < pkmnNames.Length; pkName_i++) {
+            for (int pkName_i = 1; pkName_i < pkmnNames.Length; pkName_i++)
+            {
                 SortingString ss = new SortingString();
-                if (!rarityPassed[pkName_i]) {
+                if (!rarityPassed[pkName_i])
+                {
                     ss.sortValue = rarity[pkName_i];
                     ss.me = rarity[pkName_i].ToString("D6") + " - " + pkmnNames[pkName_i];
                     L_ss.Add(ss);
@@ -375,7 +432,7 @@ namespace Gen2_Wild_Pkmn_Editor {
         }
 
         #region AREA NAMES
-        private readonly string[] JL_AreaNames = { 
+        private readonly string[] JL_AreaNames = {
     "Sprout Tower 2","Sprout Tower 3", "Tin Tower 2","Tin Tower 3",
     "Tin Tower 4","Tin Tower 5","Tin Tower 6","Tin Tower 7",
     "Tin Tower 8","Tin Tower 9","Burned Tower 1","Burned Tower 2",
@@ -392,7 +449,7 @@ namespace Gen2_Wild_Pkmn_Editor {
     "Route 37","Route 38","Route 39","Route 42","Route 43","Route 44",
     "Route 45","Route 46","Silver Cave Outer"};
 
-        private readonly string[] JWGS_AreaNames = { 
+        private readonly string[] JWGS_AreaNames = {
     "Violet City","Union Cave 1","Union Cave 2","Union Cave 3",
     "Slowpoke Well 1","Slowpoke Well 2","Ilex Forest",
     "Mt. Mortar 1","Mt. Mortar 2","Mt. Mortar 4",
@@ -404,7 +461,7 @@ namespace Gen2_Wild_Pkmn_Editor {
     "Olivine City","Ecruteak City","Lake of Rage","Blackthorn City",
     "Silver Cave","Olivine City Dock" };
 
-        private readonly string[] JWC_AreaNames = { 
+        private readonly string[] JWC_AreaNames = {
     "Ruins of Alph Outer","Union Cave 1","Union Cave B1","Union Cave B2",
     "Slowpoke Well B1","Slowpoke Well B2","Ilex Forest","Mt. Mortar 1",
     "Mt. Mortar 3","Mt. Mortar 4","Whirl Islands 3","Whirl Islands 7",
@@ -423,7 +480,7 @@ namespace Gen2_Wild_Pkmn_Editor {
     "Route 21","Route 22","Route 24","Route 25","Route 26","Route 27",
     "Route 28" };
 
-        private readonly string[] KWGS_AreaNames = { 
+        private readonly string[] KWGS_AreaNames = {
     "Route 4","Route 6","Route 9","Route 10","Route 12","Route 13","Route 19",
     "Route 20","Route 21","Route 22","Route 24","Route 25","Route 26","Route 27",
     "Tohjo Falls","Route 28","Pallet Town","Viridian City","Cerulean City",
@@ -437,65 +494,63 @@ namespace Gen2_Wild_Pkmn_Editor {
     "Pallet Town","Viridian City","Cerulean City","Vermillion City",
     "Celadon City","Fuchsia City","Cinnabar Island" };
 
-        private readonly string[] SwGS_AreaNames = { 
+        private readonly string[] SwGS_AreaNames = {
     "Route 35","Route 38","Dark Cave","Mt. Mortar" };
-        private readonly string[] SwC_AreaNames = { 
+        private readonly string[] SwC_AreaNames = {
     "Dark Cave","Route 35" };
         #endregion
 
-        private void updateComboArea() {
+        private void UpdateComboArea()
+        {
             // clear area name list
             // fill with names
             comboArea.Items.Clear();
 
             string[] defaultNames = new string[0];
-            if (sRegion_i() == 0) { // JohtoLand
-                defaultNames = JL_AreaNames;
-            } else if (sRegion_i() == 1) { // JohtoWater
-                if (comboVersion.SelectedIndex == 0) { // Crystal
-                    defaultNames = JWC_AreaNames;
-                } else if (comboVersion.SelectedIndex == 1) { // Gold/Silver
-                    defaultNames = JWGS_AreaNames;
-                }
-            } else if (sRegion_i() == 2) { // KantoLand
-                defaultNames = KL_AreaNames;
-            } else if (sRegion_i() == 3) { // KantoWater
-                if (comboVersion.SelectedIndex == 0) {
-                    defaultNames = KWC_AreaNames;
-                } else if (comboVersion.SelectedIndex == 1) {
-                    defaultNames = KWGS_AreaNames;
-                }
-            } else if (sRegion_i() == 4) { // Swarm
-                if (comboVersion.SelectedIndex == 0) {
-                    defaultNames = SwC_AreaNames;
-                } else if (comboVersion.SelectedIndex == 1) {
-                    defaultNames = SwGS_AreaNames;
-                }
+            if (sRegion_i() == 0) defaultNames = JL_AreaNames; // JohtoLand
+            else if (sRegion_i() == 1) // JohtoWater
+            { 
+                if (comboVersion.SelectedIndex == 0) defaultNames = JWC_AreaNames; // Crystal
+                else if (comboVersion.SelectedIndex == 1) defaultNames = JWGS_AreaNames; // Gold/Silver
+            }
+            else if (sRegion_i() == 2) defaultNames = KL_AreaNames; // KantoLand
+            else if (sRegion_i() == 3) // KantoWater
+            { 
+                if (comboVersion.SelectedIndex == 0) defaultNames = KWC_AreaNames;
+                else if (comboVersion.SelectedIndex == 1) defaultNames = KWGS_AreaNames;
+            }
+            else if (sRegion_i() == 4) // Swarm
+            { 
+                if (comboVersion.SelectedIndex == 0) defaultNames = SwC_AreaNames;
+                else if (comboVersion.SelectedIndex == 1) defaultNames = SwGS_AreaNames;
             }
 
-            for (int area_i = 0; area_i < sList().Count; area_i++) {
-                if (area_i < defaultNames.Length) {
-                    comboArea.Items.Add(defaultNames[area_i]);
-                } else {
-                    comboArea.Items.Add(area_i.ToString("X3"));
-                }
+            for (int area_i = 0; area_i < sList().Count; area_i++)
+            {
+                if (area_i < defaultNames.Length) comboArea.Items.Add(defaultNames[area_i]);
+                else comboArea.Items.Add(area_i.ToString("X3"));
             }
         }
 
-        private void comboVersion_SelectedIndexChanged(object sender, EventArgs e) {
-            updateComboArea();
+        private void ComboVersion_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            UpdateComboArea();
         }
 
-        private void changeLevels(int deltaLevel, int time_i) {
-            foreach (int slot_j in sArea().slotRange()){
-                sArea().levels[time_i, slot_j] = (byte)(deltaLevel 
+        private void ChangeLevels(int deltaLevel, int time_i)
+        {
+            foreach (int slot_j in sArea().SlotRange())
+            {
+                sArea().levels[time_i, slot_j] = (byte)(deltaLevel
                     + sArea().levels[time_i, slot_j]); // awkward, but can't pass -1 as a byte
             }
-            updateAreaTime(time_i);
+            UpdateAreaTime(time_i);
         }
 
-        private Button buttonLevel(int inc_i, int time_j) {
-            switch (inc_i + 2*time_j) {
+        private Button ButtonLevel(int inc_i, int time_j)
+        {
+            switch (inc_i + 2 * time_j)
+            {
                 default: return buttonIncLevelsMorn;
                 case 1: return buttonDecLevelsMorn;
                 case 2: return buttonIncLevelsDay;
@@ -504,23 +559,29 @@ namespace Gen2_Wild_Pkmn_Editor {
                 case 5: return buttonDecLevelsNight;
             }
         }
-        private void buttonIncLevelsMorn_Click(object sender, EventArgs e) {
-            changeLevels(1, 0);
+        private void ButtonIncLevelsMorn_Click(object sender, EventArgs e)
+        {
+            ChangeLevels(1, 0);
         }
-        private void buttonDecLevelsMorn_Click(object sender, EventArgs e) {
-            changeLevels(-1, 0);
+        private void ButtonDecLevelsMorn_Click(object sender, EventArgs e)
+        {
+            ChangeLevels(-1, 0);
         }
-        private void buttonIncLevelsDay_Click(object sender, EventArgs e) {
-            changeLevels(1, 1);
+        private void ButtonIncLevelsDay_Click(object sender, EventArgs e)
+        {
+            ChangeLevels(1, 1);
         }
-        private void buttonDecLevelsDay_Click(object sender, EventArgs e) {
-            changeLevels(-1, 1);
+        private void ButtonDecLevelsDay_Click(object sender, EventArgs e)
+        {
+            ChangeLevels(-1, 1);
         }
-        private void buttonIncLevelsNight_Click(object sender, EventArgs e) {
-            changeLevels(1, 2);
+        private void ButtonIncLevelsNight_Click(object sender, EventArgs e)
+        {
+            ChangeLevels(1, 2);
         }
-        private void buttonDecLevelsNight_Click(object sender, EventArgs e) {
-            changeLevels(-1, 2);
+        private void ButtonDecLevelsNight_Click(object sender, EventArgs e)
+        {
+            ChangeLevels(-1, 2);
         }
     }
 }

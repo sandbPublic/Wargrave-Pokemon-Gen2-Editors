@@ -103,7 +103,7 @@
             0,
             0,
             0});
-            this.spinItemID.ValueChanged += new System.EventHandler(this.spinItemID_ValueChanged);
+            this.spinItemID.ValueChanged += new System.EventHandler(this.SpinItemID_ValueChanged);
             // 
             // tboxName
             // 
@@ -112,7 +112,7 @@
             this.tboxName.Name = "tboxName";
             this.tboxName.Size = new System.Drawing.Size(139, 29);
             this.tboxName.TabIndex = 36;
-            this.tboxName.TextChanged += new System.EventHandler(this.tboxName_TextChanged);
+            this.tboxName.TextChanged += new System.EventHandler(this.TboxName_TextChanged);
             // 
             // tboxDesc
             // 
@@ -122,7 +122,7 @@
             this.tboxDesc.Name = "tboxDesc";
             this.tboxDesc.Size = new System.Drawing.Size(253, 55);
             this.tboxDesc.TabIndex = 37;
-            this.tboxDesc.TextChanged += new System.EventHandler(this.tboxDesc_TextChanged);
+            this.tboxDesc.TextChanged += new System.EventHandler(this.TboxDesc_TextChanged);
             // 
             // grBoxCost
             // 
@@ -147,7 +147,7 @@
             this.spinCost.Size = new System.Drawing.Size(76, 29);
             this.spinCost.TabIndex = 0;
             this.spinCost.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.spinCost.ValueChanged += new System.EventHandler(this.spinCost_ValueChanged);
+            this.spinCost.ValueChanged += new System.EventHandler(this.SpinCost_ValueChanged);
             // 
             // grBoxByte2
             // 
@@ -174,7 +174,7 @@
             this.spinHeldItemID.Size = new System.Drawing.Size(43, 29);
             this.spinHeldItemID.TabIndex = 0;
             this.spinHeldItemID.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.spinHeldItemID.ValueChanged += new System.EventHandler(this.spinHeldItemID_ValueChanged);
+            this.spinHeldItemID.ValueChanged += new System.EventHandler(this.SpinHeldItemID_ValueChanged);
             // 
             // grBoxParam
             // 
@@ -200,7 +200,7 @@
             this.spinParam.Size = new System.Drawing.Size(43, 29);
             this.spinParam.TabIndex = 0;
             this.spinParam.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.spinParam.ValueChanged += new System.EventHandler(this.spinParam_ValueChanged);
+            this.spinParam.ValueChanged += new System.EventHandler(this.SpinParam_ValueChanged);
             // 
             // grBoxUR
             // 
@@ -229,7 +229,7 @@
             this.cboxUseRestriction.Size = new System.Drawing.Size(266, 29);
             this.cboxUseRestriction.TabIndex = 1;
             this.cboxUseRestriction.Text = "Out of battle on Pkmn";
-            this.cboxUseRestriction.SelectedIndexChanged += new System.EventHandler(this.cboxUseRestriction_SelectedIndexChanged);
+            this.cboxUseRestriction.SelectedIndexChanged += new System.EventHandler(this.CboxUseRestriction_SelectedIndexChanged);
             // 
             // grBoxPocket
             // 
@@ -254,7 +254,7 @@
             this.cboxPocket.Name = "cboxPocket";
             this.cboxPocket.Size = new System.Drawing.Size(76, 29);
             this.cboxPocket.TabIndex = 0;
-            this.cboxPocket.SelectedIndexChanged += new System.EventHandler(this.cboxPocket_SelectedIndexChanged);
+            this.cboxPocket.SelectedIndexChanged += new System.EventHandler(this.CboxPocket_SelectedIndexChanged);
             // 
             // grBoxFlag
             // 
@@ -280,7 +280,7 @@
             this.cboxFlagtext.Size = new System.Drawing.Size(243, 29);
             this.cboxFlagtext.TabIndex = 1;
             this.cboxFlagtext.Text = "00 Use Give Sel Toss";
-            this.cboxFlagtext.SelectedIndexChanged += new System.EventHandler(this.cboxFlagtext_SelectedIndexChanged);
+            this.cboxFlagtext.SelectedIndexChanged += new System.EventHandler(this.CboxFlagtext_SelectedIndexChanged);
             // 
             // gboxASM
             // 
@@ -306,7 +306,7 @@
             this.spinASM.Size = new System.Drawing.Size(74, 29);
             this.spinASM.TabIndex = 0;
             this.spinASM.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.spinASM.ValueChanged += new System.EventHandler(this.spinASM_ValueChanged);
+            this.spinASM.ValueChanged += new System.EventHandler(this.SpinASM_ValueChanged);
             // 
             // ItemEditor
             // 

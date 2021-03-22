@@ -2,7 +2,8 @@
 using System.Linq; // Enumerable
 using System; // Convert
 
-namespace Editor_Base_Class {
+namespace Editor_Base_Class
+{
 
     /// <summary>
     /// two bytes and ROM bank;
@@ -10,20 +11,23 @@ namespace Editor_Base_Class {
     /// implicitly converts to/from int;
     /// immutable;
     /// </summary>
-    public class gbcPtr {
+    public class GbcPtr
+    {
         public readonly byte X;
         // first in order
         public readonly byte Y;
         public readonly int ROMbank;
 
-        public gbcPtr(byte Xb, byte Yb, int positon) {
+        public GbcPtr(byte Xb, byte Yb, int positon)
+        {
             ROMbank = (int)(positon & ~0x3FFF);
             // banks start each 0x4000 bytes so 0x3FFF bits should be zeroed
             X = Xb;
             Y = Yb;
         }
 
-        public gbcPtr(int absolutePtr) {
+        public GbcPtr(int absolutePtr)
+        {
             int pointerGBC = absolutePtr & 0x3FFF; // truncation to bank
             // using % doesn't work for "negative" numbers?
             X = (byte)pointerGBC; // truncate for lower byte
@@ -34,21 +38,23 @@ namespace Editor_Base_Class {
         }
 
         // absolute ptr
-        public static implicit operator int(gbcPtr ptr) {
+        public static implicit operator int(GbcPtr ptr)
+        {
             return ptr.ROMbank + (ptr.Y % 0x40) * 0x100 + ptr.X;
         }
 
-        public static implicit operator gbcPtr(int absolutePtr) {
-            return new gbcPtr(absolutePtr);
+        public static implicit operator GbcPtr(int absolutePtr)
+        {
+            return new GbcPtr(absolutePtr);
         }
     }
 
-    public interface IData {
-        int length();
-        //write to file
-        void readFromFile(ROM_FileStream ROM_File, string pushFrontWith = "",
+    public interface IData
+    {
+        int Length();
+        void ReadFromFile(ROM_FileStream ROM_File, string pushFrontWith = "",
             int maxEndPtr = 0, bool lastClass = false); // for DBTrainerList
-        void writeToFile(ROM_FileStream ROM_File);
+        void WriteToFile(ROM_FileStream ROM_File);
     }
 
     /// <summary>
@@ -56,71 +62,85 @@ namespace Editor_Base_Class {
     /// it can parametrize a DataBlock
     /// implicitly converts to and from string
     /// </summary>
-    public class DBString : IData{
+    public class DBString : IData
+    {
         public string me;
-        public DBString(string s) {me = s;}
-        
-        public static implicit operator string(DBString dbs) {
+        public DBString(string s) { me = s; }
+
+        public static implicit operator string(DBString dbs)
+        {
             if (dbs == null) return null;
             return dbs.me;
         }
-        public static implicit operator DBString(string s) {return new DBString(s);}
+        public static implicit operator DBString(string s) { return new DBString(s); }
 
-        public int length() { return me.Length + 1; } // +1 for null terminator
-        public void readFromFile(ROM_FileStream ROM_File, string pushFrontWith = "",
-            int maxEndPtr = 0, bool lastClass = false) {
-
-            me = pushFrontWith + ROM_File.pkmnReadString();
+        public int Length() { return me.Length + 1; } // +1 for null terminator
+        public void ReadFromFile(ROM_FileStream ROM_File, string pushFrontWith = "",
+            int maxEndPtr = 0, bool lastClass = false)
+        {
+            me = pushFrontWith + ROM_File.PkmnReadString();
         }
-        public void writeToFile(ROM_FileStream ROM_File) {
-            ROM_File.pkmnWriteString(me);
+        public void WriteToFile(ROM_FileStream ROM_File)
+        {
+            ROM_File.PkmnWriteString(me);
         }
     }
 
-    public class EvoData {
+    public class EvoData
+    {
         public byte method; // eg level up, trade
         public byte param; // eg level, item ID
         public byte DVparam; // for tyrogue
         public byte species;
 
-        public bool tyrogue() {
+        public bool IsTyrogueEvoMethod()
+        {
             return method == 5;
         }
     }
 
     // level up move
-    public class LearnData {
+    public class LearnData
+    {
         public byte level;
         public byte move;
     }
 
-    public class EvoAndLearnset : IData {
+    public class EvoAndLearnset : IData
+    {
         public List<EvoData> evoList;
         public List<LearnData> learnList;
 
-        public EvoAndLearnset() {
+        public EvoAndLearnset()
+        {
             evoList = new List<EvoData>();
             learnList = new List<LearnData>();
         }
 
-        public int length() {
+        public int Length()
+        {
+            // TODO multiply evoList.Count, inc for Tyrogue in loop only?
             int ret = learnList.Count * 2 + 1; // learnData terminator
-            foreach (EvoData eD in evoList) {
-                ret += (eD.tyrogue() ? 4 : 3);
+            foreach (EvoData eD in evoList)
+            {
+                ret += (eD.IsTyrogueEvoMethod() ? 4 : 3);
             }
             return ret + 1; // evoData terminator
         }
 
-        public void readFromFile(ROM_FileStream ROM_File, string pushFrontWith = "",
-            int maxEndPtr = 0, bool lastClass = false) {
+        public void ReadFromFile(ROM_FileStream ROM_File, string pushFrontWith = "",
+            int maxEndPtr = 0, bool lastClass = false)
+        {
 
             byte currByte = (byte)ROM_File.ReadByte();
-            while (currByte != 0) {
-                EvoData eD = new EvoData();
-
-                eD.method = currByte;
-                eD.param = (byte)ROM_File.ReadByte();
-                if (eD.tyrogue()) eD.DVparam = (byte)ROM_File.ReadByte();
+            while (currByte != 0)
+            {
+                EvoData eD = new EvoData
+                {
+                    method = currByte,
+                    param = (byte)ROM_File.ReadByte()
+                };
+                if (eD.IsTyrogueEvoMethod()) eD.DVparam = (byte)ROM_File.ReadByte();
                 eD.species = (byte)ROM_File.ReadByte();
                 currByte = (byte)ROM_File.ReadByte();
 
@@ -128,26 +148,31 @@ namespace Editor_Base_Class {
             }
 
             currByte = (byte)ROM_File.ReadByte();
-            while (currByte != 0) {
-                LearnData lD = new LearnData();
-
-                lD.level = currByte;
-                lD.move = (byte)ROM_File.ReadByte();
+            while (currByte != 0)
+            {
+                LearnData lD = new LearnData
+                {
+                    level = currByte,
+                    move = (byte)ROM_File.ReadByte()
+                };
                 currByte = (byte)ROM_File.ReadByte();
 
                 learnList.Add(lD);
             }
         }
 
-        public void writeToFile(ROM_FileStream ROM_File) {
-            foreach (EvoData eD in evoList) {
+        public void WriteToFile(ROM_FileStream ROM_File)
+        {
+            foreach (EvoData eD in evoList)
+            {
                 ROM_File.WriteByte(eD.method);
                 ROM_File.WriteByte(eD.param);
-                if (eD.tyrogue()) ROM_File.WriteByte(eD.DVparam);
+                if (eD.IsTyrogueEvoMethod()) ROM_File.WriteByte(eD.DVparam);
                 ROM_File.WriteByte(eD.species);
             }
             ROM_File.WriteByte(0);
-            foreach (LearnData lD in learnList) {
+            foreach (LearnData lD in learnList)
+            {
                 ROM_File.WriteByte(lD.level);
                 ROM_File.WriteByte(lD.move);
             }
@@ -156,14 +181,16 @@ namespace Editor_Base_Class {
     }
 
     // a pokemon in a team
-    public class TeamMember {
+    public class TeamMember
+    {
         public byte level;
         public byte species;
         public byte item;
         public byte[] moves = new byte[4];
     }
 
-    public class Trainer {
+    public class Trainer
+    {
         public string name;
         // first byte: 00 normal 01 moves 02 item 03 moves and item
         public bool hasItems;
@@ -171,66 +198,76 @@ namespace Editor_Base_Class {
 
         public List<TeamMember> team = new List<TeamMember>();
 
-        public int bytesUsed() {
+        public int BytesUsed()
+        {
             return name.Length + 1 // name terminator
                 + 1 // category 
                 + team.Count * (2 + (hasMoves ? 4 : 0) + (hasItems ? 1 : 0))
                 + 1; // team terminator
         }
 
-        public bool valid() {
+        public bool IsValid()
+        {
             return team.Count <= 6 && name != ROM_FileStream.INVALID_STRING;
         }
     };
 
-    public class DBTrainerList : IData {
+    public class DBTrainerList : IData
+    {
         public List<Trainer> LT;
 
-        public DBTrainerList() {
+        public DBTrainerList()
+        {
             LT = new List<Trainer>();
         }
 
-        public int length() {
+        public int Length()
+        {
             int ret = 0;
-            foreach (Trainer t in LT) ret += t.bytesUsed();
+            foreach (Trainer t in LT) ret += t.BytesUsed();
             return ret;
         }
 
-        public void readFromFile(ROM_FileStream ROM_File, string pushFrontWith = "",
-            int maxEndPtr = 0, bool lastClass = false) {
-
-            if (!lastClass) {
-                while (ROM_File.Position < maxEndPtr) {
-                    Trainer Tr = ROM_File.readTrainer();
-                    if (Tr.valid() && ROM_File.Position <= maxEndPtr) {
-                        LT.Add(Tr);
-                    }
+        public void ReadFromFile(ROM_FileStream ROM_File, string pushFrontWith = "",
+            int maxEndPtr = 0, bool lastClass = false) //TODO last class should be called final class ? ("last" ambiguous with previous)
+        {
+            if (!lastClass)
+            {
+                while (ROM_File.Position < maxEndPtr)
+                {
+                    Trainer Tr = ROM_File.ReadTrainer();
+                    if (Tr.IsValid() && ROM_File.Position <= maxEndPtr) LT.Add(Tr);
                 }
-            } else { // last class, end when first byte of expected name is 0
-                while (ROM_File.ReadByte() != 0) {
+            }
+            else
+            { // last class, end when first byte of expected name is 0
+                while (ROM_File.ReadByte() != 0)
+                {
                     ROM_File.Position--;
-                    Trainer Tr = ROM_File.readTrainer();
-                    if (Tr.valid() && ROM_File.Position <= maxEndPtr) {
-                        LT.Add(Tr);
-                    }
+                    Trainer Tr = ROM_File.ReadTrainer();
+                    if (Tr.IsValid() && ROM_File.Position <= maxEndPtr) LT.Add(Tr);
                 }
             }
         }
 
-        public void writeToFile(ROM_FileStream ROM_File) {
-            foreach (Trainer Tr in LT) {
-                ROM_File.pkmnWriteString(Tr.name);
+        public void WriteToFile(ROM_FileStream ROM_File)
+        {
+            foreach (Trainer Tr in LT)
+            {
+                ROM_File.PkmnWriteString(Tr.name);
 
                 byte category = 0;
                 if (Tr.hasItems) category += 2;
                 if (Tr.hasMoves) category++;
                 ROM_File.WriteByte(category);
 
-                foreach (TeamMember TM in Tr.team) {
+                foreach (TeamMember TM in Tr.team)
+                {
                     ROM_File.WriteByte(TM.level);
                     ROM_File.WriteByte(TM.species);
                     if (Tr.hasItems) ROM_File.WriteByte(TM.item);
-                    if (Tr.hasMoves) {
+                    if (Tr.hasMoves)
+                    {
                         ROM_File.WriteByte(TM.moves[0]);
                         ROM_File.WriteByte(TM.moves[1]);
                         ROM_File.WriteByte(TM.moves[2]);
@@ -247,7 +284,8 @@ namespace Editor_Base_Class {
     /// <summary>
     /// Animation instruction for battles
     /// </summary>
-    public class AnimeInstr {
+    public class AnimeInstr
+    {
         /*
         XX wait, XX < D0?
         D0 obj  (4)
@@ -282,18 +320,22 @@ namespace Editor_Base_Class {
          * */
         public byte opCode;
         public List<byte> parameters;
-        public gbcPtr ptr;
+        public GbcPtr ptr;
 
-        public AnimeInstr() {
+        public AnimeInstr()
+        {
             parameters = new List<byte>();
         }
 
-        public int size() {
+        public int BytesUsed()
+        {
             return 1 + parameters.Count + (ptr == null ? 0 : 2);
         }
 
-        public int expectedParameters() {
-            switch (opCode) {
+        public int ExpectedParameters()
+        {
+            switch (opCode)
+            {
                 case 0xD1: // 1gfx
                 case 0xD6: // inc
                 case 0xD8: // +bgx
@@ -304,26 +346,27 @@ namespace Editor_Base_Class {
                 case 0xF9: // var=
                 case 0xFB: // jpVr
                 case 0xFD: // loop
-                    return 1; 
+                    return 1;
 
                 case 0xD2: // 2gfx
                 case 0xD7: // set
                 case 0xE0: // sfx
-                    return 2; 
+                    return 2;
 
                 case 0xD3: // 3gfx
                     return 3;
 
                 case 0xD0: // obj
                 case 0xF0: // bgfx
-                    return 4; 
+                    return 4;
 
                 default:
                     return 0;
             }
         }
 
-        public bool expectedPtr() {
+        public bool IsPtrExpected()
+        {
             return (opCode == 0xEE // jmp&
                 || opCode == 0xEF // jTil
                 || opCode == 0xF8 // jpIf
@@ -331,24 +374,29 @@ namespace Editor_Base_Class {
                 || opCode == 0xFC // jump
                 || opCode == 0xFD // loop
                 || opCode == 0xFE // call
-                ); 
+                );
         }
 
-        public string byteString() {
+        public string ByteString()
+        {
             string ret = opCode.ToString("X2") + " ";
-            foreach (byte b in parameters) {
+            foreach (byte b in parameters)
+            {
                 ret += b.ToString("X2") + " ";
             }
-            if (ptr != null) {
+            if (ptr != null)
+            {
                 ret += ptr.X.ToString("X2") + " ";
                 ret += ptr.Y.ToString("X2") + " ";
             }
             return ret.Trim();
         }
 
-        public string codeString() {
+        public string CodeString()
+        {
             string ret = "";
-            switch (opCode) {
+            switch (opCode)
+            {
                 case 0xD0: ret += "obj  "; break;
                 case 0xD1: ret += "1gFx "; break;
                 case 0xD2: ret += "2gFx "; break;
@@ -378,81 +426,98 @@ namespace Editor_Base_Class {
                 case 0xFD: ret += "loop "; break;
                 case 0xFE: ret += "call "; break;
                 case 0xFF: ret += "RETURN"; break;
-                default: ret += (opCode < 0xD0 ? "wait " : "???? ") 
-                    + opCode.ToString("X2"); break; 
+                default:
+                    ret += (opCode < 0xD0 ? "wait " : "???? ")
+               + opCode.ToString("X2"); break;
             }
-            foreach (byte b in parameters) {
+            foreach (byte b in parameters)
+            {
                 ret += b.ToString("X2") + " ";
             }
-            if (ptr != null) {
+            if (ptr != null)
+            {
                 ret += (ptr % 0x10000).ToString("X");
             }
             return ret.Trim();
         }
     }
 
-    public class AnimationCode : IData {
+    public class AnimationCode : IData
+    {
         public List<AnimeInstr> me;
         public List<AnimationCode> jumps;
         public long startAddr;
 
-        public AnimationCode() {
+        public AnimationCode()
+        {
             me = new List<AnimeInstr>();
         }
 
-        public int length() {
+        public int Length()
+        {
             int ret = 0;
-            foreach (AnimeInstr AI in me) ret += AI.size();
+            foreach (AnimeInstr AI in me) ret += AI.BytesUsed();
             return ret;
         }
 
-        public void readParams(ref AnimeInstr AI, ROM_FileStream ROM_File) {
-            for (int byte_i = 0; byte_i < AI.expectedParameters(); byte_i++) {
+        public void ReadParams(ref AnimeInstr AI, ROM_FileStream ROM_File)
+        {
+            for (int byte_i = 0; byte_i < AI.ExpectedParameters(); byte_i++)
+            {
                 AI.parameters.Add((byte)ROM_File.ReadByte());
             }
         }
 
-        public void readFromFile(ROM_FileStream ROM_File, string pushFrontWith = "",
-            int maxEndPtr = 0, bool lastClass = false) {
+        public void ReadFromFile(ROM_FileStream ROM_File, string pushFrontWith = "",
+            int maxEndPtr = 0, bool lastClass = false)
+        {
 
-            readFromFileRecursive(ROM_File, new List<long>());
+            ReadFromFileRecursive(ROM_File, new List<long>());
         }
 
-        public void readFromFileRecursive(ROM_FileStream ROM_File, List<long> triedAddresses) {
+        public void ReadFromFileRecursive(ROM_FileStream ROM_File, List<long> triedAddresses)
+        {
             startAddr = ROM_File.Position;
             triedAddresses.Add(startAddr);
 
             byte currByte = 0;
-            while (currByte != 0xFF) {
+            while (currByte != 0xFF)
+            {
                 AnimeInstr aI = new AnimeInstr();
                 currByte = (byte)ROM_File.ReadByte();
                 aI.opCode = currByte;
-                readParams(ref aI, ROM_File);
-                if (aI.expectedPtr()) aI.ptr = ROM_File.readGBCPtr();
+                ReadParams(ref aI, ROM_File);
+                if (aI.IsPtrExpected()) aI.ptr = ROM_File.ReadGBCPtr();
                 me.Add(aI);
             }
 
             // recursively fill out everything jumped to
             jumps = new List<AnimationCode>();
-            foreach (AnimeInstr aI in me) {
-                if (aI.ptr != null) {
+            foreach (AnimeInstr aI in me)
+            {
+                if (aI.ptr != null)
+                {
                     // not internal loop
-                    if (aI.ptr < startAddr || aI.ptr >= startAddr + length()) { 
+                    if (aI.ptr < startAddr || aI.ptr >= startAddr + Length())
+                    {
                         // not already tried
                         bool tried = false;
-                        foreach (long addr in triedAddresses) {
+                        foreach (long addr in triedAddresses)
+                        {
                             if (addr == aI.ptr) tried = true;
                         }
 
-                        if (!tried) {
+                        if (!tried)
+                        {
                             ROM_File.Position = aI.ptr;
                             List<long> triedAddresses2 = new List<long>();
-                            foreach (long l in triedAddresses) {
+                            foreach (long l in triedAddresses)
+                            {
                                 triedAddresses2.Add(l);
                             }
 
                             AnimationCode jump = new AnimationCode();
-                            jump.readFromFileRecursive(ROM_File, triedAddresses2);
+                            jump.ReadFromFileRecursive(ROM_File, triedAddresses2);
                             jumps.Add(jump);
                         }
                     }
@@ -460,41 +525,45 @@ namespace Editor_Base_Class {
             }
         }
 
-        public void writeToFile(ROM_FileStream ROM_File) {
-            foreach (AnimeInstr aI in me) {
+        public void WriteToFile(ROM_FileStream ROM_File)
+        {
+            foreach (AnimeInstr aI in me)
+            {
                 ROM_File.WriteByte(aI.opCode);
-                foreach (byte b in aI.parameters) {
-                    ROM_File.WriteByte(b);
-                }
-                if (aI.expectedPtr()) {
-                    ROM_File.writeLocalGBCPtr(aI.ptr);
-                }
+                foreach (byte b in aI.parameters) ROM_File.WriteByte(b);
+                if (aI.IsPtrExpected()) ROM_File.WriteLocalGBCPtr(aI.ptr);
             }
         }
     }
 
-    public class AreaWildData {
-          // data stored as such in rom at pointed locations:
- // five header bytes: Bank NUm m,d,n freq
- // 2*7*3=42 data bytes, level+species 2, seven slots 14, three times 42
+    public class AreaWildData
+    {
+        // data stored as such in rom at pointed locations:
+        // five header bytes: Bank NUm m,d,n freq
+        // 2*7*3=42 data bytes, level+species 2, seven slots 14, three times 42
 
         public static int MORN = 0, DAY = 1, NIGHT = 2;
 
         public bool water;
-        public IEnumerable<int> timeRange() {
-            return Enumerable.Range(0, times());
+        public IEnumerable<int> TimeRange()
+        {
+            return Enumerable.Range(0, Times());
         }
-        public int times() {
+        public int Times()
+        {
             return water ? 1 : 3;
         }
-        public IEnumerable<int> slotRange() {
-            return Enumerable.Range(0, slots());
+        public IEnumerable<int> SlotRange()
+        {
+            return Enumerable.Range(0, Slots());
         }
-        public int slots() {
+        public int Slots()
+        {
             return water ? 3 : 7;
         }
 
-        public int duration(int slot_i) {
+        public int Duration(int slot_i)
+        {
             if (water) return 12;
             if (slot_i == MORN) return 3; // 4 to 10
             if (slot_i == DAY) return 4; // 10 to 18
@@ -507,19 +576,21 @@ namespace Editor_Base_Class {
         public byte[,] levels;
         public byte[,] species;
 
-        public AreaWildData(bool wtr = false) {
+        public AreaWildData(bool wtr = false)
+        {
             water = wtr;
 
-            freq = new byte[times()];
-            levels = new byte[times(), slots()];
-            species = new byte[times(), slots()];
+            freq = new byte[Times()];
+            levels = new byte[Times(), Slots()];
+            species = new byte[Times(), Slots()];
         }
     }
 
     // class for data blocks in ROM that store variable # of bytes
     // may contain pointer table
     // if so, may contain discontiguous data entries
-    public class DataBlock<T> where T : IData{
+    public class DataBlock<T> where T : IData
+    {
         private readonly int startOffset;
         public readonly int endOffset;
 
@@ -528,16 +599,16 @@ namespace Editor_Base_Class {
         private readonly bool hasPtrs;
 
         public T[] data;
-        public gbcPtr[] ptrs;
+        public GbcPtr[] ptrs;
 
         /// <summary>
         /// if data at index is not contiguous with prior data/ptr table, return true
         /// </summary>
         public bool[] discontigAt;
 
-        public DataBlock(int offStart, int offEnd, bool ptrTable = false, 
-            int end = 0xFF, int start = 1) {
-
+        public DataBlock(int offStart, int offEnd, bool ptrTable = false,
+            int end = 0xFF, int start = 1)
+        {
             startOffset = offStart;
             endOffset = offEnd;
             start_i = start;
@@ -546,57 +617,72 @@ namespace Editor_Base_Class {
 
             data = new T[end_i + 1];
 
-            for (int data_i = start_i; data_i <= end_i; data_i++) {
-                constructDataAt(data_i);// initialize here so data will never be null after creation
+            for (int data_i = start_i; data_i <= end_i; data_i++)
+            {
+                ConstructDataAt(data_i); // initialize here so data will never be null after creation
             }
 
-            if (hasPtrs) {
-                ptrs = new gbcPtr[end_i + 2];
+            if (hasPtrs)
+            {
+                ptrs = new GbcPtr[end_i + 2];
                 ptrs[end_i + 1] = endOffset;
                 discontigAt = new bool[end_i + 2]; // last is if final T is "contig" with end
             }
         }
 
-        public IEnumerable<int> range() {
+        public IEnumerable<int> Range()
+        {
             return Enumerable.Range(start_i, end_i - start_i + 1);
         }
 
-        public void constructDataAt(int index){
-            if (data is DBString[]) {
+        public void ConstructDataAt(int index)
+        {
+            if (data is DBString[])
+            {
                 data[index] = (T)Convert.ChangeType(new DBString(""), typeof(T));
-            } else if (data is EvoAndLearnset[]) {
+            }
+            else if (data is EvoAndLearnset[])
+            {
                 data[index] = (T)Convert.ChangeType(new EvoAndLearnset(), typeof(T));
-            } else if (data is DBTrainerList[]) {
+            }
+            else if (data is DBTrainerList[])
+            {
                 data[index] = (T)Convert.ChangeType(new DBTrainerList(), typeof(T));
-            } else if (data is AnimationCode[]) {
+            }
+            else if (data is AnimationCode[])
+            {
                 data[index] = (T)Convert.ChangeType(new AnimationCode(), typeof(T));
-            } 
+            }
         }
 
-        public int endPtr(int index) {
-            if (index == start_i - 1) 
+        public int EndPtr(int index)
+        {
+            if (index == start_i - 1)
                 return startOffset + 2 * (end_i - start_i + 1); // end of table
 
-            return ptrs[index] + data[index].length();
+            return ptrs[index] + data[index].Length();
         }
 
         /// <summary>
         /// return ptr[index+1] if contiguous, or search if not
-        /// will return pointer with is STRICTLY greater
+        /// will return pointer which is STRICTLY greater
         /// relevant for e.g. PKMON PROF. and ELITE FOUR (WILL)
         /// </summary>
         /// <param name="index"></param>
         /// <returns></returns>
-        public int maxEndPtr(int index) {
-            if (hasPtrs) {
-                if (!discontigAt[index + 1]) {
-                    return ptrs[index + 1];
-                }
+        public int MaxEndPtr(int index)
+        {
+            if (hasPtrs)
+            {
+                if (!discontigAt[index + 1]) return ptrs[index + 1];
+
                 // search for min which is larger than ptrs[index]
                 // <= to allow for empty structures? e.g. empty trainer list
                 int end = endOffset;
-                for (int ptr_i = start_i; ptr_i <= end_i; ptr_i++) {
-                    if (ptrs[index] < ptrs[ptr_i] && ptrs[ptr_i] < end) {
+                for (int ptr_i = start_i; ptr_i <= end_i; ptr_i++)
+                {
+                    if ((ptrs[index] < ptrs[ptr_i]) && (ptrs[ptr_i] < end))
+                    {
                         end = ptrs[ptr_i];
                     }
                 }
@@ -610,18 +696,22 @@ namespace Editor_Base_Class {
         /// </summary>
         /// <param name="index"></param>
         /// <returns></returns>
-        public int bytesFreeAt(int index) {
-            if (hasPtrs) {
-                while (index <= end_i && !discontigAt[index + 1]) {
+        public int BytesFreeAt(int index)
+        {
+            if (hasPtrs)
+            {
+                while (index <= end_i && !discontigAt[index + 1])
+                {
                     index++; // find next discontiguity
                 }
                 if (index > end_i) index = end_i; // no discontiguities, except perhaps "end"
-                return maxEndPtr(index) - endPtr(index);
+                return MaxEndPtr(index) - EndPtr(index);
             }
 
             int ret = endOffset - startOffset;
-            for (int data_i = start_i; data_i <= end_i; data_i++) {
-                ret -= data[data_i].length();
+            for (int data_i = start_i; data_i <= end_i; data_i++)
+            {
+                ret -= data[data_i].Length();
             }
             return ret;
         }
@@ -630,29 +720,34 @@ namespace Editor_Base_Class {
         /// returns -1 if bytes OK
         /// </summary>
         /// <returns></returns>
-        public int bytesOverlapAt() {
-            for (int data_i = start_i; data_i <= end_i; data_i++) {
-                if (endPtr(data_i) > maxEndPtr(data_i)) {
-                    return data_i;
-                }
+        public int BytesOverlapAt()
+        {
+            for (int data_i = start_i; data_i <= end_i; data_i++)
+            {
+                if (EndPtr(data_i) > MaxEndPtr(data_i)) return data_i;
             }
             return -1;
         }
 
-        public int relativePtr(int index) {
+        public int RelativePtr(int index)
+        {
             return ptrs[index] - startOffset;
         }
 
-        public void setRelativePtr(int index, int value) {
+        public void SetRelativePtr(int index, int value)
+        {
             ptrs[index] = startOffset + value;
         }
 
-        public void updatePtrs(int changed_i) {
-            if (hasPtrs) {
-                int deltaBytes = data[changed_i].length() - // current length
-                    (maxEndPtr(changed_i) - ptrs[changed_i]); // old length
+        public void UpdatePtrs(int changed_i)
+        {
+            if (hasPtrs)
+            {
+                int deltaBytes = data[changed_i].Length() - // current length
+                    (MaxEndPtr(changed_i) - ptrs[changed_i]); // old length
 
-                while (changed_i < end_i && !discontigAt[changed_i + 1]) {
+                while (changed_i < end_i && !discontigAt[changed_i + 1])
+                {
                     changed_i++;
                     ptrs[changed_i] = ptrs[changed_i] + deltaBytes;
                 }
@@ -663,11 +758,15 @@ namespace Editor_Base_Class {
         /// DOESN'T change discontigAt values
         /// just repoints
         /// </summary>
-        public void makeContiguous() {
-            if (hasPtrs) {
-                for (int ptr_i = start_i; ptr_i <= end_i; ptr_i++) {
-                    if (!discontigAt[ptr_i]) {
-                        ptrs[ptr_i] = endPtr(ptr_i - 1); // start_i - 1 returns table end
+        public void MakeContiguous()
+        {
+            if (hasPtrs)
+            {
+                for (int ptr_i = start_i; ptr_i <= end_i; ptr_i++)
+                {
+                    if (!discontigAt[ptr_i])
+                    {
+                        ptrs[ptr_i] = EndPtr(ptr_i - 1); // start_i - 1 returns table end
                     }
                 }
             }
@@ -677,14 +776,16 @@ namespace Editor_Base_Class {
         /// removes things like Pkmon prof class that 
         /// share a pointer with the next data
         /// </summary>
-        public void purgeDupes() {
-            for (int dupe_i = start_i; dupe_i < end_i; dupe_i++) {
+        public void PurgeDupes()
+        {
+            for (int dupe_i = start_i; dupe_i < end_i; dupe_i++)
+            {
                 if (discontigAt[dupe_i + 1]
-                    && (int) ptrs[dupe_i] == ptrs[dupe_i + 1]) {
-
-                    constructDataAt(dupe_i);
+                    && (int)ptrs[dupe_i] == ptrs[dupe_i + 1])
+                {
+                    ConstructDataAt(dupe_i);
                     discontigAt[dupe_i + 1] = false;
-                    updatePtrs(dupe_i);
+                    UpdatePtrs(dupe_i);
                 }
             }
         }
@@ -694,29 +795,34 @@ namespace Editor_Base_Class {
         /// automatically marks discontigAt
         /// automatically initializes data
         /// </summary>
-        public void readFromFile(ROM_FileStream ROM_File, bool pushFrontWithHex = false) {
-            if (hasPtrs) {
-                foreach (int ptr_i in range()) {
-                    ptrs[ptr_i] = ROM_File.readGBCPtr();
-                }
-                foreach (int data_i in range()) {
+        public void ReadFromFile(ROM_FileStream ROM_File, bool pushFrontWithHex = false)
+        {
+            if (hasPtrs)
+            {
+                foreach (int ptr_i in Range()) ptrs[ptr_i] = ROM_File.ReadGBCPtr(); 
+
+                foreach (int data_i in Range())
+                {
                     ROM_File.Position = ptrs[data_i];
-                    constructDataAt(data_i);
+                    ConstructDataAt(data_i);
 
-                    discontigAt[data_i+1] = true; // must assume this to get correct maxEndPtr here
-                    data[data_i].readFromFile(ROM_File, 
+                    discontigAt[data_i + 1] = true; // must assume this to get correct maxEndPtr here
+                    data[data_i].ReadFromFile(ROM_File,
                         (pushFrontWithHex ? data_i.ToString("X2") + "-" : ""),
-                        maxEndPtr(data_i), //special code for TrainerLists due to irregular termination
-                        maxEndPtr(data_i) == endOffset);
+                        MaxEndPtr(data_i), //special code for TrainerLists due to irregular termination
+                        MaxEndPtr(data_i) == endOffset);
 
-                    discontigAt[data_i] = (ptrs[data_i] != endPtr(data_i - 1));
+                    discontigAt[data_i] = (ptrs[data_i] != EndPtr(data_i - 1));
                 }
-                discontigAt[end_i+1] = (maxEndPtr(end_i) != endOffset);
+                discontigAt[end_i + 1] = (MaxEndPtr(end_i) != endOffset);
 
-            } else {
-                foreach (int data_i in range()) {
-                    constructDataAt(data_i);
-                    data[data_i].readFromFile(ROM_File, 
+            }
+            else
+            {
+                foreach (int data_i in Range())
+                {
+                    ConstructDataAt(data_i);
+                    data[data_i].ReadFromFile(ROM_File,
                         (pushFrontWithHex ? data_i.ToString("X2") + "-" : ""));
                 }
             }
@@ -725,30 +831,31 @@ namespace Editor_Base_Class {
         /// <summary>
         /// jump to offset first and check if not null with jumpToIfSaving()
         /// </summary>
-        public void writeToFile(ROM_FileStream ROM_File) {
-            if (hasPtrs) {
-                makeContiguous();
-                foreach (int ptr_i in range()) {
-                    ROM_File.writeLocalGBCPtr(ptrs[ptr_i]);
-                }
+        public void WriteToFile(ROM_FileStream ROM_File)
+        {
+            if (hasPtrs)
+            {
+                MakeContiguous();
+                foreach (int ptr_i in Range()) ROM_File.WriteLocalGBCPtr(ptrs[ptr_i]);
             }
 
-            foreach (int data_i in range()) {
+            foreach (int data_i in Range())
+            {
                 if (hasPtrs) ROM_File.Position = ptrs[data_i];
-                data[data_i].writeToFile(ROM_File);    
+                data[data_i].WriteToFile(ROM_File);
             }
 
-            if (!hasPtrs || !discontigAt[end_i + 1]) {
-                while (ROM_File.Position < endOffset) {
-                    ROM_File.WriteByte(0); // "free" data
-                }
+            if (!hasPtrs || !discontigAt[end_i + 1])
+            {
+                while (ROM_File.Position < endOffset) ROM_File.WriteByte(0); // "free" data
             }
         }
     }
 
-    partial class Gen2Editor {
+    partial class Gen2Editor
+    {
         #region ITEM
-        protected const int 
+        protected const int
             COST1_I = 0, // lower byte eg 100
             COST2_I = 1, // upper byte eg 9800
             HELD_ITEM_ID_I = 2, // For held items only
@@ -772,23 +879,27 @@ namespace Editor_Base_Class {
         public DataBlock<DBString> moveNames; // public for TM form
         protected DataBlock<DBString> moveDescs;
 
-        protected const int ANIMATION_I = 0, EFFECT_I = 1, POWER_I = 2, 
+        protected const int ANIMATION_I = 0, EFFECT_I = 1, POWER_I = 2,
             TYPE_I = 3, ACCURACY_I = 4, PP_I = 5, EFFECT_CHANCE_I = 6;
         protected byte[,] moves;
 
         protected bool[] moveIsCrit;
-        protected int critBytesUsed() {
+        protected int CritBytesUsed()
+        {
             int ret = 1; // terminator
-            for (int crit_i = 1; crit_i <= offset[NUM_OF_MOVES_I]; crit_i++) {
+            for (int crit_i = 1; crit_i <= offset[NUM_OF_MOVES_I]; crit_i++)
+            {
                 if (moveIsCrit[crit_i]) ret++;
             }
             return ret;
         }
-        protected int critBytesAvailable() {
+        protected int CritBytesAvailable()
+        {
             return offset[NEW_CRIT_LIST_END_I] - offset[NEW_CRIT_LIST_I];
         }
-        protected bool critBytesOK() {
-            return !loadOffset[CRIT_LIST_PTR_I] || (critBytesUsed() <= critBytesAvailable());
+        protected bool CritBytesOK()
+        {
+            return !loadOffset[CRIT_LIST_PTR_I] || (CritBytesUsed() <= CritBytesAvailable());
         }
         // repoint crits when saving, default location is 
         // bordered with unknown data on both sides
@@ -829,7 +940,7 @@ namespace Editor_Base_Class {
         //@1CAA43 -> 436A ptr @1CA8C9
         //tables starts @1CA8C5?
         // for some reason only every other pointer is actually an area name....
-        protected DataBlock<DBString> areaNames; 
+        protected DataBlock<DBString> areaNames;
         #endregion
     }
 }

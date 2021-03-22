@@ -36,7 +36,7 @@
             this.btnCheckAll.TabIndex = 0;
             this.btnCheckAll.Text = "Check all";
             this.btnCheckAll.UseVisualStyleBackColor = true;
-            this.btnCheckAll.Click += new System.EventHandler(this.btnCheckAll_Click);
+            this.btnCheckAll.Click += new System.EventHandler(this.BtnCheckAll_Click);
             // 
             // btnUncheckAll
             // 
@@ -46,7 +46,7 @@
             this.btnUncheckAll.TabIndex = 1;
             this.btnUncheckAll.Text = "Uncheck all";
             this.btnUncheckAll.UseVisualStyleBackColor = true;
-            this.btnUncheckAll.Click += new System.EventHandler(this.btnUncheckAll_Click);
+            this.btnUncheckAll.Click += new System.EventHandler(this.BtnUncheckAll_Click);
             // 
             // btnUpdatePtrs
             // 
@@ -56,7 +56,7 @@
             this.btnUpdatePtrs.TabIndex = 2;
             this.btnUpdatePtrs.Text = "Update pointers now";
             this.btnUpdatePtrs.UseVisualStyleBackColor = true;
-            this.btnUpdatePtrs.Click += new System.EventHandler(this.btnUpdatePtrs_Click);
+            this.btnUpdatePtrs.Click += new System.EventHandler(this.BtnUpdatePtrs_Click);
             // 
             // PointerManager
             // 

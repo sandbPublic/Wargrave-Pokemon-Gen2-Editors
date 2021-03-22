@@ -9,78 +9,91 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Editor_Base_Class;
 
-namespace Gen2_Evolution_Editor {
-    public partial class EvolutionEditor : Editor_Base_Class.Gen2Editor {
-        public EvolutionEditor() {
+namespace Gen2_Evolution_Editor
+{
+    public partial class EvolutionEditor : Editor_Base_Class.Gen2Editor
+    {
+        public EvolutionEditor()
+        {
             InitializeComponent();
 
-            int[] oTL = { MOVESET_PTR_I, ITEM_NAME_I, PKMN_NAME_I};
+            int[] oTL = { MOVESET_PTR_I, ITEM_NAME_I, PKMN_NAME_I };
             int[] oTS = { MOVESET_PTR_I };
 
-            initOffsets(oTL, oTS);
+            InitOffsets(oTL, oTS);
         }
 
-        protected override void enableDataEntry() {
+        protected override void EnableDataEntry()
+        {
             spinEvoIndex.Maximum = offset[NUM_OF_PKMN_I];
 
-            populateComboBox(comboEvolveFrom, pkmnNames);
-            populateComboBox(comboEvolveTo, pkmnNames);
-            populateComboBox(comboItems, itemNames);
+            PopulateComboBox(comboEvolveFrom, pkmnNames);
+            PopulateComboBox(comboEvolveTo, pkmnNames);
+            PopulateComboBox(comboItems, itemNames);
 
             comboEvolveFrom.Enabled = true;
             btnAddEvo.Enabled = true;
-            enOrDisable(true);
+            EnOrDisable(true);
 
             comboEvolveFrom.SelectedIndex = 0;
         }
-        
-        protected override void enableWrite() {
-            int bytesFree = movesets.bytesFreeAt(sFrom_I());
+
+        protected override void EnableWrite()
+        {
+            int bytesFree = movesets.BytesFreeAt(sFrom_I());
 
             tboxFreeBytes.Text = bytesFree + " bytes free";
 
             saveROM_TSMI.Enabled = bytesFree >= 0;
         }
 
-        protected override void update() { 
+        protected override void UpdateEditor()
+        {
             //spin evo index
-            enOrDisable(comboEvolveFrom.SelectedIndex > 0);
-            if (comboEvolveFrom.SelectedIndex > 0) {
-                txtNumOfEvos.Text = "/" + numberOfEvos();
-                spinEvoIndex.Maximum = numberOfEvos();
+            EnOrDisable(comboEvolveFrom.SelectedIndex > 0);
+            if (comboEvolveFrom.SelectedIndex > 0)
+            {
+                txtNumOfEvos.Text = "/" + NumberOfEvos();
+                spinEvoIndex.Maximum = NumberOfEvos();
 
-                enOrDisable(numberOfEvos() > 0);
-                if (numberOfEvos() > 0) {
+                EnOrDisable(NumberOfEvos() > 0);
+                if (NumberOfEvos() > 0)
+                {
                     spinEvoIndex.Minimum = 1;
 
                     comboEvolveTo.SelectedIndex = sEvoData().species;
 
-                    if (sEvoData().method <= 5) {
+                    if (sEvoData().method <= 5)
+                    {
                         comboEvoMethod.SelectedIndex =
                             sEvoData().method - 1; // index from 1
                     }
 
-                    enableItems();
+                    EnableItems();
 
-                    spinDVbyte.Enabled = sEvoData().tyrogue();
+                    spinDVbyte.Enabled = sEvoData().IsTyrogueEvoMethod();
                     spinDVbyte.Value = sEvoData().DVparam;
 
                     spinEvoParam.Value = sEvoData().param;
                     comboItems.SelectedIndex = sEvoData().param;
-                } else {
+                }
+                else
+                {
                     spinEvoIndex.Minimum = 0;
                 }
             }
 
-            enableWrite();
+            EnableWrite();
         }
 
-        private void enableItems() { // item or trade evolution
-            comboItems.Enabled = (sEvoData().method == 2 || 
+        private void EnableItems()
+        { // item or trade evolution
+            comboItems.Enabled = (sEvoData().method == 2 ||
                 (sEvoData().method == 3 && sEvoData().param != 0xFF));
         }
 
-        private void enOrDisable(bool enable) {
+        private void EnOrDisable(bool enable)
+        {
             spinEvoIndex.Enabled = enable;
             comboEvolveTo.Enabled = enable;
             comboEvoMethod.Enabled = enable;
@@ -90,31 +103,38 @@ namespace Gen2_Evolution_Editor {
             spinDVbyte.Enabled = enable;
         }
 
-        private byte sFrom_I() {
+        private byte sFrom_I()
+        {
             return (byte)comboEvolveFrom.SelectedIndex;
         }
 
-        private int sEvo_I() {
-            return (int) spinEvoIndex.Value - 1;
+        private int sEvo_I()
+        {
+            return (int)spinEvoIndex.Value - 1;
         }
 
-        private EvoData sEvoData() {
+        private EvoData sEvoData()
+        {
             return movesets.data[sFrom_I()].evoList[sEvo_I()];
         }
 
-        private int numberOfEvos() {
+        private int NumberOfEvos()
+        {
             return movesets.data[sFrom_I()].evoList.Count;
         }
 
-        protected override void importData(List<string> dataStrings) {
-            foreach (int pkmn_i in movesets.range()) {
+        protected override void ImportData(List<string> dataStrings)
+        {
+            foreach (int pkmn_i in movesets.Range())
+            {
                 int stringIndex = 3 * (pkmn_i - movesets.start_i);
 
                 // get line and count
                 int numOfEvoData = 0;
                 string[] firstLine = dataStrings[stringIndex].Split(' ');
-                if (firstLine.Length == 2) {
-                    movesets.setRelativePtr(pkmn_i, Convert.ToInt32(firstLine[0]));
+                if (firstLine.Length == 2)
+                {
+                    movesets.SetRelativePtr(pkmn_i, Convert.ToInt32(firstLine[0]));
                     numOfEvoData = Convert.ToInt32(firstLine[1]);
                 }
 
@@ -122,32 +142,37 @@ namespace Gen2_Evolution_Editor {
                 movesets.data[pkmn_i].evoList.Clear();
 
                 int trueIndex = 0;
-                for (int eD_i = 0; eD_i < numOfEvoData; eD_i++) {
-                    EvoData eD = new EvoData();
-
-                    eD.method = Convert.ToByte(eDStrings[trueIndex++]);
-                    eD.param = Convert.ToByte(eDStrings[trueIndex++]);
-                    if (eD.tyrogue()) eD.DVparam = Convert.ToByte(eDStrings[trueIndex++]);
+                for (int eD_i = 0; eD_i < numOfEvoData; eD_i++)
+                {
+                    EvoData eD = new EvoData
+                    {
+                        method = Convert.ToByte(eDStrings[trueIndex++]),
+                        param = Convert.ToByte(eDStrings[trueIndex++])
+                    };
+                    if (eD.IsTyrogueEvoMethod()) eD.DVparam = Convert.ToByte(eDStrings[trueIndex++]);
                     eD.species = Convert.ToByte(eDStrings[trueIndex++]);
 
                     movesets.data[pkmn_i].evoList.Add(eD);
                 }
             }
-            movesets.makeContiguous();
+            movesets.MakeContiguous();
         }
 
-        protected override void exportData() {
+        protected override void ExportData()
+        {
             System.IO.StreamWriter file = new System.IO.StreamWriter(data_FilePath);
 
-            foreach (int pkmn_i in movesets.range()) {
-                file.WriteLine(movesets.relativePtr(pkmn_i) + " "
+            foreach (int pkmn_i in movesets.Range())
+            {
+                file.WriteLine(movesets.RelativePtr(pkmn_i) + " "
                     + movesets.data[pkmn_i].evoList.Count);
 
                 string s = "";
-                foreach (EvoData eD in movesets.data[pkmn_i].evoList) {
+                foreach (EvoData eD in movesets.data[pkmn_i].evoList)
+                {
                     s += eD.method.ToString() + " ";
                     s += eD.param.ToString() + " ";
-                    if (eD.tyrogue()) s += eD.DVparam.ToString() + " ";
+                    if (eD.IsTyrogueEvoMethod()) s += eD.DVparam.ToString() + " ";
                     s += eD.species.ToString() + " ";
                 }
                 s += "0";
@@ -158,52 +183,65 @@ namespace Gen2_Evolution_Editor {
             file.Dispose();
         }
 
-        private void comboEvolveFrom_SelectedIndexChanged(object sender, EventArgs e) {
-            update();
+        private void ComboEvolveFrom_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            UpdateEditor();
         }
 
-        private void spinEvoIndex_ValueChanged(object sender, EventArgs e) {
-            update();
+        private void SpinEvoIndex_ValueChanged(object sender, EventArgs e)
+        {
+            UpdateEditor();
         }
 
-        private void comboEvolveTo_SelectedIndexChanged(object sender, EventArgs e) {
+        private void ComboEvolveTo_SelectedIndexChanged(object sender, EventArgs e)
+        {
             sEvoData().species = (byte)comboEvolveTo.SelectedIndex;
         }
 
-        private void comboEvoMethod_SelectedIndexChanged(object sender, EventArgs e) {
-            sEvoData().method = (byte)(comboEvoMethod.SelectedIndex+1);
-            if (spinDVbyte.Enabled != sEvoData().tyrogue()) {
-                spinDVbyte.Enabled = sEvoData().tyrogue();
-                movesets.updatePtrs(sFrom_I());
-                update();
+        private void ComboEvoMethod_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            sEvoData().method = (byte)(comboEvoMethod.SelectedIndex + 1);
+            if (spinDVbyte.Enabled != sEvoData().IsTyrogueEvoMethod())
+            {
+                spinDVbyte.Enabled = sEvoData().IsTyrogueEvoMethod();
+                movesets.UpdatePtrs(sFrom_I());
+                UpdateEditor();
             }
-            enableItems();
+            EnableItems();
         }
 
-        private void spinEvoParam_ValueChanged(object sender, EventArgs e) {
+        private void SpinEvoParam_ValueChanged(object sender, EventArgs e)
+        {
             sEvoData().param = (byte)spinEvoParam.Value;
-            comboItems.SelectedIndex = (int) spinEvoParam.Value;
-            enableItems(); // for trade evo -> item trade evo
+            comboItems.SelectedIndex = (int)spinEvoParam.Value;
+            EnableItems(); // for trade evo -> item trade evo
         }
 
-        private void comboItems_SelectedIndexChanged(object sender, EventArgs e) {
+        private void ComboItems_SelectedIndexChanged(object sender, EventArgs e)
+        {
             sEvoData().param = (byte)comboItems.SelectedIndex;
             spinEvoParam.Value = comboItems.SelectedIndex;
         }
 
-        private void spinDVbyte_ValueChanged(object sender, EventArgs e) {
+        private void SpinDVbyte_ValueChanged(object sender, EventArgs e)
+        {
             sEvoData().DVparam = (byte)spinDVbyte.Value;
-            movesets.updatePtrs(sFrom_I());
-            enableWrite();
+            movesets.UpdatePtrs(sFrom_I());
+            EnableWrite();
         }
 
-        private void btnAddEvo_Click(object sender, EventArgs e) {
-            if (comboEvolveFrom.SelectedIndex > 0) {
-                EvoData eD = new EvoData();
-                eD.method = 1;
-                eD.species = 1;
+        private void BtnAddEvo_Click(object sender, EventArgs e)
+        {
+            if (comboEvolveFrom.SelectedIndex > 0)
+            {
+                EvoData eD = new EvoData
+                {
+                    method = 1,
+                    species = 1
+                };
                 //copy from current evo for convenience
-                if (movesets.data[sFrom_I()].evoList.Count > 0) {
+                if (movesets.data[sFrom_I()].evoList.Count > 0)
+                {
                     eD.method = sEvoData().method;
                     eD.param = sEvoData().param;
                     eD.species = sEvoData().species;
@@ -212,18 +250,20 @@ namespace Gen2_Evolution_Editor {
 
                 movesets.data[sFrom_I()].evoList.Add(eD);
                 // just Add, don't bother Inserting, would need checks for empty & a way to add at end
-                movesets.updatePtrs(sFrom_I());
-                update();
+                movesets.UpdatePtrs(sFrom_I());
+                UpdateEditor();
             }
         }
 
-        private void btnRemoveEvo_Click(object sender, EventArgs e) {
+        private void BtnRemoveEvo_Click(object sender, EventArgs e)
+        {
             movesets.data[sFrom_I()].evoList.RemoveAt(sEvo_I());
-            movesets.updatePtrs(sFrom_I());
-            update();
+            movesets.UpdatePtrs(sFrom_I());
+            UpdateEditor();
         }
 
-        protected override void managePointers() {
+        protected override void ManagePointers()
+        {
             PointerManager<EvoAndLearnset> pm = new PointerManager<EvoAndLearnset>(movesets);
             pm.Show();
         }

@@ -50,7 +50,7 @@
             this.comboEvolveFrom.Name = "comboEvolveFrom";
             this.comboEvolveFrom.Size = new System.Drawing.Size(139, 29);
             this.comboEvolveFrom.TabIndex = 1;
-            this.comboEvolveFrom.SelectedIndexChanged += new System.EventHandler(this.comboEvolveFrom_SelectedIndexChanged);
+            this.comboEvolveFrom.SelectedIndexChanged += new System.EventHandler(this.ComboEvolveFrom_SelectedIndexChanged);
             // 
             // comboEvolveTo
             // 
@@ -60,7 +60,7 @@
             this.comboEvolveTo.Name = "comboEvolveTo";
             this.comboEvolveTo.Size = new System.Drawing.Size(139, 29);
             this.comboEvolveTo.TabIndex = 2;
-            this.comboEvolveTo.SelectedIndexChanged += new System.EventHandler(this.comboEvolveTo_SelectedIndexChanged);
+            this.comboEvolveTo.SelectedIndexChanged += new System.EventHandler(this.ComboEvolveTo_SelectedIndexChanged);
             // 
             // spinEvoIndex
             // 
@@ -85,7 +85,7 @@
             0,
             0,
             0});
-            this.spinEvoIndex.ValueChanged += new System.EventHandler(this.spinEvoIndex_ValueChanged);
+            this.spinEvoIndex.ValueChanged += new System.EventHandler(this.SpinEvoIndex_ValueChanged);
             // 
             // spinEvoParam
             // 
@@ -100,7 +100,7 @@
             this.spinEvoParam.Size = new System.Drawing.Size(53, 29);
             this.spinEvoParam.TabIndex = 5;
             this.spinEvoParam.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.spinEvoParam.ValueChanged += new System.EventHandler(this.spinEvoParam_ValueChanged);
+            this.spinEvoParam.ValueChanged += new System.EventHandler(this.SpinEvoParam_ValueChanged);
             // 
             // comboEvoMethod
             // 
@@ -116,7 +116,7 @@
             this.comboEvoMethod.Name = "comboEvoMethod";
             this.comboEvoMethod.Size = new System.Drawing.Size(138, 29);
             this.comboEvoMethod.TabIndex = 6;
-            this.comboEvoMethod.SelectedIndexChanged += new System.EventHandler(this.comboEvoMethod_SelectedIndexChanged);
+            this.comboEvoMethod.SelectedIndexChanged += new System.EventHandler(this.ComboEvoMethod_SelectedIndexChanged);
             // 
             // comboItems
             // 
@@ -126,7 +126,7 @@
             this.comboItems.Name = "comboItems";
             this.comboItems.Size = new System.Drawing.Size(157, 29);
             this.comboItems.TabIndex = 7;
-            this.comboItems.SelectedIndexChanged += new System.EventHandler(this.comboItems_SelectedIndexChanged);
+            this.comboItems.SelectedIndexChanged += new System.EventHandler(this.ComboItems_SelectedIndexChanged);
             // 
             // txtNumOfEvos
             // 
@@ -147,7 +147,7 @@
             this.btnAddEvo.TabIndex = 9;
             this.btnAddEvo.Text = "+";
             this.btnAddEvo.UseVisualStyleBackColor = true;
-            this.btnAddEvo.Click += new System.EventHandler(this.btnAddEvo_Click);
+            this.btnAddEvo.Click += new System.EventHandler(this.BtnAddEvo_Click);
             // 
             // btnRemoveEvo
             // 
@@ -158,7 +158,7 @@
             this.btnRemoveEvo.TabIndex = 10;
             this.btnRemoveEvo.Text = "-";
             this.btnRemoveEvo.UseVisualStyleBackColor = true;
-            this.btnRemoveEvo.Click += new System.EventHandler(this.btnRemoveEvo_Click);
+            this.btnRemoveEvo.Click += new System.EventHandler(this.BtnRemoveEvo_Click);
             // 
             // tboxFreeBytes
             // 
@@ -196,7 +196,7 @@
             this.spinDVbyte.Size = new System.Drawing.Size(59, 29);
             this.spinDVbyte.TabIndex = 0;
             this.spinDVbyte.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.spinDVbyte.ValueChanged += new System.EventHandler(this.spinDVbyte_ValueChanged);
+            this.spinDVbyte.ValueChanged += new System.EventHandler(this.SpinDVbyte_ValueChanged);
             // 
             // Evolution
             // 

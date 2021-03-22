@@ -63,7 +63,7 @@
             this.checkConsecMode.TabIndex = 3;
             this.checkConsecMode.Text = "Consecutive mode";
             this.checkConsecMode.UseVisualStyleBackColor = true;
-            this.checkConsecMode.CheckedChanged += new System.EventHandler(this.checkConsecMode_CheckedChanged);
+            this.checkConsecMode.CheckedChanged += new System.EventHandler(this.CheckConsecMode_CheckedChanged);
             // 
             // buttonEditTMs
             // 
@@ -74,7 +74,7 @@
             this.buttonEditTMs.TabIndex = 4;
             this.buttonEditTMs.Text = "Edit TMs\r\n";
             this.buttonEditTMs.UseVisualStyleBackColor = true;
-            this.buttonEditTMs.Click += new System.EventHandler(this.buttonOpenTMs_Click);
+            this.buttonEditTMs.Click += new System.EventHandler(this.ButtonOpenTMs_Click);
             // 
             // buttonCopyTMsA
             // 
@@ -85,7 +85,7 @@
             this.buttonCopyTMsA.TabIndex = 5;
             this.buttonCopyTMsA.Text = "Copy TMs\r\n";
             this.buttonCopyTMsA.UseVisualStyleBackColor = true;
-            this.buttonCopyTMsA.Click += new System.EventHandler(this.buttonCopyTMsA_Click);
+            this.buttonCopyTMsA.Click += new System.EventHandler(this.ButtonCopyTMsA_Click);
             // 
             // buttonCopyTMsB
             // 
@@ -96,7 +96,7 @@
             this.buttonCopyTMsB.TabIndex = 6;
             this.buttonCopyTMsB.Text = "Copy TMs\r\n";
             this.buttonCopyTMsB.UseVisualStyleBackColor = true;
-            this.buttonCopyTMsB.Click += new System.EventHandler(this.buttonCopyTMsB_Click);
+            this.buttonCopyTMsB.Click += new System.EventHandler(this.ButtonCopyTMsB_Click);
             // 
             // tboxFreeBytes
             // 
@@ -119,7 +119,7 @@
             this.tBoxMoveset1.Size = new System.Drawing.Size(189, 324);
             this.tBoxMoveset1.TabIndex = 9;
             this.tBoxMoveset1.WordWrap = false;
-            this.tBoxMoveset1.TextChanged += new System.EventHandler(this.tBox1_TextChanged);
+            this.tBoxMoveset1.TextChanged += new System.EventHandler(this.TBox1_TextChanged);
             // 
             // tBoxMoveset0
             // 
@@ -130,7 +130,7 @@
             this.tBoxMoveset0.Name = "tBoxMoveset0";
             this.tBoxMoveset0.Size = new System.Drawing.Size(189, 324);
             this.tBoxMoveset0.TabIndex = 10;
-            this.tBoxMoveset0.TextChanged += new System.EventHandler(this.tBox0_TextChanged);
+            this.tBoxMoveset0.TextChanged += new System.EventHandler(this.TBox0_TextChanged);
             // 
             // tBoxMoveset2
             // 
@@ -141,7 +141,7 @@
             this.tBoxMoveset2.Name = "tBoxMoveset2";
             this.tBoxMoveset2.Size = new System.Drawing.Size(189, 324);
             this.tBoxMoveset2.TabIndex = 11;
-            this.tBoxMoveset2.TextChanged += new System.EventHandler(this.tBox2_TextChanged);
+            this.tBoxMoveset2.TextChanged += new System.EventHandler(this.TBox2_TextChanged);
             // 
             // spinPkmnID_0
             // 
@@ -166,7 +166,7 @@
             0,
             0,
             0});
-            this.spinPkmnID_0.ValueChanged += new System.EventHandler(this.spinPkmnID_0_ValueChanged);
+            this.spinPkmnID_0.ValueChanged += new System.EventHandler(this.SpinPkmnID_0_ValueChanged);
             // 
             // tBoxPkmn_0
             // 
@@ -211,7 +211,7 @@
             0,
             0,
             0});
-            this.spinPkmnID_1.ValueChanged += new System.EventHandler(this.spinPkmnID_1_ValueChanged);
+            this.spinPkmnID_1.ValueChanged += new System.EventHandler(this.SpinPkmnID_1_ValueChanged);
             // 
             // tBoxPkmn_2
             // 
@@ -246,7 +246,7 @@
             0,
             0,
             0});
-            this.spinPkmnID_2.ValueChanged += new System.EventHandler(this.spinPkmnID_2_ValueChanged);
+            this.spinPkmnID_2.ValueChanged += new System.EventHandler(this.SpinPkmnID_2_ValueChanged);
             // 
             // buttonAnalyze
             // 
@@ -257,7 +257,7 @@
             this.buttonAnalyze.TabIndex = 18;
             this.buttonAnalyze.Text = "Analyze usage";
             this.buttonAnalyze.UseVisualStyleBackColor = true;
-            this.buttonAnalyze.Click += new System.EventHandler(this.buttonAnalyze_Click);
+            this.buttonAnalyze.Click += new System.EventHandler(this.ButtonAnalyze_Click);
             // 
             // textEvoCond_0
             // 

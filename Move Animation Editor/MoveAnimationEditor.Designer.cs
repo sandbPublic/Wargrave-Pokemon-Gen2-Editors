@@ -41,7 +41,7 @@
             this.spinAnimID.Size = new System.Drawing.Size(57, 29);
             this.spinAnimID.TabIndex = 1;
             this.spinAnimID.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.spinAnimID.ValueChanged += new System.EventHandler(this.spinAnimID_ValueChanged);
+            this.spinAnimID.ValueChanged += new System.EventHandler(this.SpinAnimID_ValueChanged);
             // 
             // txtMoveName
             // 
@@ -60,7 +60,7 @@
             this.rTxtBytes.Size = new System.Drawing.Size(182, 344);
             this.rTxtBytes.TabIndex = 3;
             this.rTxtBytes.Text = "";
-            this.rTxtBytes.TextChanged += new System.EventHandler(this.rTxtBytes_TextChanged);
+            this.rTxtBytes.TextChanged += new System.EventHandler(this.RTxtBytes_TextChanged);
             // 
             // rTxtCode
             // 
