@@ -53,7 +53,7 @@ namespace Editor_Base_Class
     {
         int Length();
         void ReadFromFile(ROM_FileStream ROM_File, string pushFrontWith = "",
-            int maxEndPtr = 0, bool lastClass = false); // for DBTrainerList
+            int maxEndPtr = 0, bool finalClass = false); // for DBTrainerList
         void WriteToFile(ROM_FileStream ROM_File);
     }
 
@@ -76,7 +76,7 @@ namespace Editor_Base_Class
 
         public int Length() { return me.Length + 1; } // +1 for null terminator
         public void ReadFromFile(ROM_FileStream ROM_File, string pushFrontWith = "",
-            int maxEndPtr = 0, bool lastClass = false)
+            int maxEndPtr = 0, bool finalClass = false)
         {
             me = pushFrontWith + ROM_File.PkmnReadString();
         }
@@ -119,17 +119,16 @@ namespace Editor_Base_Class
 
         public int Length()
         {
-            // TODO multiply evoList.Count, inc for Tyrogue in loop only?
-            int ret = learnList.Count * 2 + 1; // learnData terminator
+            int ret = learnList.Count * 2 + 1 + evoList.Count * 3 + 1; // +1 for each terminator
             foreach (EvoData eD in evoList)
             {
-                ret += (eD.IsTyrogueEvoMethod() ? 4 : 3);
+                if (eD.IsTyrogueEvoMethod()) ret++; // tyrogue evo method takes extra byte
             }
-            return ret + 1; // evoData terminator
+            return ret;
         }
 
         public void ReadFromFile(ROM_FileStream ROM_File, string pushFrontWith = "",
-            int maxEndPtr = 0, bool lastClass = false)
+            int maxEndPtr = 0, bool finalClass = false)
         {
 
             byte currByte = (byte)ROM_File.ReadByte();
@@ -229,9 +228,9 @@ namespace Editor_Base_Class
         }
 
         public void ReadFromFile(ROM_FileStream ROM_File, string pushFrontWith = "",
-            int maxEndPtr = 0, bool lastClass = false) //TODO last class should be called final class ? ("last" ambiguous with previous)
+            int maxEndPtr = 0, bool finalClass = false) // TODO change terminology from trainer "class" to "title"?
         {
-            if (!lastClass)
+            if (!finalClass)
             {
                 while (ROM_File.Position < maxEndPtr)
                 {
@@ -278,8 +277,6 @@ namespace Editor_Base_Class
             }
         }
     }
-
-    // todo animationInstruction
 
     /// <summary>
     /// Animation instruction for battles
@@ -469,7 +466,7 @@ namespace Editor_Base_Class
         }
 
         public void ReadFromFile(ROM_FileStream ROM_File, string pushFrontWith = "",
-            int maxEndPtr = 0, bool lastClass = false)
+            int maxEndPtr = 0, bool finalClass = false)
         {
 
             ReadFromFileRecursive(ROM_File, new List<long>());

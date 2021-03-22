@@ -4,8 +4,6 @@ using System.Drawing;
 using System;
 using System.IO; // open save read write files
 
-//todo load offsets from .txt files
-
 namespace Editor_Base_Class
 {
     partial class Gen2Editor
@@ -36,8 +34,6 @@ namespace Editor_Base_Class
                 NUM_OF_AREA_NAMES_I = 37,
 
                 NUM_OF_OFFSETS = 38;
-
-        // todo separate array for NUM_OF ints?
 
         public int[] offset = new int[NUM_OF_OFFSETS];
         public bool[] loadOffset = new bool[NUM_OF_OFFSETS];

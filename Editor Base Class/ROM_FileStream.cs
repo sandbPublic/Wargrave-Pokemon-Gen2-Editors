@@ -307,19 +307,21 @@ namespace Editor_Base_Class
 
             // read pokemon in team
             t.team = new List<TeamMember>();
-            byte b = (byte)ReadByte();
-            // TODO break on b, simplify loop
-            for (int pkmn_i = 0; (b != 0xFF) && (pkmn_i < 6); pkmn_i++)
+            
+            for (int pkmn_i = 0; pkmn_i < 6; pkmn_i++)
             {
+                byte b = (byte)ReadByte();
+
+                if (b == 0xFF) break;
+
                 TeamMember TM = new TeamMember
                 {
                     level = b,
                     species = (byte)ReadByte()
                 };
-                if (t.hasItems)
-                {
-                    TM.item = (byte)ReadByte();
-                }
+                
+                if (t.hasItems) TM.item = (byte)ReadByte();
+                
                 if (t.hasMoves)
                 {
                     TM.moves[0] = (byte)ReadByte();
@@ -328,8 +330,6 @@ namespace Editor_Base_Class
                     TM.moves[3] = (byte)ReadByte();
                 }
                 t.team.Add(TM);
-
-                b = (byte)ReadByte();
             }
             return t;
         }
