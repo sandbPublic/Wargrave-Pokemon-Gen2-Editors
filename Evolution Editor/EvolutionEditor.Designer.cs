@@ -34,11 +34,11 @@
             this.btnAddEvo = new System.Windows.Forms.Button();
             this.btnRemoveEvo = new System.Windows.Forms.Button();
             this.tboxFreeBytes = new System.Windows.Forms.TextBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.gbox1 = new System.Windows.Forms.GroupBox();
             this.spinDVbyte = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.spinEvoIndex)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.spinEvoParam)).BeginInit();
-            this.groupBox1.SuspendLayout();
+            this.gbox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.spinDVbyte)).BeginInit();
             this.SuspendLayout();
             // 
@@ -172,15 +172,15 @@
             this.tboxFreeBytes.TabIndex = 38;
             this.tboxFreeBytes.Text = "0 bytes free";
             // 
-            // groupBox1
+            // gbox1
             // 
-            this.groupBox1.Controls.Add(this.spinDVbyte);
-            this.groupBox1.Location = new System.Drawing.Point(158, 150);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(71, 64);
-            this.groupBox1.TabIndex = 39;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "DV";
+            this.gbox1.Controls.Add(this.spinDVbyte);
+            this.gbox1.Location = new System.Drawing.Point(158, 150);
+            this.gbox1.Name = "gbox1";
+            this.gbox1.Size = new System.Drawing.Size(71, 64);
+            this.gbox1.TabIndex = 39;
+            this.gbox1.TabStop = false;
+            this.gbox1.Text = "DV";
             // 
             // spinDVbyte
             // 
@@ -203,7 +203,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(244, 262);
-            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.gbox1);
             this.Controls.Add(this.tboxFreeBytes);
             this.Controls.Add(this.btnRemoveEvo);
             this.Controls.Add(this.btnAddEvo);
@@ -227,10 +227,10 @@
             this.Controls.SetChildIndex(this.btnAddEvo, 0);
             this.Controls.SetChildIndex(this.btnRemoveEvo, 0);
             this.Controls.SetChildIndex(this.tboxFreeBytes, 0);
-            this.Controls.SetChildIndex(this.groupBox1, 0);
+            this.Controls.SetChildIndex(this.gbox1, 0);
             ((System.ComponentModel.ISupportInitialize)(this.spinEvoIndex)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.spinEvoParam)).EndInit();
-            this.groupBox1.ResumeLayout(false);
+            this.gbox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.spinDVbyte)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -249,7 +249,7 @@
         private System.Windows.Forms.Button btnAddEvo;
         private System.Windows.Forms.Button btnRemoveEvo;
         private System.Windows.Forms.TextBox tboxFreeBytes;
-        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox gbox1;
         private System.Windows.Forms.NumericUpDown spinDVbyte;
     }
 }

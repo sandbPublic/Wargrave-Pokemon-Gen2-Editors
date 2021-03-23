@@ -253,23 +253,23 @@ namespace Editor_Base_Class
                 }
                 #endregion
                 #region TRAINER
-                if (JumpToIfSaving(TR_CLASS_NAME_I)) trClassNames.WriteToFile(ROM_File);
+                if (JumpToIfSaving(TR_GROUP_NAME_I)) trGroupNames.WriteToFile(ROM_File);
 
-                if (JumpToIfSaving(TR_CLASS_DV_I))
+                if (JumpToIfSaving(TR_GROUP_DV_I))
                 {
-                    foreach (byte DV in trClassDVs)
+                    foreach (byte DV in trGroupDVs)
                     {
                         ROM_File.WriteByte(DV);
                     }
                 }
 
-                if (JumpToIfSaving(TR_CLASS_ATTRIBUTE_I))
+                if (JumpToIfSaving(TR_GROUP_ATTRIBUTE_I))
                 {
-                    for (int tc_i = trClassNames.start_i; tc_i <= trClassNames.end_i; tc_i++)
+                    for (int tc_i = trGroupNames.start_i; tc_i <= trGroupNames.end_i; tc_i++)
                     {
-                        ROM_File.WriteByte(trClassItems[2 * tc_i]);
-                        ROM_File.WriteByte(trClassItems[2 * tc_i + 1]);
-                        ROM_File.WriteByte(trClassRewards[tc_i]);
+                        ROM_File.WriteByte(trGroupItems[2 * tc_i]);
+                        ROM_File.WriteByte(trGroupItems[2 * tc_i + 1]);
+                        ROM_File.WriteByte(trGroupRewards[tc_i]);
                         ROM_File.Position += 4; // skip AI behavior bytes
                     }
                 }

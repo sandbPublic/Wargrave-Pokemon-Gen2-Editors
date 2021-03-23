@@ -29,30 +29,30 @@
             this.spinItemID = new System.Windows.Forms.NumericUpDown();
             this.tboxName = new System.Windows.Forms.TextBox();
             this.tboxDesc = new System.Windows.Forms.TextBox();
-            this.grBoxCost = new System.Windows.Forms.GroupBox();
+            this.gboxCost = new System.Windows.Forms.GroupBox();
             this.spinCost = new System.Windows.Forms.NumericUpDown();
-            this.grBoxByte2 = new System.Windows.Forms.GroupBox();
+            this.gboxByte2 = new System.Windows.Forms.GroupBox();
             this.spinHeldItemID = new System.Windows.Forms.NumericUpDown();
-            this.grBoxParam = new System.Windows.Forms.GroupBox();
+            this.gboxParam = new System.Windows.Forms.GroupBox();
             this.spinParam = new System.Windows.Forms.NumericUpDown();
-            this.grBoxUR = new System.Windows.Forms.GroupBox();
+            this.gboxUR = new System.Windows.Forms.GroupBox();
             this.cboxUseRestriction = new System.Windows.Forms.ComboBox();
-            this.grBoxPocket = new System.Windows.Forms.GroupBox();
+            this.gboxPocket = new System.Windows.Forms.GroupBox();
             this.cboxPocket = new System.Windows.Forms.ComboBox();
-            this.grBoxFlag = new System.Windows.Forms.GroupBox();
+            this.gboxFlag = new System.Windows.Forms.GroupBox();
             this.cboxFlagtext = new System.Windows.Forms.ComboBox();
             this.gboxASM = new System.Windows.Forms.GroupBox();
             this.spinASM = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.spinItemID)).BeginInit();
-            this.grBoxCost.SuspendLayout();
+            this.gboxCost.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.spinCost)).BeginInit();
-            this.grBoxByte2.SuspendLayout();
+            this.gboxByte2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.spinHeldItemID)).BeginInit();
-            this.grBoxParam.SuspendLayout();
+            this.gboxParam.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.spinParam)).BeginInit();
-            this.grBoxUR.SuspendLayout();
-            this.grBoxPocket.SuspendLayout();
-            this.grBoxFlag.SuspendLayout();
+            this.gboxUR.SuspendLayout();
+            this.gboxPocket.SuspendLayout();
+            this.gboxFlag.SuspendLayout();
             this.gboxASM.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.spinASM)).BeginInit();
             this.SuspendLayout();
@@ -126,13 +126,13 @@
             // 
             // grBoxCost
             // 
-            this.grBoxCost.Controls.Add(this.spinCost);
-            this.grBoxCost.Location = new System.Drawing.Point(12, 128);
-            this.grBoxCost.Name = "grBoxCost";
-            this.grBoxCost.Size = new System.Drawing.Size(92, 65);
-            this.grBoxCost.TabIndex = 39;
-            this.grBoxCost.TabStop = false;
-            this.grBoxCost.Text = "Cost";
+            this.gboxCost.Controls.Add(this.spinCost);
+            this.gboxCost.Location = new System.Drawing.Point(12, 128);
+            this.gboxCost.Name = "grBoxCost";
+            this.gboxCost.Size = new System.Drawing.Size(92, 65);
+            this.gboxCost.TabIndex = 39;
+            this.gboxCost.TabStop = false;
+            this.gboxCost.Text = "Cost";
             // 
             // spinCost
             // 
@@ -151,14 +151,14 @@
             // 
             // grBoxByte2
             // 
-            this.grBoxByte2.Controls.Add(this.spinHeldItemID);
-            this.grBoxByte2.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.grBoxByte2.Location = new System.Drawing.Point(328, 129);
-            this.grBoxByte2.Name = "grBoxByte2";
-            this.grBoxByte2.Size = new System.Drawing.Size(134, 64);
-            this.grBoxByte2.TabIndex = 40;
-            this.grBoxByte2.TabStop = false;
-            this.grBoxByte2.Text = "Held Item";
+            this.gboxByte2.Controls.Add(this.spinHeldItemID);
+            this.gboxByte2.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gboxByte2.Location = new System.Drawing.Point(328, 129);
+            this.gboxByte2.Name = "grBoxByte2";
+            this.gboxByte2.Size = new System.Drawing.Size(134, 64);
+            this.gboxByte2.TabIndex = 40;
+            this.gboxByte2.TabStop = false;
+            this.gboxByte2.Text = "Held Item";
             // 
             // spinHeldItemID
             // 
@@ -178,13 +178,13 @@
             // 
             // grBoxParam
             // 
-            this.grBoxParam.Controls.Add(this.spinParam);
-            this.grBoxParam.Location = new System.Drawing.Point(224, 129);
-            this.grBoxParam.Name = "grBoxParam";
-            this.grBoxParam.Size = new System.Drawing.Size(96, 64);
-            this.grBoxParam.TabIndex = 41;
-            this.grBoxParam.TabStop = false;
-            this.grBoxParam.Text = "Param";
+            this.gboxParam.Controls.Add(this.spinParam);
+            this.gboxParam.Location = new System.Drawing.Point(224, 129);
+            this.gboxParam.Name = "grBoxParam";
+            this.gboxParam.Size = new System.Drawing.Size(96, 64);
+            this.gboxParam.TabIndex = 41;
+            this.gboxParam.TabStop = false;
+            this.gboxParam.Text = "Param";
             // 
             // spinParam
             // 
@@ -204,13 +204,13 @@
             // 
             // grBoxUR
             // 
-            this.grBoxUR.Controls.Add(this.cboxUseRestriction);
-            this.grBoxUR.Location = new System.Drawing.Point(12, 199);
-            this.grBoxUR.Name = "grBoxUR";
-            this.grBoxUR.Size = new System.Drawing.Size(286, 68);
-            this.grBoxUR.TabIndex = 43;
-            this.grBoxUR.TabStop = false;
-            this.grBoxUR.Text = "Use restriction";
+            this.gboxUR.Controls.Add(this.cboxUseRestriction);
+            this.gboxUR.Location = new System.Drawing.Point(12, 199);
+            this.gboxUR.Name = "grBoxUR";
+            this.gboxUR.Size = new System.Drawing.Size(286, 68);
+            this.gboxUR.TabIndex = 43;
+            this.gboxUR.TabStop = false;
+            this.gboxUR.Text = "Use restriction";
             // 
             // cboxUseRestriction
             // 
@@ -233,13 +233,13 @@
             // 
             // grBoxPocket
             // 
-            this.grBoxPocket.Controls.Add(this.cboxPocket);
-            this.grBoxPocket.Location = new System.Drawing.Point(112, 129);
-            this.grBoxPocket.Name = "grBoxPocket";
-            this.grBoxPocket.Size = new System.Drawing.Size(104, 64);
-            this.grBoxPocket.TabIndex = 42;
-            this.grBoxPocket.TabStop = false;
-            this.grBoxPocket.Text = "Pocket";
+            this.gboxPocket.Controls.Add(this.cboxPocket);
+            this.gboxPocket.Location = new System.Drawing.Point(112, 129);
+            this.gboxPocket.Name = "grBoxPocket";
+            this.gboxPocket.Size = new System.Drawing.Size(104, 64);
+            this.gboxPocket.TabIndex = 42;
+            this.gboxPocket.TabStop = false;
+            this.gboxPocket.Text = "Pocket";
             // 
             // cboxPocket
             // 
@@ -258,13 +258,13 @@
             // 
             // grBoxFlag
             // 
-            this.grBoxFlag.Controls.Add(this.cboxFlagtext);
-            this.grBoxFlag.Location = new System.Drawing.Point(305, 199);
-            this.grBoxFlag.Name = "grBoxFlag";
-            this.grBoxFlag.Size = new System.Drawing.Size(258, 68);
-            this.grBoxFlag.TabIndex = 43;
-            this.grBoxFlag.TabStop = false;
-            this.grBoxFlag.Text = "Flag";
+            this.gboxFlag.Controls.Add(this.cboxFlagtext);
+            this.gboxFlag.Location = new System.Drawing.Point(305, 199);
+            this.gboxFlag.Name = "grBoxFlag";
+            this.gboxFlag.Size = new System.Drawing.Size(258, 68);
+            this.gboxFlag.TabIndex = 43;
+            this.gboxFlag.TabStop = false;
+            this.gboxFlag.Text = "Flag";
             // 
             // cboxFlagtext
             // 
@@ -314,12 +314,12 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(573, 276);
             this.Controls.Add(this.gboxASM);
-            this.Controls.Add(this.grBoxFlag);
-            this.Controls.Add(this.grBoxUR);
-            this.Controls.Add(this.grBoxParam);
-            this.Controls.Add(this.grBoxPocket);
-            this.Controls.Add(this.grBoxByte2);
-            this.Controls.Add(this.grBoxCost);
+            this.Controls.Add(this.gboxFlag);
+            this.Controls.Add(this.gboxUR);
+            this.Controls.Add(this.gboxParam);
+            this.Controls.Add(this.gboxPocket);
+            this.Controls.Add(this.gboxByte2);
+            this.Controls.Add(this.gboxCost);
             this.Controls.Add(this.tboxDesc);
             this.Controls.Add(this.tboxName);
             this.Controls.Add(this.spinItemID);
@@ -334,23 +334,23 @@
             this.Controls.SetChildIndex(this.spinItemID, 0);
             this.Controls.SetChildIndex(this.tboxName, 0);
             this.Controls.SetChildIndex(this.tboxDesc, 0);
-            this.Controls.SetChildIndex(this.grBoxCost, 0);
-            this.Controls.SetChildIndex(this.grBoxByte2, 0);
-            this.Controls.SetChildIndex(this.grBoxPocket, 0);
-            this.Controls.SetChildIndex(this.grBoxParam, 0);
-            this.Controls.SetChildIndex(this.grBoxUR, 0);
-            this.Controls.SetChildIndex(this.grBoxFlag, 0);
+            this.Controls.SetChildIndex(this.gboxCost, 0);
+            this.Controls.SetChildIndex(this.gboxByte2, 0);
+            this.Controls.SetChildIndex(this.gboxPocket, 0);
+            this.Controls.SetChildIndex(this.gboxParam, 0);
+            this.Controls.SetChildIndex(this.gboxUR, 0);
+            this.Controls.SetChildIndex(this.gboxFlag, 0);
             this.Controls.SetChildIndex(this.gboxASM, 0);
             ((System.ComponentModel.ISupportInitialize)(this.spinItemID)).EndInit();
-            this.grBoxCost.ResumeLayout(false);
+            this.gboxCost.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.spinCost)).EndInit();
-            this.grBoxByte2.ResumeLayout(false);
+            this.gboxByte2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.spinHeldItemID)).EndInit();
-            this.grBoxParam.ResumeLayout(false);
+            this.gboxParam.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.spinParam)).EndInit();
-            this.grBoxUR.ResumeLayout(false);
-            this.grBoxPocket.ResumeLayout(false);
-            this.grBoxFlag.ResumeLayout(false);
+            this.gboxUR.ResumeLayout(false);
+            this.gboxPocket.ResumeLayout(false);
+            this.gboxFlag.ResumeLayout(false);
             this.gboxASM.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.spinASM)).EndInit();
             this.ResumeLayout(false);
@@ -365,15 +365,15 @@
         private System.Windows.Forms.NumericUpDown spinItemID;
         private System.Windows.Forms.TextBox tboxName;
         private System.Windows.Forms.TextBox tboxDesc;
-        private System.Windows.Forms.GroupBox grBoxCost;
+        private System.Windows.Forms.GroupBox gboxCost;
         private System.Windows.Forms.NumericUpDown spinCost;
-        private System.Windows.Forms.GroupBox grBoxByte2;
+        private System.Windows.Forms.GroupBox gboxByte2;
         private System.Windows.Forms.NumericUpDown spinHeldItemID;
-        private System.Windows.Forms.GroupBox grBoxParam;
+        private System.Windows.Forms.GroupBox gboxParam;
         private System.Windows.Forms.NumericUpDown spinParam;
-        private System.Windows.Forms.GroupBox grBoxUR;
-        private System.Windows.Forms.GroupBox grBoxPocket;
-        private System.Windows.Forms.GroupBox grBoxFlag;
+        private System.Windows.Forms.GroupBox gboxUR;
+        private System.Windows.Forms.GroupBox gboxPocket;
+        private System.Windows.Forms.GroupBox gboxFlag;
         private System.Windows.Forms.ComboBox cboxPocket;
         private System.Windows.Forms.GroupBox gboxASM;
         private System.Windows.Forms.NumericUpDown spinASM;

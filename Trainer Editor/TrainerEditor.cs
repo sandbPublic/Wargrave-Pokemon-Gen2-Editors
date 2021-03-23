@@ -14,7 +14,7 @@ namespace Gen2_Trainer_Editor
 {
     public partial class TrainerEditor : Editor_Base_Class.Gen2Editor
     {
-        // using a comboBox for TC and Tr names causes problems when trying to edit the names
+        // using a comboBox for Group and Tr names causes problems when trying to edit the names
         // instead use a spin and a text box
         // not ideal because multiple names can't be seen at once...
 
@@ -24,9 +24,9 @@ namespace Gen2_Trainer_Editor
             InitializeArrayComponents();
 
             int[] oTL = { TM_CODE_I, TM_SET_I, MOVESET_PTR_I, ITEM_NAME_I, PKMN_NAME_I,
-                            MOVE_NAME_I, TRAINER_PTR_I, TR_CLASS_NAME_I, TR_CLASS_DV_I,
-                            TR_CLASS_ATTRIBUTE_I};
-            int[] oTS = { TRAINER_PTR_I, TR_CLASS_NAME_I, TR_CLASS_DV_I, TR_CLASS_ATTRIBUTE_I };
+                            MOVE_NAME_I, TRAINER_PTR_I, TR_GROUP_NAME_I, TR_GROUP_DV_I,
+                            TR_GROUP_ATTRIBUTE_I};
+            int[] oTS = { TRAINER_PTR_I, TR_GROUP_NAME_I, TR_GROUP_DV_I, TR_GROUP_ATTRIBUTE_I };
             InitOffsets(oTL, oTS);
         }
 
@@ -43,11 +43,11 @@ namespace Gen2_Trainer_Editor
             PopulateComboBox(cboxItems1, itemNames);
             foreach (ComboBox CB in cboxItems) PopulateComboBox(CB, itemNames);
 
-            spinTC.Maximum = trClassNames.end_i;
+            spinGroup.Maximum = trGroupNames.end_i;
             #endregion
             #region ENABLE
-            spinTC.Enabled = true;
-            tboxTCName.Enabled = true;
+            spinGroup.Enabled = true;
+            tboxGroupName.Enabled = true;
             spinReward.Enabled = true;
             spinDVs0.Enabled = true;
             spinDVs1.Enabled = true;
@@ -61,38 +61,38 @@ namespace Gen2_Trainer_Editor
         
         protected override void EnableWrite()
         {
-            UpdateTCNameBytesUsed();
+            UpdateGroupNameBytesUsed();
             UpdateTrainerBytesUsed();
         }
         
         protected override void UpdateEditor()
         {
-            UpdateTrainerClassArea();
+            UpdateTrainerGroupArea();
         }
 
         protected override void ImportData(List<string> dataStrings)
         {
             int curIndex = 0;
-            int numClasses = Convert.ToInt32(dataStrings[curIndex++]);
+            int numGroups = Convert.ToInt32(dataStrings[curIndex++]);
 
-            for (int class_i = 0; class_i < numClasses; class_i++)
+            for (int group_i = 0; group_i < numGroups; group_i++)
             {
-                trClassNames.data[class_i] = dataStrings[curIndex++];
+                trGroupNames.data[group_i] = dataStrings[curIndex++];
 
                 int numOfTrainers = 0;
                 string[] attributes = dataStrings[curIndex++].Split(' ');
                 if (attributes.Length == 7)
                 {
-                    trClassDVs[2 * class_i] = Convert.ToByte(attributes[0]);
-                    trClassDVs[2 * class_i + 1] = Convert.ToByte(attributes[1]);
-                    trClassItems[2 * class_i] = Convert.ToByte(attributes[2]);
-                    trClassItems[2 * class_i + 1] = Convert.ToByte(attributes[3]);
-                    trClassRewards[class_i] = Convert.ToByte(attributes[4]);
-                    trainerLists.SetRelativePtr(class_i, Convert.ToInt32(attributes[5]));
+                    trGroupDVs[2 * group_i] = Convert.ToByte(attributes[0]);
+                    trGroupDVs[2 * group_i + 1] = Convert.ToByte(attributes[1]);
+                    trGroupItems[2 * group_i] = Convert.ToByte(attributes[2]);
+                    trGroupItems[2 * group_i + 1] = Convert.ToByte(attributes[3]);
+                    trGroupRewards[group_i] = Convert.ToByte(attributes[4]);
+                    trainerLists.SetRelativePtr(group_i, Convert.ToInt32(attributes[5]));
                     numOfTrainers = Convert.ToInt32(attributes[6]);
                 }
 
-                trainerLists.data[class_i] = new DBTrainerList();
+                trainerLists.data[group_i] = new DBTrainerList();
                 for (int trainer_i = 0; trainer_i < numOfTrainers; trainer_i++)
                 {
                     Trainer t = new Trainer
@@ -126,17 +126,17 @@ namespace Gen2_Trainer_Editor
                         }
                         t.team.Add(tm);
                     } // end pkmn loop
-                    trainerLists.data[class_i].LT.Add(t);
+                    trainerLists.data[group_i].LT.Add(t);
                 } // end trainer loop
                 curIndex++;
-            }// end class loop
+            }// end group loop
             trainerLists.MakeContiguous();
         }
 
         protected override void ExportData()
         {
-            // num of classes
-            // class data
+            // num of groups
+            // group data
             //   name
             //   attributes, list ptr, list count
             // trainer list
@@ -146,21 +146,21 @@ namespace Gen2_Trainer_Editor
             // blank line
 
             var file = new System.IO.StreamWriter(data_FilePath);
-            file.WriteLine(trClassNames.end_i - trClassNames.start_i + 1); // num classes
-            for (int class_i = trClassNames.start_i; class_i <= trClassNames.end_i; class_i++)
+            file.WriteLine(trGroupNames.end_i - trGroupNames.start_i + 1); // num groups
+            for (int group_i = trGroupNames.start_i; group_i <= trGroupNames.end_i; group_i++)
             {
-                file.WriteLine(trClassNames.data[class_i]);
+                file.WriteLine(trGroupNames.data[group_i]);
 
-                string s = trClassDVs[2 * class_i]
-                    + " " + trClassDVs[2 * class_i + 1]
-                    + " " + trClassItems[2 * class_i]
-                    + " " + trClassItems[2 * class_i + 1]
-                    + " " + trClassRewards[class_i]
-                    + " " + trainerLists.RelativePtr(class_i)
-                    + " " + trainerLists.data[class_i].LT.Count;
+                string s = trGroupDVs[2 * group_i]
+                    + " " + trGroupDVs[2 * group_i + 1]
+                    + " " + trGroupItems[2 * group_i]
+                    + " " + trGroupItems[2 * group_i + 1]
+                    + " " + trGroupRewards[group_i]
+                    + " " + trainerLists.RelativePtr(group_i)
+                    + " " + trainerLists.data[group_i].LT.Count;
                 file.WriteLine(s);
 
-                foreach (Trainer t in trainerLists.data[class_i].LT)
+                foreach (Trainer t in trainerLists.data[group_i].LT)
                 {
                     file.WriteLine(t.name);
 
@@ -190,12 +190,12 @@ namespace Gen2_Trainer_Editor
 
 
         /// <summary>
-        /// selected TrainerClass value
+        /// selected TrainerGroup value
         /// </summary>
         /// <returns></returns>
-        private int sTcV()
+        private int sTgV()
         {
-            return (int)spinTC.Value;
+            return (int)spinGroup.Value;
         }
 
         /// <summary>
@@ -204,7 +204,7 @@ namespace Gen2_Trainer_Editor
         /// <returns></returns>
         private List<Trainer> sTrList()
         {
-            return trainerLists.data[sTcV()].LT;
+            return trainerLists.data[sTgV()].LT;
         }
 
         /// <summary>
@@ -216,7 +216,7 @@ namespace Gen2_Trainer_Editor
             return sTrList()[(int)spinTrainerTeamID.Value];
         }
 
-        private void UpdateTrainerClassArea()
+        private void UpdateTrainerGroupArea()
         {
             // update team area
             if (sTrList().Count <= 0) EnOrDisableTeamArea(false);
@@ -227,13 +227,13 @@ namespace Gen2_Trainer_Editor
                 UpdateTrainerTeamArea();
             }
 
-            tboxTCName.Text = trClassNames.data[sTcV()];
-            spinReward.Value = trClassRewards[sTcV()];
+            tboxGroupName.Text = trGroupNames.data[sTgV()];
+            spinReward.Value = trGroupRewards[sTgV()];
             UpdateDVArea();
-            cboxItems0.SelectedIndex = trClassItems[2 * sTcV()];
-            cboxItems1.SelectedIndex = trClassItems[2 * sTcV() + 1];
+            cboxItems0.SelectedIndex = trGroupItems[2 * sTgV()];
+            cboxItems1.SelectedIndex = trGroupItems[2 * sTgV() + 1];
             tboxTrainerCount.Text = sTrList().Count.ToString() + " total";
-            txtClassPtr.Text = "0x" + ((int)trainerLists.ptrs[sTcV()]).ToString("X");
+            txtGroupPtr.Text = "0x" + ((int)trainerLists.ptrs[sTgV()]).ToString("X");
         }
 
         private static readonly string[] HIDDEN_POWER_TYPES = {
@@ -243,8 +243,8 @@ namespace Gen2_Trainer_Editor
 
         private void UpdateDVArea()
         {
-            byte AD = trClassDVs[2 * sTcV()];
-            byte SSpc = trClassDVs[2 * sTcV() + 1];
+            byte AD = trGroupDVs[2 * sTgV()];
+            byte SSpc = trGroupDVs[2 * sTgV() + 1];
 
             spinDVs0.Value = AD;
             spinDVs1.Value = SSpc;
@@ -262,7 +262,7 @@ namespace Gen2_Trainer_Editor
             tboxHPDV.Text = HP.ToString("X");
 
             // male/female determined by gender ratio and Atk DV,
-            // not certainly consistent among all pokemon in a trainer class
+            // not certainly consistent among all pokemon in a trainer group
 
             string info = "";
 
@@ -287,26 +287,26 @@ namespace Gen2_Trainer_Editor
             tboxDVinfo.Text = info;
         }
 
-        private void SpinTC_ValueChanged(object sender, EventArgs e)
+        private void SpinGroup_ValueChanged(object sender, EventArgs e)
         {
-            UpdateTrainerClassArea();
+            UpdateTrainerGroupArea();
         }
 
-        private void TboxTCName_TextChanged(object sender, EventArgs e)
+        private void TboxGroupName_TextChanged(object sender, EventArgs e)
         {
-            trClassNames.data[sTcV()] = tboxTCName.Text;
+            trGroupNames.data[sTgV()] = tboxGroupName.Text;
 
-            PrintWarningIfTooLong(((string)trClassNames.data[sTcV()]), 12);
+            PrintWarningIfTooLong(((string)trGroupNames.data[sTgV()]), 12);
             if (spinTrainerTeamID.Enabled)
             {
                 PrintWarningIfTooLong(
-                    ((string)trClassNames.data[sTcV()]) + " " + sTr().name, 18);
+                    ((string)trGroupNames.data[sTgV()]) + " " + sTr().name, 18);
             }
 
-            UpdateTCNameBytesUsed();
+            UpdateGroupNameBytesUsed();
         }
 
-        // for TCs like Pokemon Prof that have no trainers at all
+        // for groups like Pokemon Prof that have no trainers at all
         private void EnOrDisableTeamArea(bool enable)
         {
             spinTrainerTeamID.Enabled = enable;
@@ -328,25 +328,25 @@ namespace Gen2_Trainer_Editor
 
         private void SpinReward_ValueChanged(object sender, EventArgs e)
         {
-            trClassRewards[sTcV()] = (byte)spinReward.Value;
+            trGroupRewards[sTgV()] = (byte)spinReward.Value;
         }
         private void SpinDVs0_ValueChanged(object sender, EventArgs e)
         {
-            trClassDVs[2 * sTcV()] = (byte)spinDVs0.Value;
+            trGroupDVs[2 * sTgV()] = (byte)spinDVs0.Value;
             UpdateDVArea();
         }
         private void SpinDVs1_ValueChanged(object sender, EventArgs e)
         {
-            trClassDVs[2 * sTcV() + 1] = (byte)spinDVs1.Value;
+            trGroupDVs[2 * sTgV() + 1] = (byte)spinDVs1.Value;
             UpdateDVArea();
         }
         private void CboxItems0_SelectedIndexChanged(object sender, EventArgs e)
         {
-            trClassItems[2 * sTcV()] = (byte)cboxItems0.SelectedIndex;
+            trGroupItems[2 * sTgV()] = (byte)cboxItems0.SelectedIndex;
         }
         private void CboxItems1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            trClassItems[2 * sTcV() + 1] = (byte)cboxItems1.SelectedIndex;
+            trGroupItems[2 * sTgV() + 1] = (byte)cboxItems1.SelectedIndex;
         }
 
         private void ButtonAddTrainer_Click(object sender, EventArgs e)
@@ -498,7 +498,7 @@ namespace Gen2_Trainer_Editor
             if (spinTrainerTeamID.Enabled)
             {
                 PrintWarningIfTooLong(sTr().name, 12);
-                PrintWarningIfTooLong(((string)trClassNames.data[sTcV()]) + " " + sTr().name, 18);
+                PrintWarningIfTooLong(((string)trGroupNames.data[sTgV()]) + " " + sTr().name, 18);
             }
 
             UpdateTrainerBytesUsed();
@@ -701,19 +701,19 @@ namespace Gen2_Trainer_Editor
             UpdateForCanLearn();
         }
 
-        private void UpdateTCNameBytesUsed()
+        private void UpdateGroupNameBytesUsed()
         {
-            tboxFreeTCBytes.Text = trClassNames.BytesFreeAt(sTcV()) + " class bytes free";
+            tboxFreeGroupBytes.Text = trGroupNames.BytesFreeAt(sTgV()) + " group bytes free";
 
-            saveROM_TSMI.Enabled = trClassNames.BytesFreeAt(0) >= 0 && trainerLists.BytesOverlapAt() == -1;
+            saveROM_TSMI.Enabled = trGroupNames.BytesFreeAt(0) >= 0 && trainerLists.BytesOverlapAt() == -1;
         }
 
         private void UpdateTrainerBytesUsed()
         {
-            trainerLists.UpdatePtrs(sTcV());
-            tboxFreeTrBytes.Text = trainerLists.BytesFreeAt(sTcV()) + " trainer bytes free";
+            trainerLists.UpdatePtrs(sTgV());
+            tboxFreeTrBytes.Text = trainerLists.BytesFreeAt(sTgV()) + " trainer bytes free";
 
-            saveROM_TSMI.Enabled = trClassNames.BytesFreeAt(0) >= 0  && trainerLists.BytesOverlapAt() == -1;
+            saveROM_TSMI.Enabled = trGroupNames.BytesFreeAt(0) >= 0  && trainerLists.BytesOverlapAt() == -1;
         }
 
         private void ButtonAnalyze_Click(object sender, EventArgs e)

@@ -48,7 +48,7 @@
                 spinLevels[pos_i].Enabled = false;
                 spinLevels[pos_i].TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
                 spinLevels[pos_i].ValueChanged += new System.EventHandler(SpinLevels_ValueChanged);
-                groupTrTeam.Controls.Add(spinLevels[pos_i]);
+                gboxTrTeam.Controls.Add(spinLevels[pos_i]);
 
                 cboxSpecies[pos_i].FormattingEnabled = true;
                 cboxSpecies[pos_i].Name = "cboxSpecies" + pos_i.ToString();
@@ -57,7 +57,7 @@
                 cboxSpecies[pos_i].Enabled = false;
                 cboxSpecies[pos_i].SelectedIndexChanged += 
                     new System.EventHandler(CboxSpecies_SelectedIndexChanged);
-                groupTrTeam.Controls.Add(cboxSpecies[pos_i]);
+                gboxTrTeam.Controls.Add(cboxSpecies[pos_i]);
 
                 cboxItems[pos_i].FormattingEnabled = true;
                 cboxItems[pos_i].Name = "cboxItems" + pos_i.ToString();
@@ -66,7 +66,7 @@
                 cboxItems[pos_i].Enabled = false;
                 cboxItems[pos_i].SelectedIndexChanged +=
                     new System.EventHandler(CboxItems_SelectedIndexChanged);
-                groupTrTeam.Controls.Add(cboxItems[pos_i]);
+                gboxTrTeam.Controls.Add(cboxItems[pos_i]);
 
                 for (int pos_j = 0; pos_j < 4; pos_j++) {
                     cboxMoves[pos_i,pos_j].FormattingEnabled = true;
@@ -76,7 +76,7 @@
                     cboxMoves[pos_i, pos_j].Enabled = false;
                     cboxMoves[pos_i, pos_j].SelectedIndexChanged +=
                         new System.EventHandler(CboxMoves_SelectedIndexChanged);
-                    groupTrTeam.Controls.Add(cboxMoves[pos_i, pos_j]);
+                    gboxTrTeam.Controls.Add(cboxMoves[pos_i, pos_j]);
                 }
             }
 
@@ -96,21 +96,21 @@
             this.spinDVs0 = new System.Windows.Forms.NumericUpDown();
             this.cboxItems1 = new System.Windows.Forms.ComboBox();
             this.cboxItems0 = new System.Windows.Forms.ComboBox();
-            this.groupTrClass = new System.Windows.Forms.GroupBox();
+            this.gboxTrGroup = new System.Windows.Forms.GroupBox();
             this.buttonAnalyze = new System.Windows.Forms.Button();
-            this.txtClassPtr = new System.Windows.Forms.TextBox();
-            this.groupDVs = new System.Windows.Forms.GroupBox();
+            this.txtGroupPtr = new System.Windows.Forms.TextBox();
+            this.gboxDVs = new System.Windows.Forms.GroupBox();
             this.tboxDVlabel = new System.Windows.Forms.TextBox();
             this.tboxDVinfo = new System.Windows.Forms.TextBox();
             this.tboxHPDV = new System.Windows.Forms.TextBox();
             this.buttonRemoveTrainer = new System.Windows.Forms.Button();
             this.tboxReward = new System.Windows.Forms.TextBox();
             this.buttonAddTrainer = new System.Windows.Forms.Button();
-            this.tboxTCName = new System.Windows.Forms.TextBox();
-            this.spinTC = new System.Windows.Forms.NumericUpDown();
-            this.tboxFreeTCBytes = new System.Windows.Forms.TextBox();
+            this.tboxGroupName = new System.Windows.Forms.TextBox();
+            this.spinGroup = new System.Windows.Forms.NumericUpDown();
+            this.tboxFreeGroupBytes = new System.Windows.Forms.TextBox();
             this.tboxTrainerCount = new System.Windows.Forms.TextBox();
-            this.groupTrTeam = new System.Windows.Forms.GroupBox();
+            this.gboxTrTeam = new System.Windows.Forms.GroupBox();
             this.checkMoveset = new System.Windows.Forms.CheckBox();
             this.checkItems = new System.Windows.Forms.CheckBox();
             this.tboxTrainerName = new System.Windows.Forms.TextBox();
@@ -118,10 +118,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.spinReward)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.spinDVs1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.spinDVs0)).BeginInit();
-            this.groupTrClass.SuspendLayout();
-            this.groupDVs.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.spinTC)).BeginInit();
-            this.groupTrTeam.SuspendLayout();
+            this.gboxTrGroup.SuspendLayout();
+            this.gboxDVs.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.spinGroup)).BeginInit();
+            this.gboxTrTeam.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.spinTrainerTeamID)).BeginInit();
             this.SuspendLayout();
             // 
@@ -205,27 +205,27 @@
             this.cboxItems0.TabIndex = 0;
             this.cboxItems0.SelectedIndexChanged += new System.EventHandler(this.CboxItems0_SelectedIndexChanged);
             // 
-            // groupTrClass
+            // gboxTrGroup
             // 
-            this.groupTrClass.Controls.Add(this.buttonAnalyze);
-            this.groupTrClass.Controls.Add(this.txtClassPtr);
-            this.groupTrClass.Controls.Add(this.groupDVs);
-            this.groupTrClass.Controls.Add(this.buttonRemoveTrainer);
-            this.groupTrClass.Controls.Add(this.tboxReward);
-            this.groupTrClass.Controls.Add(this.cboxItems0);
-            this.groupTrClass.Controls.Add(this.buttonAddTrainer);
-            this.groupTrClass.Controls.Add(this.cboxItems1);
-            this.groupTrClass.Controls.Add(this.tboxTCName);
-            this.groupTrClass.Controls.Add(this.spinReward);
-            this.groupTrClass.Controls.Add(this.spinTC);
-            this.groupTrClass.Controls.Add(this.tboxFreeTCBytes);
-            this.groupTrClass.Controls.Add(this.tboxTrainerCount);
-            this.groupTrClass.Location = new System.Drawing.Point(12, 32);
-            this.groupTrClass.Name = "groupTrClass";
-            this.groupTrClass.Size = new System.Drawing.Size(1039, 140);
-            this.groupTrClass.TabIndex = 18;
-            this.groupTrClass.TabStop = false;
-            this.groupTrClass.Text = "Trainer Class";
+            this.gboxTrGroup.Controls.Add(this.buttonAnalyze);
+            this.gboxTrGroup.Controls.Add(this.txtGroupPtr);
+            this.gboxTrGroup.Controls.Add(this.gboxDVs);
+            this.gboxTrGroup.Controls.Add(this.buttonRemoveTrainer);
+            this.gboxTrGroup.Controls.Add(this.tboxReward);
+            this.gboxTrGroup.Controls.Add(this.cboxItems0);
+            this.gboxTrGroup.Controls.Add(this.buttonAddTrainer);
+            this.gboxTrGroup.Controls.Add(this.cboxItems1);
+            this.gboxTrGroup.Controls.Add(this.tboxGroupName);
+            this.gboxTrGroup.Controls.Add(this.spinReward);
+            this.gboxTrGroup.Controls.Add(this.spinGroup);
+            this.gboxTrGroup.Controls.Add(this.tboxFreeGroupBytes);
+            this.gboxTrGroup.Controls.Add(this.tboxTrainerCount);
+            this.gboxTrGroup.Location = new System.Drawing.Point(12, 32);
+            this.gboxTrGroup.Name = "gboxTrGroup";
+            this.gboxTrGroup.Size = new System.Drawing.Size(1039, 140);
+            this.gboxTrGroup.TabIndex = 18;
+            this.gboxTrGroup.TabStop = false;
+            this.gboxTrGroup.Text = "Trainer Group";
             // 
             // buttonAnalyze
             // 
@@ -238,29 +238,29 @@
             this.buttonAnalyze.UseVisualStyleBackColor = true;
             this.buttonAnalyze.Click += new System.EventHandler(this.ButtonAnalyze_Click);
             // 
-            // txtClassPtr
+            // txtGroupPtr
             // 
-            this.txtClassPtr.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtClassPtr.Location = new System.Drawing.Point(14, 102);
-            this.txtClassPtr.Name = "txtClassPtr";
-            this.txtClassPtr.ReadOnly = true;
-            this.txtClassPtr.Size = new System.Drawing.Size(234, 29);
-            this.txtClassPtr.TabIndex = 38;
-            this.txtClassPtr.TabStop = false;
+            this.txtGroupPtr.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtGroupPtr.Location = new System.Drawing.Point(14, 102);
+            this.txtGroupPtr.Name = "txtGroupPtr";
+            this.txtGroupPtr.ReadOnly = true;
+            this.txtGroupPtr.Size = new System.Drawing.Size(234, 29);
+            this.txtGroupPtr.TabIndex = 38;
+            this.txtGroupPtr.TabStop = false;
             // 
-            // groupDVs
+            // gboxDVs
             // 
-            this.groupDVs.Controls.Add(this.tboxDVlabel);
-            this.groupDVs.Controls.Add(this.tboxDVinfo);
-            this.groupDVs.Controls.Add(this.tboxHPDV);
-            this.groupDVs.Controls.Add(this.spinDVs0);
-            this.groupDVs.Controls.Add(this.spinDVs1);
-            this.groupDVs.Location = new System.Drawing.Point(257, 28);
-            this.groupDVs.Name = "groupDVs";
-            this.groupDVs.Size = new System.Drawing.Size(300, 87);
-            this.groupDVs.TabIndex = 24;
-            this.groupDVs.TabStop = false;
-            this.groupDVs.Text = "DVs";
+            this.gboxDVs.Controls.Add(this.tboxDVlabel);
+            this.gboxDVs.Controls.Add(this.tboxDVinfo);
+            this.gboxDVs.Controls.Add(this.tboxHPDV);
+            this.gboxDVs.Controls.Add(this.spinDVs0);
+            this.gboxDVs.Controls.Add(this.spinDVs1);
+            this.gboxDVs.Location = new System.Drawing.Point(257, 28);
+            this.gboxDVs.Name = "gboxDVs";
+            this.gboxDVs.Size = new System.Drawing.Size(300, 87);
+            this.gboxDVs.TabIndex = 24;
+            this.gboxDVs.TabStop = false;
+            this.gboxDVs.Text = "DVs";
             // 
             // tboxDVlabel
             // 
@@ -323,36 +323,36 @@
             this.buttonAddTrainer.UseVisualStyleBackColor = true;
             this.buttonAddTrainer.Click += new System.EventHandler(this.ButtonAddTrainer_Click);
             // 
-            // tboxTCName
+            // tboxGroupName
             // 
-            this.tboxTCName.Enabled = false;
-            this.tboxTCName.Location = new System.Drawing.Point(79, 28);
-            this.tboxTCName.Name = "tboxTCName";
-            this.tboxTCName.Size = new System.Drawing.Size(169, 29);
-            this.tboxTCName.TabIndex = 22;
-            this.tboxTCName.TextChanged += new System.EventHandler(this.TboxTCName_TextChanged);
+            this.tboxGroupName.Enabled = false;
+            this.tboxGroupName.Location = new System.Drawing.Point(79, 28);
+            this.tboxGroupName.Name = "tboxGroupName";
+            this.tboxGroupName.Size = new System.Drawing.Size(169, 29);
+            this.tboxGroupName.TabIndex = 22;
+            this.tboxGroupName.TextChanged += new System.EventHandler(this.TboxGroupName_TextChanged);
             // 
-            // spinTC
+            // spinGroup
             // 
-            this.spinTC.Enabled = false;
-            this.spinTC.Location = new System.Drawing.Point(14, 28);
-            this.spinTC.Name = "spinTC";
-            this.spinTC.Size = new System.Drawing.Size(58, 29);
-            this.spinTC.TabIndex = 21;
-            this.spinTC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.spinTC.ValueChanged += new System.EventHandler(this.SpinTC_ValueChanged);
+            this.spinGroup.Enabled = false;
+            this.spinGroup.Location = new System.Drawing.Point(14, 28);
+            this.spinGroup.Name = "spinGroup";
+            this.spinGroup.Size = new System.Drawing.Size(58, 29);
+            this.spinGroup.TabIndex = 21;
+            this.spinGroup.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.spinGroup.ValueChanged += new System.EventHandler(this.SpinGroup_ValueChanged);
             // 
-            // tboxFreeTCBytes
+            // tboxFreeTGBytes
             // 
-            this.tboxFreeTCBytes.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tboxFreeTCBytes.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tboxFreeTCBytes.Location = new System.Drawing.Point(14, 65);
-            this.tboxFreeTCBytes.Margin = new System.Windows.Forms.Padding(6, 5, 6, 5);
-            this.tboxFreeTCBytes.Name = "tboxFreeTCBytes";
-            this.tboxFreeTCBytes.ReadOnly = true;
-            this.tboxFreeTCBytes.Size = new System.Drawing.Size(234, 29);
-            this.tboxFreeTCBytes.TabIndex = 18;
-            this.tboxFreeTCBytes.Text = "0 class bytes free";
+            this.tboxFreeGroupBytes.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tboxFreeGroupBytes.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tboxFreeGroupBytes.Location = new System.Drawing.Point(14, 65);
+            this.tboxFreeGroupBytes.Margin = new System.Windows.Forms.Padding(6, 5, 6, 5);
+            this.tboxFreeGroupBytes.Name = "tboxFreeTGBytes";
+            this.tboxFreeGroupBytes.ReadOnly = true;
+            this.tboxFreeGroupBytes.Size = new System.Drawing.Size(234, 29);
+            this.tboxFreeGroupBytes.TabIndex = 18;
+            this.tboxFreeGroupBytes.Text = "0 group bytes free";
             // 
             // tboxTrainerCount
             // 
@@ -364,19 +364,19 @@
             this.tboxTrainerCount.TabIndex = 18;
             this.tboxTrainerCount.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // groupTrTeam
+            // gboxTrTeam
             // 
-            this.groupTrTeam.Controls.Add(this.checkMoveset);
-            this.groupTrTeam.Controls.Add(this.checkItems);
-            this.groupTrTeam.Controls.Add(this.tboxFreeTrBytes);
-            this.groupTrTeam.Controls.Add(this.tboxTrainerName);
-            this.groupTrTeam.Controls.Add(this.spinTrainerTeamID);
-            this.groupTrTeam.Location = new System.Drawing.Point(12, 189);
-            this.groupTrTeam.Name = "groupTrTeam";
-            this.groupTrTeam.Size = new System.Drawing.Size(1039, 286);
-            this.groupTrTeam.TabIndex = 19;
-            this.groupTrTeam.TabStop = false;
-            this.groupTrTeam.Text = "Trainer Team";
+            this.gboxTrTeam.Controls.Add(this.checkMoveset);
+            this.gboxTrTeam.Controls.Add(this.checkItems);
+            this.gboxTrTeam.Controls.Add(this.tboxFreeTrBytes);
+            this.gboxTrTeam.Controls.Add(this.tboxTrainerName);
+            this.gboxTrTeam.Controls.Add(this.spinTrainerTeamID);
+            this.gboxTrTeam.Location = new System.Drawing.Point(12, 189);
+            this.gboxTrTeam.Name = "gboxTrTeam";
+            this.gboxTrTeam.Size = new System.Drawing.Size(1039, 286);
+            this.gboxTrTeam.TabIndex = 19;
+            this.gboxTrTeam.TabStop = false;
+            this.gboxTrTeam.Text = "Trainer Team";
             // 
             // checkMoveset
             // 
@@ -431,24 +431,24 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1065, 487);
-            this.Controls.Add(this.groupTrTeam);
-            this.Controls.Add(this.groupTrClass);
+            this.Controls.Add(this.gboxTrTeam);
+            this.Controls.Add(this.gboxTrGroup);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(6, 5, 6, 5);
             this.Name = "TrainerEditor";
             this.Text = "Wargrave Gen2 Trainer Editor";
-            this.Controls.SetChildIndex(this.groupTrClass, 0);
-            this.Controls.SetChildIndex(this.groupTrTeam, 0);
+            this.Controls.SetChildIndex(this.gboxTrGroup, 0);
+            this.Controls.SetChildIndex(this.gboxTrTeam, 0);
             ((System.ComponentModel.ISupportInitialize)(this.spinReward)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.spinDVs1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.spinDVs0)).EndInit();
-            this.groupTrClass.ResumeLayout(false);
-            this.groupTrClass.PerformLayout();
-            this.groupDVs.ResumeLayout(false);
-            this.groupDVs.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.spinTC)).EndInit();
-            this.groupTrTeam.ResumeLayout(false);
-            this.groupTrTeam.PerformLayout();
+            this.gboxTrGroup.ResumeLayout(false);
+            this.gboxTrGroup.PerformLayout();
+            this.gboxDVs.ResumeLayout(false);
+            this.gboxDVs.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.spinGroup)).EndInit();
+            this.gboxTrTeam.ResumeLayout(false);
+            this.gboxTrTeam.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.spinTrainerTeamID)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -459,7 +459,7 @@
 
         private System.Windows.Forms.TextBox tboxFreeTrBytes;
 
-        private System.Windows.Forms.GroupBox groupTrClass;
+        private System.Windows.Forms.GroupBox gboxTrGroup;
         private System.Windows.Forms.TextBox tboxTrainerCount;
         private System.Windows.Forms.TextBox tboxReward;
         private System.Windows.Forms.NumericUpDown spinReward;
@@ -468,7 +468,7 @@
         private System.Windows.Forms.ComboBox cboxItems0;
         private System.Windows.Forms.ComboBox cboxItems1;
 
-        private System.Windows.Forms.GroupBox groupTrTeam;
+        private System.Windows.Forms.GroupBox gboxTrTeam;
         private System.Windows.Forms.TextBox tboxTrainerName;
         private System.Windows.Forms.NumericUpDown spinTrainerTeamID;
         private System.Windows.Forms.CheckBox checkItems;
@@ -478,16 +478,16 @@
         private System.Windows.Forms.ComboBox[] cboxSpecies;
         private System.Windows.Forms.ComboBox[] cboxItems;
         private System.Windows.Forms.ComboBox[,] cboxMoves;
-        private System.Windows.Forms.TextBox tboxFreeTCBytes;
-        private System.Windows.Forms.TextBox tboxTCName;
-        private System.Windows.Forms.NumericUpDown spinTC;
+        private System.Windows.Forms.TextBox tboxFreeGroupBytes;
+        private System.Windows.Forms.TextBox tboxGroupName;
+        private System.Windows.Forms.NumericUpDown spinGroup;
         private System.Windows.Forms.Button buttonRemoveTrainer;
         private System.Windows.Forms.Button buttonAddTrainer;
-        private System.Windows.Forms.GroupBox groupDVs;
+        private System.Windows.Forms.GroupBox gboxDVs;
         private System.Windows.Forms.TextBox tboxDVlabel;
         private System.Windows.Forms.TextBox tboxDVinfo;
         private System.Windows.Forms.TextBox tboxHPDV;
-        private System.Windows.Forms.TextBox txtClassPtr;
+        private System.Windows.Forms.TextBox txtGroupPtr;
         private System.Windows.Forms.Button buttonAnalyze;
     }
 }

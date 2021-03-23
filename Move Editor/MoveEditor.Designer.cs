@@ -42,11 +42,11 @@
             this.cboxType = new System.Windows.Forms.ComboBox();
             this.cboxCrit = new System.Windows.Forms.CheckBox();
             this.tboxDeltaCritBytes = new System.Windows.Forms.TextBox();
-            this.groupEffect = new System.Windows.Forms.GroupBox();
-            this.groupPower = new System.Windows.Forms.GroupBox();
-            this.groupPP = new System.Windows.Forms.GroupBox();
-            this.groupAccuracy = new System.Windows.Forms.GroupBox();
-            this.groupAnimID = new System.Windows.Forms.GroupBox();
+            this.gboxEffect = new System.Windows.Forms.GroupBox();
+            this.gboxPower = new System.Windows.Forms.GroupBox();
+            this.gboxPP = new System.Windows.Forms.GroupBox();
+            this.gboxAccuracy = new System.Windows.Forms.GroupBox();
+            this.gboxAnimID = new System.Windows.Forms.GroupBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.textBox3 = new System.Windows.Forms.TextBox();
@@ -57,11 +57,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.spinEffect)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.spinEffectChance)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.spinAnimation)).BeginInit();
-            this.groupEffect.SuspendLayout();
-            this.groupPower.SuspendLayout();
-            this.groupPP.SuspendLayout();
-            this.groupAccuracy.SuspendLayout();
-            this.groupAnimID.SuspendLayout();
+            this.gboxEffect.SuspendLayout();
+            this.gboxPower.SuspendLayout();
+            this.gboxPP.SuspendLayout();
+            this.gboxAccuracy.SuspendLayout();
+            this.gboxAnimID.SuspendLayout();
             this.SuspendLayout();
             // 
             // spinMoveID
@@ -304,60 +304,60 @@
             this.tboxDeltaCritBytes.Text = "0";
             this.tboxDeltaCritBytes.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
-            // groupEffect
+            // gboxEffect
             // 
-            this.groupEffect.Controls.Add(this.spinEffect);
-            this.groupEffect.Controls.Add(this.spinEffectChance);
-            this.groupEffect.Controls.Add(this.tboxEffectChance);
-            this.groupEffect.Controls.Add(this.tboxEffect);
-            this.groupEffect.Location = new System.Drawing.Point(326, 163);
-            this.groupEffect.Name = "groupEffect";
-            this.groupEffect.Size = new System.Drawing.Size(227, 142);
-            this.groupEffect.TabIndex = 35;
-            this.groupEffect.TabStop = false;
-            this.groupEffect.Text = "Effect";
+            this.gboxEffect.Controls.Add(this.spinEffect);
+            this.gboxEffect.Controls.Add(this.spinEffectChance);
+            this.gboxEffect.Controls.Add(this.tboxEffectChance);
+            this.gboxEffect.Controls.Add(this.tboxEffect);
+            this.gboxEffect.Location = new System.Drawing.Point(326, 163);
+            this.gboxEffect.Name = "gboxEffect";
+            this.gboxEffect.Size = new System.Drawing.Size(227, 142);
+            this.gboxEffect.TabIndex = 35;
+            this.gboxEffect.TabStop = false;
+            this.gboxEffect.Text = "Effect";
             // 
-            // groupPower
+            // gboxPower
             // 
-            this.groupPower.Controls.Add(this.spinPower);
-            this.groupPower.Location = new System.Drawing.Point(11, 163);
-            this.groupPower.Name = "groupPower";
-            this.groupPower.Size = new System.Drawing.Size(87, 68);
-            this.groupPower.TabIndex = 36;
-            this.groupPower.TabStop = false;
-            this.groupPower.Text = "Power";
+            this.gboxPower.Controls.Add(this.spinPower);
+            this.gboxPower.Location = new System.Drawing.Point(11, 163);
+            this.gboxPower.Name = "gboxPower";
+            this.gboxPower.Size = new System.Drawing.Size(87, 68);
+            this.gboxPower.TabIndex = 36;
+            this.gboxPower.TabStop = false;
+            this.gboxPower.Text = "Power";
             // 
-            // groupPP
+            // gboxPP
             // 
-            this.groupPP.Controls.Add(this.spinPP);
-            this.groupPP.Location = new System.Drawing.Point(12, 237);
-            this.groupPP.Name = "groupPP";
-            this.groupPP.Size = new System.Drawing.Size(87, 68);
-            this.groupPP.TabIndex = 37;
-            this.groupPP.TabStop = false;
-            this.groupPP.Text = "PP";
+            this.gboxPP.Controls.Add(this.spinPP);
+            this.gboxPP.Location = new System.Drawing.Point(12, 237);
+            this.gboxPP.Name = "gboxPP";
+            this.gboxPP.Size = new System.Drawing.Size(87, 68);
+            this.gboxPP.TabIndex = 37;
+            this.gboxPP.TabStop = false;
+            this.gboxPP.Text = "PP";
             // 
-            // groupAccuracy
+            // gboxAccuracy
             // 
-            this.groupAccuracy.Controls.Add(this.spinAccuracy);
-            this.groupAccuracy.Controls.Add(this.tboxAccuracy);
-            this.groupAccuracy.Location = new System.Drawing.Point(104, 163);
-            this.groupAccuracy.Name = "groupAccuracy";
-            this.groupAccuracy.Size = new System.Drawing.Size(169, 68);
-            this.groupAccuracy.TabIndex = 38;
-            this.groupAccuracy.TabStop = false;
-            this.groupAccuracy.Text = "Accuracy";
+            this.gboxAccuracy.Controls.Add(this.spinAccuracy);
+            this.gboxAccuracy.Controls.Add(this.tboxAccuracy);
+            this.gboxAccuracy.Location = new System.Drawing.Point(104, 163);
+            this.gboxAccuracy.Name = "gboxAccuracy";
+            this.gboxAccuracy.Size = new System.Drawing.Size(169, 68);
+            this.gboxAccuracy.TabIndex = 38;
+            this.gboxAccuracy.TabStop = false;
+            this.gboxAccuracy.Text = "Accuracy";
             // 
-            // groupAnimID
+            // gboxAnimID
             // 
-            this.groupAnimID.Controls.Add(this.spinAnimation);
-            this.groupAnimID.Controls.Add(this.tboxAnimation);
-            this.groupAnimID.Location = new System.Drawing.Point(104, 237);
-            this.groupAnimID.Name = "groupAnimID";
-            this.groupAnimID.Size = new System.Drawing.Size(216, 68);
-            this.groupAnimID.TabIndex = 39;
-            this.groupAnimID.TabStop = false;
-            this.groupAnimID.Text = "Animation ID";
+            this.gboxAnimID.Controls.Add(this.spinAnimation);
+            this.gboxAnimID.Controls.Add(this.tboxAnimation);
+            this.gboxAnimID.Location = new System.Drawing.Point(104, 237);
+            this.gboxAnimID.Name = "gboxAnimID";
+            this.gboxAnimID.Size = new System.Drawing.Size(216, 68);
+            this.gboxAnimID.TabIndex = 39;
+            this.gboxAnimID.TabStop = false;
+            this.gboxAnimID.Text = "Animation ID";
             // 
             // textBox1
             // 
@@ -397,11 +397,11 @@
             this.Controls.Add(this.textBox3);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.groupAnimID);
-            this.Controls.Add(this.groupAccuracy);
-            this.Controls.Add(this.groupPP);
-            this.Controls.Add(this.groupPower);
-            this.Controls.Add(this.groupEffect);
+            this.Controls.Add(this.gboxAnimID);
+            this.Controls.Add(this.gboxAccuracy);
+            this.Controls.Add(this.gboxPP);
+            this.Controls.Add(this.gboxPower);
+            this.Controls.Add(this.gboxEffect);
             this.Controls.Add(this.tboxDeltaCritBytes);
             this.Controls.Add(this.cboxCrit);
             this.Controls.Add(this.cboxType);
@@ -422,11 +422,11 @@
             this.Controls.SetChildIndex(this.cboxType, 0);
             this.Controls.SetChildIndex(this.cboxCrit, 0);
             this.Controls.SetChildIndex(this.tboxDeltaCritBytes, 0);
-            this.Controls.SetChildIndex(this.groupEffect, 0);
-            this.Controls.SetChildIndex(this.groupPower, 0);
-            this.Controls.SetChildIndex(this.groupPP, 0);
-            this.Controls.SetChildIndex(this.groupAccuracy, 0);
-            this.Controls.SetChildIndex(this.groupAnimID, 0);
+            this.Controls.SetChildIndex(this.gboxEffect, 0);
+            this.Controls.SetChildIndex(this.gboxPower, 0);
+            this.Controls.SetChildIndex(this.gboxPP, 0);
+            this.Controls.SetChildIndex(this.gboxAccuracy, 0);
+            this.Controls.SetChildIndex(this.gboxAnimID, 0);
             this.Controls.SetChildIndex(this.textBox1, 0);
             this.Controls.SetChildIndex(this.textBox2, 0);
             this.Controls.SetChildIndex(this.textBox3, 0);
@@ -437,14 +437,14 @@
             ((System.ComponentModel.ISupportInitialize)(this.spinEffect)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.spinEffectChance)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.spinAnimation)).EndInit();
-            this.groupEffect.ResumeLayout(false);
-            this.groupEffect.PerformLayout();
-            this.groupPower.ResumeLayout(false);
-            this.groupPP.ResumeLayout(false);
-            this.groupAccuracy.ResumeLayout(false);
-            this.groupAccuracy.PerformLayout();
-            this.groupAnimID.ResumeLayout(false);
-            this.groupAnimID.PerformLayout();
+            this.gboxEffect.ResumeLayout(false);
+            this.gboxEffect.PerformLayout();
+            this.gboxPower.ResumeLayout(false);
+            this.gboxPP.ResumeLayout(false);
+            this.gboxAccuracy.ResumeLayout(false);
+            this.gboxAccuracy.PerformLayout();
+            this.gboxAnimID.ResumeLayout(false);
+            this.gboxAnimID.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -470,11 +470,11 @@
         private System.Windows.Forms.ComboBox cboxType;
         private System.Windows.Forms.CheckBox cboxCrit;
         private System.Windows.Forms.TextBox tboxDeltaCritBytes;
-        private System.Windows.Forms.GroupBox groupEffect;
-        private System.Windows.Forms.GroupBox groupPower;
-        private System.Windows.Forms.GroupBox groupPP;
-        private System.Windows.Forms.GroupBox groupAccuracy;
-        private System.Windows.Forms.GroupBox groupAnimID;
+        private System.Windows.Forms.GroupBox gboxEffect;
+        private System.Windows.Forms.GroupBox gboxPower;
+        private System.Windows.Forms.GroupBox gboxPP;
+        private System.Windows.Forms.GroupBox gboxAccuracy;
+        private System.Windows.Forms.GroupBox gboxAnimID;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.TextBox textBox3;

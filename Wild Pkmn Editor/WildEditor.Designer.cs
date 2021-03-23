@@ -29,16 +29,16 @@
             this.textPkmnMorn = new System.Windows.Forms.TextBox();
             this.spinMornFreq = new System.Windows.Forms.NumericUpDown();
             this.textBox1 = new System.Windows.Forms.TextBox();
-            this.groupMorning = new System.Windows.Forms.GroupBox();
+            this.gboxMorning = new System.Windows.Forms.GroupBox();
             this.buttonDecLevelsMorn = new System.Windows.Forms.Button();
             this.buttonIncLevelsMorn = new System.Windows.Forms.Button();
-            this.groupDay = new System.Windows.Forms.GroupBox();
+            this.gboxDay = new System.Windows.Forms.GroupBox();
             this.buttonDecLevelsDay = new System.Windows.Forms.Button();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.buttonIncLevelsDay = new System.Windows.Forms.Button();
             this.textPkmnDay = new System.Windows.Forms.TextBox();
             this.spinDayFreq = new System.Windows.Forms.NumericUpDown();
-            this.groupNight = new System.Windows.Forms.GroupBox();
+            this.gboxNight = new System.Windows.Forms.GroupBox();
             this.buttonDecLevelsNight = new System.Windows.Forms.Button();
             this.textBox4 = new System.Windows.Forms.TextBox();
             this.buttonIncLevelsNight = new System.Windows.Forms.Button();
@@ -49,10 +49,10 @@
             this.buttonAnalyze = new System.Windows.Forms.Button();
             this.comboVersion = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.spinMornFreq)).BeginInit();
-            this.groupMorning.SuspendLayout();
-            this.groupDay.SuspendLayout();
+            this.gboxMorning.SuspendLayout();
+            this.gboxDay.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.spinDayFreq)).BeginInit();
-            this.groupNight.SuspendLayout();
+            this.gboxNight.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.spinNightFreq)).BeginInit();
             this.SuspendLayout();
             // 
@@ -118,19 +118,19 @@
             this.textBox1.TabIndex = 10;
             this.textBox1.Text = "Frequency";
             // 
-            // groupMorning
+            // gboxMorning
             // 
-            this.groupMorning.Controls.Add(this.buttonDecLevelsMorn);
-            this.groupMorning.Controls.Add(this.buttonIncLevelsMorn);
-            this.groupMorning.Controls.Add(this.textBox1);
-            this.groupMorning.Controls.Add(this.textPkmnMorn);
-            this.groupMorning.Controls.Add(this.spinMornFreq);
-            this.groupMorning.Location = new System.Drawing.Point(13, 103);
-            this.groupMorning.Name = "groupMorning";
-            this.groupMorning.Size = new System.Drawing.Size(186, 303);
-            this.groupMorning.TabIndex = 13;
-            this.groupMorning.TabStop = false;
-            this.groupMorning.Text = "Morning";
+            this.gboxMorning.Controls.Add(this.buttonDecLevelsMorn);
+            this.gboxMorning.Controls.Add(this.buttonIncLevelsMorn);
+            this.gboxMorning.Controls.Add(this.textBox1);
+            this.gboxMorning.Controls.Add(this.textPkmnMorn);
+            this.gboxMorning.Controls.Add(this.spinMornFreq);
+            this.gboxMorning.Location = new System.Drawing.Point(13, 103);
+            this.gboxMorning.Name = "gboxMorning";
+            this.gboxMorning.Size = new System.Drawing.Size(186, 303);
+            this.gboxMorning.TabIndex = 13;
+            this.gboxMorning.TabStop = false;
+            this.gboxMorning.Text = "Morning";
             // 
             // buttonDecLevelsMorn
             // 
@@ -156,17 +156,17 @@
             // 
             // groupDay
             // 
-            this.groupDay.Controls.Add(this.buttonDecLevelsDay);
-            this.groupDay.Controls.Add(this.textBox2);
-            this.groupDay.Controls.Add(this.buttonIncLevelsDay);
-            this.groupDay.Controls.Add(this.textPkmnDay);
-            this.groupDay.Controls.Add(this.spinDayFreq);
-            this.groupDay.Location = new System.Drawing.Point(205, 103);
-            this.groupDay.Name = "groupDay";
-            this.groupDay.Size = new System.Drawing.Size(186, 303);
-            this.groupDay.TabIndex = 14;
-            this.groupDay.TabStop = false;
-            this.groupDay.Text = "Day";
+            this.gboxDay.Controls.Add(this.buttonDecLevelsDay);
+            this.gboxDay.Controls.Add(this.textBox2);
+            this.gboxDay.Controls.Add(this.buttonIncLevelsDay);
+            this.gboxDay.Controls.Add(this.textPkmnDay);
+            this.gboxDay.Controls.Add(this.spinDayFreq);
+            this.gboxDay.Location = new System.Drawing.Point(205, 103);
+            this.gboxDay.Name = "gboxDay";
+            this.gboxDay.Size = new System.Drawing.Size(186, 303);
+            this.gboxDay.TabIndex = 14;
+            this.gboxDay.TabStop = false;
+            this.gboxDay.Text = "Day";
             // 
             // buttonDecLevelsDay
             // 
@@ -226,19 +226,19 @@
             this.spinDayFreq.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.spinDayFreq.ValueChanged += new System.EventHandler(this.SpinDayFreq_ValueChanged);
             // 
-            // groupNight
+            // gboxNight
             // 
-            this.groupNight.Controls.Add(this.buttonDecLevelsNight);
-            this.groupNight.Controls.Add(this.textBox4);
-            this.groupNight.Controls.Add(this.buttonIncLevelsNight);
-            this.groupNight.Controls.Add(this.textPkmnNight);
-            this.groupNight.Controls.Add(this.spinNightFreq);
-            this.groupNight.Location = new System.Drawing.Point(397, 103);
-            this.groupNight.Name = "groupNight";
-            this.groupNight.Size = new System.Drawing.Size(186, 303);
-            this.groupNight.TabIndex = 14;
-            this.groupNight.TabStop = false;
-            this.groupNight.Text = "Night";
+            this.gboxNight.Controls.Add(this.buttonDecLevelsNight);
+            this.gboxNight.Controls.Add(this.textBox4);
+            this.gboxNight.Controls.Add(this.buttonIncLevelsNight);
+            this.gboxNight.Controls.Add(this.textPkmnNight);
+            this.gboxNight.Controls.Add(this.spinNightFreq);
+            this.gboxNight.Location = new System.Drawing.Point(397, 103);
+            this.gboxNight.Name = "gboxNight";
+            this.gboxNight.Size = new System.Drawing.Size(186, 303);
+            this.gboxNight.TabIndex = 14;
+            this.gboxNight.TabStop = false;
+            this.gboxNight.Text = "Night";
             // 
             // buttonDecLevelsNight
             // 
@@ -348,9 +348,9 @@
             this.Controls.Add(this.buttonAnalyze);
             this.Controls.Add(this.textMapNum);
             this.Controls.Add(this.textMapBank);
-            this.Controls.Add(this.groupNight);
-            this.Controls.Add(this.groupDay);
-            this.Controls.Add(this.groupMorning);
+            this.Controls.Add(this.gboxNight);
+            this.Controls.Add(this.gboxDay);
+            this.Controls.Add(this.gboxMorning);
             this.Controls.Add(this.comboArea);
             this.Controls.Add(this.comboRegion);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -358,21 +358,21 @@
             this.Text = "Wargrave Gen2 Area Wild Pokemon Editor";
             this.Controls.SetChildIndex(this.comboRegion, 0);
             this.Controls.SetChildIndex(this.comboArea, 0);
-            this.Controls.SetChildIndex(this.groupMorning, 0);
-            this.Controls.SetChildIndex(this.groupDay, 0);
-            this.Controls.SetChildIndex(this.groupNight, 0);
+            this.Controls.SetChildIndex(this.gboxMorning, 0);
+            this.Controls.SetChildIndex(this.gboxDay, 0);
+            this.Controls.SetChildIndex(this.gboxNight, 0);
             this.Controls.SetChildIndex(this.textMapBank, 0);
             this.Controls.SetChildIndex(this.textMapNum, 0);
             this.Controls.SetChildIndex(this.buttonAnalyze, 0);
             this.Controls.SetChildIndex(this.comboVersion, 0);
             ((System.ComponentModel.ISupportInitialize)(this.spinMornFreq)).EndInit();
-            this.groupMorning.ResumeLayout(false);
-            this.groupMorning.PerformLayout();
-            this.groupDay.ResumeLayout(false);
-            this.groupDay.PerformLayout();
+            this.gboxMorning.ResumeLayout(false);
+            this.gboxMorning.PerformLayout();
+            this.gboxDay.ResumeLayout(false);
+            this.gboxDay.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.spinDayFreq)).EndInit();
-            this.groupNight.ResumeLayout(false);
-            this.groupNight.PerformLayout();
+            this.gboxNight.ResumeLayout(false);
+            this.gboxNight.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.spinNightFreq)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -386,12 +386,12 @@
         private System.Windows.Forms.TextBox textPkmnMorn;
         private System.Windows.Forms.NumericUpDown spinMornFreq;
         private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.GroupBox groupMorning;
-        private System.Windows.Forms.GroupBox groupDay;
+        private System.Windows.Forms.GroupBox gboxMorning;
+        private System.Windows.Forms.GroupBox gboxDay;
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.TextBox textPkmnDay;
         private System.Windows.Forms.NumericUpDown spinDayFreq;
-        private System.Windows.Forms.GroupBox groupNight;
+        private System.Windows.Forms.GroupBox gboxNight;
         private System.Windows.Forms.TextBox textBox4;
         private System.Windows.Forms.TextBox textPkmnNight;
         private System.Windows.Forms.NumericUpDown spinNightFreq;

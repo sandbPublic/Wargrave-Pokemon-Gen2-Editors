@@ -295,7 +295,7 @@ namespace Editor_Base_Class
             #endregion
             #region TRAINER
             int numOfTrC = 0;
-            JumpToIfLoading(TR_CLASS_NAME_I);
+            JumpToIfLoading(TR_GROUP_NAME_I);
             while (ROM_File.Position < offset[TR_CLASS_NAME_END_I] - 1)
             {
                 if (ROM_File.ReadByte() == 0) break;
@@ -307,34 +307,34 @@ namespace Editor_Base_Class
                 }
             }
 
-            if (JumpToIfLoading(TR_CLASS_NAME_I))
+            if (JumpToIfLoading(TR_GROUP_NAME_I))
             {
-                trClassNames = new DataBlock<DBString>(offset[TR_CLASS_NAME_I],
+                trGroupNames = new DataBlock<DBString>(offset[TR_GROUP_NAME_I],
                     offset[TR_CLASS_NAME_END_I], false, numOfTrC - 1, 0);
-                trClassNames.ReadFromFile(ROM_File);
+                trGroupNames.ReadFromFile(ROM_File);
             }
 
             // dvs, 4 bits per dv
-            if (JumpToIfLoading(TR_CLASS_DV_I))
+            if (JumpToIfLoading(TR_GROUP_DV_I))
             {
-                trClassDVs = new List<byte>();
-                for (int tc_i = trClassNames.start_i; tc_i <= trClassNames.end_i; tc_i++)
+                trGroupDVs = new List<byte>();
+                for (int tc_i = trGroupNames.start_i; tc_i <= trGroupNames.end_i; tc_i++)
                 {
-                    trClassDVs.Add((byte)ROM_File.ReadByte()); // atkdef
-                    trClassDVs.Add((byte)ROM_File.ReadByte()); // speedspec
+                    trGroupDVs.Add((byte)ROM_File.ReadByte()); // atkdef
+                    trGroupDVs.Add((byte)ROM_File.ReadByte()); // speedspec
                 }
             }
 
             // items used and money
-            if (JumpToIfLoading(TR_CLASS_ATTRIBUTE_I))
+            if (JumpToIfLoading(TR_GROUP_ATTRIBUTE_I))
             {
-                trClassItems = new List<byte>();
-                trClassRewards = new List<byte>();
-                for (int tc_i = trClassNames.start_i; tc_i <= trClassNames.end_i; tc_i++)
+                trGroupItems = new List<byte>();
+                trGroupRewards = new List<byte>();
+                for (int tc_i = trGroupNames.start_i; tc_i <= trGroupNames.end_i; tc_i++)
                 {
-                    trClassItems.Add((byte)ROM_File.ReadByte());
-                    trClassItems.Add((byte)ROM_File.ReadByte());
-                    trClassRewards.Add((byte)ROM_File.ReadByte());
+                    trGroupItems.Add((byte)ROM_File.ReadByte());
+                    trGroupItems.Add((byte)ROM_File.ReadByte());
+                    trGroupRewards.Add((byte)ROM_File.ReadByte());
                     ROM_File.Position += 4; // skip AI behavior bytes
                 }
             }

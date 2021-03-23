@@ -53,7 +53,7 @@ namespace Editor_Base_Class
     {
         int Length();
         void ReadFromFile(ROM_FileStream ROM_File, string pushFrontWith = "",
-            int maxEndPtr = 0, bool finalClass = false); // for DBTrainerList
+            int maxEndPtr = 0, bool finalGroup = false); // for DBTrainerList
         void WriteToFile(ROM_FileStream ROM_File);
     }
 
@@ -76,7 +76,7 @@ namespace Editor_Base_Class
 
         public int Length() { return me.Length + 1; } // +1 for null terminator
         public void ReadFromFile(ROM_FileStream ROM_File, string pushFrontWith = "",
-            int maxEndPtr = 0, bool finalClass = false)
+            int maxEndPtr = 0, bool finalGroup = false)
         {
             me = pushFrontWith + ROM_File.PkmnReadString();
         }
@@ -128,7 +128,7 @@ namespace Editor_Base_Class
         }
 
         public void ReadFromFile(ROM_FileStream ROM_File, string pushFrontWith = "",
-            int maxEndPtr = 0, bool finalClass = false)
+            int maxEndPtr = 0, bool finalGroup = false)
         {
 
             byte currByte = (byte)ROM_File.ReadByte();
@@ -228,9 +228,9 @@ namespace Editor_Base_Class
         }
 
         public void ReadFromFile(ROM_FileStream ROM_File, string pushFrontWith = "",
-            int maxEndPtr = 0, bool finalClass = false) // TODO change terminology from trainer "class" to "title"?
+            int maxEndPtr = 0, bool finalGroup = false)
         {
-            if (!finalClass)
+            if (!finalGroup)
             {
                 while (ROM_File.Position < maxEndPtr)
                 {
@@ -466,7 +466,7 @@ namespace Editor_Base_Class
         }
 
         public void ReadFromFile(ROM_FileStream ROM_File, string pushFrontWith = "",
-            int maxEndPtr = 0, bool finalClass = false)
+            int maxEndPtr = 0, bool finalGroup = false)
         {
 
             ReadFromFileRecursive(ROM_File, new List<long>());
@@ -916,14 +916,14 @@ namespace Editor_Base_Class
         public bool[,] TMSets = new bool[256, 64];
         #endregion
         #region TRAINER
-        protected DataBlock<DBString> trClassNames;
+        protected DataBlock<DBString> trGroupNames;
 
         //protected DataBlock<List<Trainer>> trainerLists;
         protected DataBlock<DBTrainerList> trainerLists;
 
-        protected List<byte> trClassDVs;
-        protected List<byte> trClassItems;
-        protected List<byte> trClassRewards;
+        protected List<byte> trGroupDVs;
+        protected List<byte> trGroupItems;
+        protected List<byte> trGroupRewards;
         #endregion
         protected DataBlock<AnimationCode> animations;
         #region WILD
