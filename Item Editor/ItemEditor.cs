@@ -122,28 +122,27 @@ namespace Gen2_Item_Editor
 
         protected override void ExportData()
         {
-            var file = new System.IO.StreamWriter(data_FilePath);
-
-            foreach (int item_i in itemNames.Range())
+            using (var file = new System.IO.StreamWriter(data_FilePath))
             {
-                file.WriteLine(itemNames.data[item_i]);
-                file.WriteLine(itemDescs.data[item_i]);
+                foreach (int item_i in itemNames.Range())
+                {
+                    file.WriteLine(itemNames.data[item_i]);
+                    file.WriteLine(itemDescs.data[item_i]);
 
-                string dataStruct =
-                    itemDescs.RelativePtr(item_i) + " " // ptrs
-                    + GetItemCost(item_i).ToString() + " "
-                    + items[item_i, HELD_ITEM_ID_I] + " "
-                    + items[item_i, PARAM_I] + " "
-                    + items[item_i, FLAG_I] + " "
-                    + items[item_i, POCKET_I] + " "
-                    + items[item_i, USE_RESTRICTION_I] + " "
-                    + itemASM[item_i].ToString();
+                    string dataStruct =
+                        itemDescs.RelativePtr(item_i) + " " // ptrs
+                        + GetItemCost(item_i).ToString() + " "
+                        + items[item_i, HELD_ITEM_ID_I] + " "
+                        + items[item_i, PARAM_I] + " "
+                        + items[item_i, FLAG_I] + " "
+                        + items[item_i, POCKET_I] + " "
+                        + items[item_i, USE_RESTRICTION_I] + " "
+                        + itemASM[item_i].ToString();
 
-                file.WriteLine(dataStruct);
-                file.WriteLine("");
+                    file.WriteLine(dataStruct);
+                    file.WriteLine("");
+                }
             }
-
-            file.Dispose();
         }
 
         protected override void ManagePointers()

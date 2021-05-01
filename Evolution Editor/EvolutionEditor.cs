@@ -119,27 +119,26 @@ namespace Gen2_Evolution_Editor
         
         protected override void ExportData()
         {
-            var file = new System.IO.StreamWriter(data_FilePath);
-
-            foreach (int pkmn_i in movesets.Range())
+            using (var file = new System.IO.StreamWriter(data_FilePath))
             {
-                file.WriteLine(movesets.RelativePtr(pkmn_i) + " "
-                    + movesets.data[pkmn_i].evoList.Count);
-
-                string s = "";
-                foreach (EvoData eD in movesets.data[pkmn_i].evoList)
+                foreach (int pkmn_i in movesets.Range())
                 {
-                    s += eD.method.ToString() + " ";
-                    s += eD.param.ToString() + " ";
-                    if (eD.IsTyrogueEvoMethod()) s += eD.DVparam.ToString() + " ";
-                    s += eD.species.ToString() + " ";
-                }
-                s += "0";
-                file.WriteLine(s);
-                file.WriteLine("");
-            }
+                    file.WriteLine(movesets.RelativePtr(pkmn_i) + " "
+                        + movesets.data[pkmn_i].evoList.Count);
 
-            file.Dispose();
+                    string s = "";
+                    foreach (EvoData eD in movesets.data[pkmn_i].evoList)
+                    {
+                        s += eD.method.ToString() + " ";
+                        s += eD.param.ToString() + " ";
+                        if (eD.IsTyrogueEvoMethod()) s += eD.DVparam.ToString() + " ";
+                        s += eD.species.ToString() + " ";
+                    }
+                    s += "0";
+                    file.WriteLine(s);
+                    file.WriteLine("");
+                }
+            }
         }
         
         protected override void ManagePointers()

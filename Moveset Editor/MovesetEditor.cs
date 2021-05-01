@@ -108,36 +108,35 @@ namespace Gen2_Moveset_Editor
         // evodata not saved, considered immutable for this tool (load and maintain from ROM)
         protected override void ExportData()
         {
-            var file = new System.IO.StreamWriter(data_FilePath);
-
-            foreach (int pkmn_i in movesets.Range())
+            using (var file = new System.IO.StreamWriter(data_FilePath))
             {
-                file.WriteLine(movesets.RelativePtr(pkmn_i) + " "
-                    + movesets.data[pkmn_i].learnList.Count);
-
-                string s = "";
-                foreach (LearnData lD in movesets.data[pkmn_i].learnList)
+                foreach (int pkmn_i in movesets.Range())
                 {
-                    s += lD.level.ToString() + " ";
-                    s += lD.move.ToString() + " ";
+                    file.WriteLine(movesets.RelativePtr(pkmn_i) + " "
+                        + movesets.data[pkmn_i].learnList.Count);
+
+                    string s = "";
+                    foreach (LearnData lD in movesets.data[pkmn_i].learnList)
+                    {
+                        s += lD.level.ToString() + " ";
+                        s += lD.move.ToString() + " ";
+                    }
+                    file.WriteLine(s);
+
+                    bool[] TMbools = new bool[64];
+                    for (int bool_i = 0; bool_i < 64; bool_i++)
+                    {
+                        TMbools[bool_i] = TMSets[pkmn_i, bool_i];
+                    }
+                    byte[] TMbytes = ROM_FileStream.TMBytesFromBools(TMbools);
+
+                    s = "";
+                    foreach (byte b in TMbytes) s += b.ToString() + " ";
+                    file.WriteLine(s);
+
+                    file.WriteLine("");
                 }
-                file.WriteLine(s);
-
-                bool[] TMbools = new bool[64];
-                for (int bool_i = 0; bool_i < 64; bool_i++)
-                {
-                    TMbools[bool_i] = TMSets[pkmn_i, bool_i];
-                }
-                byte[] TMbytes = ROM_FileStream.TMBytesFromBools(TMbools);
-
-                s = "";
-                foreach (byte b in TMbytes) s += b.ToString() + " ";
-                file.WriteLine(s);
-
-                file.WriteLine("");
             }
-
-            file.Dispose();
         }
 
         protected override void ManagePointers()

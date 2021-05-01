@@ -145,41 +145,42 @@ namespace Gen2_Trainer_Editor
             //   list of pkmn
             // blank line
 
-            var file = new System.IO.StreamWriter(data_FilePath);
-            file.WriteLine(trGroupNames.end_i - trGroupNames.start_i + 1); // num groups
-            for (int group_i = trGroupNames.start_i; group_i <= trGroupNames.end_i; group_i++)
+            using (var file = new System.IO.StreamWriter(data_FilePath))
             {
-                file.WriteLine(trGroupNames.data[group_i]);
-
-                string s = trGroupDVs[2 * group_i]
-                    + " " + trGroupDVs[2 * group_i + 1]
-                    + " " + trGroupItems[2 * group_i]
-                    + " " + trGroupItems[2 * group_i + 1]
-                    + " " + trGroupRewards[group_i]
-                    + " " + trainerLists.RelativePtr(group_i)
-                    + " " + trainerLists.data[group_i].LT.Count;
-                file.WriteLine(s);
-
-                foreach (Trainer t in trainerLists.data[group_i].LT)
+                file.WriteLine(trGroupNames.end_i - trGroupNames.start_i + 1); // num groups
+                for (int group_i = trGroupNames.start_i; group_i <= trGroupNames.end_i; group_i++)
                 {
-                    file.WriteLine(t.name);
+                    file.WriteLine(trGroupNames.data[group_i]);
 
-                    s = (t.hasItems ? "1 " : "0 ") +
-                        (t.hasMoves ? "1 " : "0 ") +
-                        t.team.Count;
+                    string s = trGroupDVs[2 * group_i]
+                        + " " + trGroupDVs[2 * group_i + 1]
+                        + " " + trGroupItems[2 * group_i]
+                        + " " + trGroupItems[2 * group_i + 1]
+                        + " " + trGroupRewards[group_i]
+                        + " " + trainerLists.RelativePtr(group_i)
+                        + " " + trainerLists.data[group_i].LT.Count;
                     file.WriteLine(s);
 
-                    foreach (TeamMember tm in t.team)
+                    foreach (Trainer t in trainerLists.data[group_i].LT)
                     {
-                        s = tm.level + " " + tm.species + " " + tm.item
-                            + " " + tm.moves[0] + " " + tm.moves[1]
-                            + " " + tm.moves[2] + " " + tm.moves[3];
+                        file.WriteLine(t.name);
+
+                        s = (t.hasItems ? "1 " : "0 ") +
+                            (t.hasMoves ? "1 " : "0 ") +
+                            t.team.Count;
                         file.WriteLine(s);
+
+                        foreach (TeamMember tm in t.team)
+                        {
+                            s = tm.level + " " + tm.species + " " + tm.item
+                                + " " + tm.moves[0] + " " + tm.moves[1]
+                                + " " + tm.moves[2] + " " + tm.moves[3];
+                            file.WriteLine(s);
+                        }
                     }
+                    file.WriteLine("");
                 }
-                file.WriteLine("");
             }
-            file.Dispose();
         }
 
         protected override void ManagePointers()

@@ -24,7 +24,7 @@ namespace Editor_Base_Class
 
         protected OpenFileDialog ofdData;
         protected SaveFileDialog sfdData;
-        protected string data_FilePath;
+        protected string data_FilePath; // todo remove, don't need persistent member variable?
 
         public Gen2Editor()
         {
@@ -429,7 +429,7 @@ namespace Editor_Base_Class
     {
         static void Main()
         {
-            var gsc = new Gen2Editor();
+            _ = new Gen2Editor();
         }
     }
 }

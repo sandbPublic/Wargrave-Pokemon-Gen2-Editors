@@ -248,29 +248,28 @@ namespace Gen2_Move_Editor
 
         protected override void ExportData()
         {
-            var file = new System.IO.StreamWriter(data_FilePath);
-
-            foreach (int move_i in moveNames.Range())
+            using (var file = new System.IO.StreamWriter(data_FilePath))
             {
-                file.WriteLine(moveNames.data[move_i]);
-                file.WriteLine(moveDescs.data[move_i]);
+                foreach (int move_i in moveNames.Range())
+                {
+                    file.WriteLine(moveNames.data[move_i]);
+                    file.WriteLine(moveDescs.data[move_i]);
 
-                string dataStruct =
-                    moveDescs.RelativePtr(move_i) + " " // ptrs
-                    + (moveIsCrit[move_i] ? "1" : "0") + " "
-                    + moves[move_i, ANIMATION_I] + " "
-                    + moves[move_i, EFFECT_I] + " "
-                    + moves[move_i, POWER_I] + " "
-                    + moves[move_i, TYPE_I] + " "
-                    + moves[move_i, ACCURACY_I] + " "
-                    + moves[move_i, PP_I] + " "
-                    + moves[move_i, EFFECT_CHANCE_I];
+                    string dataStruct =
+                        moveDescs.RelativePtr(move_i) + " " // ptrs
+                        + (moveIsCrit[move_i] ? "1" : "0") + " "
+                        + moves[move_i, ANIMATION_I] + " "
+                        + moves[move_i, EFFECT_I] + " "
+                        + moves[move_i, POWER_I] + " "
+                        + moves[move_i, TYPE_I] + " "
+                        + moves[move_i, ACCURACY_I] + " "
+                        + moves[move_i, PP_I] + " "
+                        + moves[move_i, EFFECT_CHANCE_I];
 
-                file.WriteLine(dataStruct);
-                file.WriteLine("");
+                    file.WriteLine(dataStruct);
+                    file.WriteLine("");
+                }
             }
-
-            file.Dispose();
         }
 
         protected override void ManagePointers()
