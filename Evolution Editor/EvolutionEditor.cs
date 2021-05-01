@@ -17,10 +17,9 @@ namespace Gen2_Evolution_Editor
         {
             InitializeComponent();
 
-            int[] oTL = { MOVESET_PTR_I, ITEM_NAME_I, PKMN_NAME_I };
-            int[] oTS = { MOVESET_PTR_I };
-
-            InitOffsets(oTL, oTS);
+            int[] readOnly = {ITEM_NAME_I, PKMN_NAME_I};
+            int[] readWrite = {MOVESET_PTR_I};
+            InitOffsets(readOnly, readWrite);
         }
 
         protected override void EnableDataEntry()

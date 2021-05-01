@@ -913,7 +913,7 @@ namespace Editor_Base_Class
 
         public byte[] TMCodes = new byte[50]; // public for TM form
         public byte[] HMCodes = new byte[8];
-        public bool[,] TMSets = new bool[256, 64];
+        public bool[,] TMSets = new bool[256, 64]; // can pkmn (1st index) learn TM (2nd index)
         #endregion
         #region TRAINER
         protected DataBlock<DBString> trGroupNames;

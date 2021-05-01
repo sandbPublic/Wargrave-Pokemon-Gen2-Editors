@@ -164,10 +164,9 @@ namespace Gen2_Move_Editor
         {
             InitializeComponent();
 
-            int[] oTL = { CRIT_LIST_PTR_I, MOVE_STRUCT_I, MOVE_NAME_I,
-                            MOVE_DESC_PTR_I, TYPE_NAME_PTR_I};
-            int[] oTS = { CRIT_LIST_PTR_I, MOVE_STRUCT_I, MOVE_NAME_I, MOVE_DESC_PTR_I };
-            InitOffsets(oTL, oTS);
+            int[] readOnly = {TYPE_NAME_PTR_I};
+            int[] readWrite = {CRIT_LIST_PTR_I, MOVE_STRUCT_I, MOVE_NAME_I, MOVE_DESC_PTR_I};
+            InitOffsets(readOnly, readWrite);
         }
 
         protected override void EnableDataEntry()

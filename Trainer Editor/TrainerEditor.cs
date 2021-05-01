@@ -23,11 +23,9 @@ namespace Gen2_Trainer_Editor
             InitializeComponent();
             InitializeArrayComponents();
 
-            int[] oTL = { TM_CODE_I, TM_SET_I, MOVESET_PTR_I, ITEM_NAME_I, PKMN_NAME_I,
-                            MOVE_NAME_I, TRAINER_PTR_I, TR_GROUP_NAME_I, TR_GROUP_DV_I,
-                            TR_GROUP_ATTRIBUTE_I};
-            int[] oTS = { TRAINER_PTR_I, TR_GROUP_NAME_I, TR_GROUP_DV_I, TR_GROUP_ATTRIBUTE_I };
-            InitOffsets(oTL, oTS);
+            int[] readOnly = {TM_CODE_I, TM_SET_I, MOVESET_PTR_I, ITEM_NAME_I, PKMN_NAME_I, MOVE_NAME_I};
+            int[] readWrite = {TRAINER_PTR_I, TR_GROUP_NAME_I, TR_GROUP_DV_I, TR_GROUP_ATTRIBUTE_I };
+            InitOffsets(readOnly, readWrite);
         }
 
         protected override void EnableDataEntry()

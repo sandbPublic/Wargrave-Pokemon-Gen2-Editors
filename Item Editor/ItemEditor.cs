@@ -28,8 +28,9 @@ namespace Gen2_Item_Editor
         {
             InitializeComponent();
 
-            int[] oTL = { ITEM_STRUCT_I, ITEM_ASM_I, ITEM_NAME_I, ITEM_DESC_PTR_I };
-            InitOffsets(oTL, oTL);
+            int[] readOnly = {};
+            int[] readWrite = {ITEM_STRUCT_I, ITEM_ASM_I, ITEM_NAME_I, ITEM_DESC_PTR_I};
+            InitOffsets(readOnly, readWrite);
         }
 
         protected override void EnableDataEntry()

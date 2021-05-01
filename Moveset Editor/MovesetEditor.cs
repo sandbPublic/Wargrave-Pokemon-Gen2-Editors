@@ -18,9 +18,9 @@ namespace Gen2_Moveset_Editor
         {
             InitializeComponent();
 
-            int[] oTL = { TM_CODE_I, TM_SET_I, MOVESET_PTR_I, PKMN_NAME_I, MOVE_NAME_I };
-            int[] oTS = { TM_SET_I, MOVESET_PTR_I };
-            InitOffsets(oTL, oTS);
+            int[] readOnly = {TM_CODE_I, PKMN_NAME_I, MOVE_NAME_I};
+            int[] readWrite = {TM_SET_I, MOVESET_PTR_I};
+            InitOffsets(readOnly, readWrite);
         }
 
         protected override void EnableDataEntry()

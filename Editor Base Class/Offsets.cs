@@ -38,7 +38,6 @@ namespace Editor_Base_Class
         public int[] offset = new int[NUM_OF_OFFSETS];
         public bool[] loadOffset = new bool[NUM_OF_OFFSETS];
         public bool[] saveOffset = new bool[NUM_OF_OFFSETS];
-        public List<int> offsetsToLoad; 
         // don't load every offset for every editor
         // that way users don't need to locate every offsets to use one editor,
         // although they will need to fill dummy entries in the offset file
@@ -46,15 +45,13 @@ namespace Editor_Base_Class
         /// <summary>
         /// DOES NOT LOAD OFFSET VALUES
         /// </summary>
-        /// <param name="oTL">offsets to load</param>
-        /// <param name="oTS">offsets to save</param>
-        protected void InitOffsets(int[] oTL, int[] oTS)
+        /// <param name="readOnly">offsets to load</param>
+        /// <param name="readWrite">offsets to save</param>
+        protected void InitOffsets(int[] readOnly, int[] readWrite)
         {
-            offsetsToLoad.AddRange(oTL);
-
-            foreach (int offset_i in offsetsToLoad) loadOffset[offset_i] = true;
-
-            foreach (int offset_i in oTS) saveOffset[offset_i] = true;
+            foreach (int offset_i in readOnly) loadOffset[offset_i] = true;
+            foreach (int offset_i in readWrite) loadOffset[offset_i] = true;
+            foreach (int offset_i in readWrite) saveOffset[offset_i] = true;
         }
     }
 }

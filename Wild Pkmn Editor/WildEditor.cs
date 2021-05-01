@@ -45,9 +45,9 @@ namespace Gen2_Wild_Pkmn_Editor
         {
             InitializeComponent();
 
-            int[] oTL = { PKMN_NAME_I, WILD_I, MOVESET_PTR_I, AREA_NAME_PTR_I };
-            int[] oTS = { WILD_I };
-            InitOffsets(oTL, oTS);
+            int[] readOnly = {PKMN_NAME_I, MOVESET_PTR_I, AREA_NAME_PTR_I};
+            int[] readWrite = {WILD_I};
+            InitOffsets(readOnly, readWrite);
         }
 
         protected override void EnableDataEntry()
@@ -55,7 +55,6 @@ namespace Gen2_Wild_Pkmn_Editor
             comboRegion.Enabled = true;
             comboArea.Enabled = true;
             comboVersion.Enabled = true;
-            
             buttonAnalyze.Enabled = true;
 
             comboRegion.SelectedIndex = 0;

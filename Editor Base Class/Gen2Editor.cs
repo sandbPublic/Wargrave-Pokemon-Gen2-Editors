@@ -18,8 +18,6 @@ namespace Editor_Base_Class
         public Gen2Editor()
         {
             InitializeComponent();
-
-            offsetsToLoad = new List<int>();
         }
 
         private void LoadOffsets()

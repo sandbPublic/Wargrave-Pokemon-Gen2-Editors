@@ -22,10 +22,9 @@ namespace Gen2_Move_Animation_Editor
         {
             InitializeComponent();
 
-            int[] oTL = { MOVE_NAME_I, ANIM_PTR_I };
-            int[] oTS = { ANIM_PTR_I };
-
-            InitOffsets(oTL, oTS);
+            int[] readOnly = {MOVE_NAME_I};
+            int[] readWrite = {ANIM_PTR_I};
+            InitOffsets(readOnly, readWrite);
         }
 
         protected override void EnableDataEntry()
