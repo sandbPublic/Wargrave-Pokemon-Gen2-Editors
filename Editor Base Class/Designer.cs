@@ -62,9 +62,9 @@ namespace Editor_Base_Class
             this.openOffsets_TSMI,
             this.openROM_TSMI,
             this.saveROM_TSMI,
-            this.managePtrs_TSMI,
             this.importData_TSMI,
-            this.exportData_TSMI});
+            this.exportData_TSMI,
+            this.managePtrs_TSMI});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(62, 26);
             this.fileToolStripMenuItem.Text = "File";
@@ -158,7 +158,12 @@ namespace Editor_Base_Class
 
         private void OpenROM_TSMI_Click(object sender, EventArgs e)
         {
-            LoadFrom(ofdROM, true);
+            LoadFromROM();
+        }
+
+        private void SaveROM_TSMI_Click(object sender, EventArgs e)
+        {
+            SaveToROM();
         }
 
         // requires ROM data for immutable data
@@ -169,155 +174,17 @@ namespace Editor_Base_Class
         // eg moveset data, when transfered, should not CAP or unCAP names
         private void ImportData_TSMI_Click(object sender, EventArgs e)
         {
-            if (ROM_FilePath == null) OpenROM_TSMI_Click(sender, e);
-            else LoadFrom(ofdData, false);
-        }
-
-        private void SaveROM_TSMI_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                ROM_File = new ROM_FileStream(ROM_FilePath, FileMode.Open);
-                #region ITEM
-                if (JumpToIfSaving(ITEM_STRUCT_I))
-                {
-                    for (int item_i = 1; item_i <= offset[NUM_OF_ITEMS_I]; item_i++)
-                    {
-                        for (int byte_i = 0; byte_i < 7; byte_i++)
-                        {
-                            ROM_File.WriteByte(items[item_i, byte_i]);
-                        }
-                    }
-                }
-
-                if (JumpToIfSaving(ITEM_ASM_I))
-                {
-                    for (int asm_i = 1; asm_i <= offset[LAST_NON_TM_ITEM_I]; asm_i++)
-                    {
-                        ROM_File.WriteByte((byte)(itemASM[asm_i] / 0x100));
-                        ROM_File.WriteByte((byte)(itemASM[asm_i] % 0x100));
-                    }
-                }
-
-                if (JumpToIfSaving(ITEM_NAME_I)) itemNames.WriteToFile(ROM_File);
-
-                if (JumpToIfSaving(ITEM_DESC_PTR_I)) itemDescs.WriteToFile(ROM_File);
-
-                #endregion
-                #region MOVE
-                if (JumpToIfSaving(MOVE_STRUCT_I))
-                {
-                    for (int move_i = 1; move_i <= offset[NUM_OF_MOVES_I]; move_i++)
-                    {
-                        for (int byte_j = 0; byte_j < 7; byte_j++)
-                        {
-                            ROM_File.WriteByte(moves[move_i, byte_j]);
-                        }
-                    }
-                }
-
-                if (JumpToIfSaving(MOVE_NAME_I)) moveNames.WriteToFile(ROM_File);
-
-                if (JumpToIfSaving(MOVE_DESC_PTR_I)) moveDescs.WriteToFile(ROM_File);
-
-                if (JumpToIfSaving(CRIT_LIST_PTR_I))
-                {
-                    ROM_File.WriteLocalGBCPtr(offset[NEW_CRIT_LIST_I]);
-
-                    ROM_File.Position = offset[NEW_CRIT_LIST_I];
-                    for (int move_i = 0; move_i < offset[NUM_OF_MOVES_I]; move_i++)
-                    {
-                        if (moveIsCrit[move_i])
-                        {
-                            ROM_File.WriteByte((byte)move_i);
-                        }
-                    }
-                    ROM_File.WriteByte(0xFF);
-                }
-                #endregion
-                #region MOVESET
-                if (JumpToIfSaving(MOVESET_PTR_I)) movesets.WriteToFile(ROM_File);
-
-                if (JumpToIfSaving(TM_SET_I))
-                {
-                    for (int pkmn_i = 1; pkmn_i <= offset[NUM_OF_PKMN_I]; pkmn_i++)
-                    {
-                        bool[] TMsetBools = new bool[64];
-                        for (int bool_j = 0; bool_j < 64; bool_j++)
-                        {
-                            TMsetBools[bool_j] = TMSets[pkmn_i, bool_j];
-                        }
-                        byte[] TMsetBytes = ROM_FileStream.TMBytesFromBools(TMsetBools);
-                        ROM_File.WriteBytes(TMsetBytes, offset[TM_SET_I] + 0x20 * (pkmn_i - 1));
-                    }
-                }
-                #endregion
-                #region TRAINER
-                if (JumpToIfSaving(TR_GROUP_NAME_I)) trGroupNames.WriteToFile(ROM_File);
-
-                if (JumpToIfSaving(TR_GROUP_DV_I))
-                {
-                    foreach (byte DV in trGroupDVs)
-                    {
-                        ROM_File.WriteByte(DV);
-                    }
-                }
-
-                if (JumpToIfSaving(TR_GROUP_ATTRIBUTE_I))
-                {
-                    for (int tc_i = trGroupNames.start_i; tc_i <= trGroupNames.end_i; tc_i++)
-                    {
-                        ROM_File.WriteByte(trGroupItems[2 * tc_i]);
-                        ROM_File.WriteByte(trGroupItems[2 * tc_i + 1]);
-                        ROM_File.WriteByte(trGroupRewards[tc_i]);
-                        ROM_File.Position += 4; // skip AI behavior bytes
-                    }
-                }
-
-                if (JumpToIfSaving(TRAINER_PTR_I)) trainerLists.WriteToFile(ROM_File);
-
-                #endregion
-                if (JumpToIfSaving(ANIM_PTR_I)) animations.WriteToFile(ROM_File);
-                #region WILD
-                if (JumpToIfSaving(WILD_I))
-                {
-                    ROM_File.WriteWildAreaList(johtoLand);
-                    ROM_File.WriteWildAreaList(johtoWater);
-                    ROM_File.WriteWildAreaList(kantoLand);
-                    ROM_File.WriteWildAreaList(kantoWater);
-                    ROM_File.WriteWildAreaList(swarm);
-                }
-                #endregion
-
-                ROM_File.Dispose();
-
-                FormMessage saved = new FormMessage("Saved to " + ROM_FilePath);
-                saved.Show();
-            }
-            catch (FileNotFoundException)
-            {
-                FormMessage exception = new FormMessage("Must select existing ROM file");
-                exception.Show();
-            }
-
+            if (openROM_TSMI.Enabled) LoadFromTxt();
         }
 
         private void ExportData_TSMI_Click(object sender, EventArgs e)
         {
-            if (sfdData.ShowDialog() == DialogResult.OK)
-            {
-                using (var file = new System.IO.StreamWriter(sfdData.FileName))
-                {
-                    ExportData(file);
-                }
-                sfdData.Dispose();
-            }
+            SaveToTxt();
         }
 
         private void About_TSMI_Click(object sender, EventArgs e)
         {
-            FormMessage info = new FormMessage("https://hax.iimarck.us/topic/6848/");
-            info.Show();
+            new FormMessage("https://hax.iimarck.us/topic/6848/").Show();
         }
 
         private void ManagePtrs_TSMI_Click(object sender, EventArgs e)
@@ -358,7 +225,7 @@ namespace Editor_Base_Class
 
             int height = txtMessage.Lines.Length;
 
-            ClientSize = new System.Drawing.Size(maxLength * 12 + 10, height * 28 + 15);
+            ClientSize = new System.Drawing.Size(maxLength * 12 + 10, height * 28 + 15); // todo establish char dimensions
             txtMessage.Size = new System.Drawing.Size(maxLength * 12, height * 28);
 
             Controls.Add(txtMessage);

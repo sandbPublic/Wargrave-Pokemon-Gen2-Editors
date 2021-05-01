@@ -38,7 +38,10 @@ namespace Editor_Base_Class
         public int[] offset = new int[NUM_OF_OFFSETS];
         public bool[] loadOffset = new bool[NUM_OF_OFFSETS];
         public bool[] saveOffset = new bool[NUM_OF_OFFSETS];
-        public List<int> offsetsToLoad; // don't load every offset for every editor
+        public List<int> offsetsToLoad; 
+        // don't load every offset for every editor
+        // that way users don't need to locate every offsets to use one editor,
+        // although they will need to fill dummy entries in the offset file
 
         /// <summary>
         /// DOES NOT LOAD OFFSET VALUES

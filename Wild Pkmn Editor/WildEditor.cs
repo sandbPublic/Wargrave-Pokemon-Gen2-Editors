@@ -55,7 +55,7 @@ namespace Gen2_Wild_Pkmn_Editor
             comboRegion.Enabled = true;
             comboArea.Enabled = true;
             comboVersion.Enabled = true;
-            managePtrs_TSMI.Enabled = false;
+            
             buttonAnalyze.Enabled = true;
 
             comboRegion.SelectedIndex = 0;
@@ -66,6 +66,7 @@ namespace Gen2_Wild_Pkmn_Editor
         protected override void EnableWrite()
         {
             saveROM_TSMI.Enabled = true;
+            managePtrs_TSMI.Enabled = false;
         }
 
         protected override void UpdateEditor()
