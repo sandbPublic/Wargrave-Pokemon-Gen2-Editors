@@ -24,7 +24,6 @@ namespace Editor_Base_Class
 
         protected OpenFileDialog ofdData;
         protected SaveFileDialog sfdData;
-        protected string data_FilePath; // todo remove, don't need persistent member variable?
 
         public Gen2Editor()
         {
@@ -124,12 +123,9 @@ namespace Editor_Base_Class
         {
             if (ofd.ShowDialog() == DialogResult.OK)
             {
-                if (fromRom) ROM_FilePath = ofd.FileName;
-                else data_FilePath = ofd.FileName;
-                ofd.Dispose();
-
                 if (fromRom)
                 {
+                    ROM_FilePath = ofd.FileName;
                     LoadFromRom();
                     exportData_TSMI.Enabled = true;
                     managePtrs_TSMI.Enabled = true;
@@ -138,7 +134,7 @@ namespace Editor_Base_Class
                 else
                 {
                     var dataStrings = new List<string>();
-                    foreach (string s in File.ReadLines(data_FilePath)) dataStrings.Add(s);
+                    foreach (string s in File.ReadLines(ofd.FileName)) dataStrings.Add(s);
 
                     try
                     {
@@ -146,9 +142,11 @@ namespace Editor_Base_Class
                     }
                     catch (Exception e)
                     { 
-                        new FormMessage("Bad data file: "  + data_FilePath + Environment.NewLine + e.Message).Show();
+                        new FormMessage("Bad data file: "  + ofd.FileName + Environment.NewLine + e.Message).Show();
                     }
                 }
+
+                ofd.Dispose();
                 EnableWrite();
                 UpdateEditor();
             }
@@ -383,7 +381,7 @@ namespace Editor_Base_Class
         protected virtual void EnableWrite() { }
         protected virtual void UpdateEditor() { }
         protected virtual void ImportData(List<string> dataStrings) { }
-        protected virtual void ExportData() { }
+        protected virtual void ExportData(System.IO.StreamWriter file) { }
         protected virtual void ManagePointers() { }
 
         protected void BadParse(TextBox tb)

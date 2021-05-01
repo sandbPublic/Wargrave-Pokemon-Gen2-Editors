@@ -306,10 +306,11 @@ namespace Editor_Base_Class
         {
             if (sfdData.ShowDialog() == DialogResult.OK)
             {
-                data_FilePath = sfdData.FileName;
+                using (var file = new System.IO.StreamWriter(sfdData.FileName))
+                {
+                    ExportData(file);
+                }
                 sfdData.Dispose();
-
-                ExportData();
             }
         }
 

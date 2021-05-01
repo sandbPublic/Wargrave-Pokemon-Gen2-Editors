@@ -120,11 +120,9 @@ namespace Gen2_Item_Editor
             itemDescs.MakeContiguous();
         }
 
-        protected override void ExportData()
+        protected override void ExportData(System.IO.StreamWriter file)
         {
-            using (var file = new System.IO.StreamWriter(data_FilePath))
-            {
-                foreach (int item_i in itemNames.Range())
+            foreach (int item_i in itemNames.Range())
                 {
                     file.WriteLine(itemNames.data[item_i]);
                     file.WriteLine(itemDescs.data[item_i]);
@@ -142,7 +140,6 @@ namespace Gen2_Item_Editor
                     file.WriteLine(dataStruct);
                     file.WriteLine("");
                 }
-            }
         }
 
         protected override void ManagePointers()

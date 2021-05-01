@@ -151,20 +151,17 @@ namespace Gen2_Wild_Pkmn_Editor
             }
         }
 
-        protected override void ExportData()
+        protected override void ExportData(System.IO.StreamWriter file)
         {
-            using (var file = new System.IO.StreamWriter(data_FilePath))
-            {
-                // export list of counts
-                string counts = johtoLand.Count + " " + johtoWater.Count + " "
-                    + kantoLand.Count + " " + kantoWater.Count + " " + swarm.Count;
+            // export list of counts
+            string counts = johtoLand.Count + " " + johtoWater.Count + " "
+                + kantoLand.Count + " " + kantoWater.Count + " " + swarm.Count;
 
-                file.WriteLine(counts);
-                file.WriteLine("");
+            file.WriteLine(counts);
+            file.WriteLine("");
 
-                // then export lists
-                for (int region_i = 0; region_i < 5; region_i++) ExportListAWD(file, AreaList(region_i));
-            }
+            // then export lists
+            for (int region_i = 0; region_i < 5; region_i++) ExportListAWD(file, AreaList(region_i));
         }
 
         //protected override void ManagePointers() { }

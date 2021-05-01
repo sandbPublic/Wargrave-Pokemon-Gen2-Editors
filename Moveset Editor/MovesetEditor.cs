@@ -106,11 +106,9 @@ namespace Gen2_Moveset_Editor
         }
 
         // evodata not saved, considered immutable for this tool (load and maintain from ROM)
-        protected override void ExportData()
+        protected override void ExportData(System.IO.StreamWriter file)
         {
-            using (var file = new System.IO.StreamWriter(data_FilePath))
-            {
-                foreach (int pkmn_i in movesets.Range())
+            foreach (int pkmn_i in movesets.Range())
                 {
                     file.WriteLine(movesets.RelativePtr(pkmn_i) + " "
                         + movesets.data[pkmn_i].learnList.Count);
@@ -136,7 +134,6 @@ namespace Gen2_Moveset_Editor
 
                     file.WriteLine("");
                 }
-            }
         }
 
         protected override void ManagePointers()

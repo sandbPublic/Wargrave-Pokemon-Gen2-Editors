@@ -133,7 +133,7 @@ namespace Gen2_Trainer_Editor
             trainerLists.MakeContiguous();
         }
 
-        protected override void ExportData()
+        protected override void ExportData(System.IO.StreamWriter file)
         {
             // num of groups
             // group data
@@ -145,10 +145,8 @@ namespace Gen2_Trainer_Editor
             //   list of pkmn
             // blank line
 
-            using (var file = new System.IO.StreamWriter(data_FilePath))
-            {
-                file.WriteLine(trGroupNames.end_i - trGroupNames.start_i + 1); // num groups
-                for (int group_i = trGroupNames.start_i; group_i <= trGroupNames.end_i; group_i++)
+            file.WriteLine(trGroupNames.end_i - trGroupNames.start_i + 1); // num groups
+            for (int group_i = trGroupNames.start_i; group_i <= trGroupNames.end_i; group_i++)
                 {
                     file.WriteLine(trGroupNames.data[group_i]);
 
@@ -180,7 +178,6 @@ namespace Gen2_Trainer_Editor
                     }
                     file.WriteLine("");
                 }
-            }
         }
 
         protected override void ManagePointers()

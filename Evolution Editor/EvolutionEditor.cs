@@ -117,11 +117,9 @@ namespace Gen2_Evolution_Editor
             movesets.MakeContiguous();
         }
         
-        protected override void ExportData()
+        protected override void ExportData(System.IO.StreamWriter file)
         {
-            using (var file = new System.IO.StreamWriter(data_FilePath))
-            {
-                foreach (int pkmn_i in movesets.Range())
+            foreach (int pkmn_i in movesets.Range())
                 {
                     file.WriteLine(movesets.RelativePtr(pkmn_i) + " "
                         + movesets.data[pkmn_i].evoList.Count);
@@ -138,7 +136,6 @@ namespace Gen2_Evolution_Editor
                     file.WriteLine(s);
                     file.WriteLine("");
                 }
-            }
         }
         
         protected override void ManagePointers()

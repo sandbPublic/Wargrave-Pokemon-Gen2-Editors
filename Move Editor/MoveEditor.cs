@@ -158,7 +158,6 @@ namespace Gen2_Move_Editor
 "?", "?", "?", "?", "?", "?", "?", "?", "?", "?", "?", "?", "?", "?", "?", "?",
 "?", "?", "?", "?", "?", "?", "?", "?", "?", "?", "?", "?", "?", "?", "?", "?"
         };
-
         #endregion
 
         public MoveEditor()
@@ -246,11 +245,9 @@ namespace Gen2_Move_Editor
             moveDescs.MakeContiguous();
         }
 
-        protected override void ExportData()
+        protected override void ExportData(System.IO.StreamWriter file)
         {
-            using (var file = new System.IO.StreamWriter(data_FilePath))
-            {
-                foreach (int move_i in moveNames.Range())
+            foreach (int move_i in moveNames.Range())
                 {
                     file.WriteLine(moveNames.data[move_i]);
                     file.WriteLine(moveDescs.data[move_i]);
@@ -269,7 +266,6 @@ namespace Gen2_Move_Editor
                     file.WriteLine(dataStruct);
                     file.WriteLine("");
                 }
-            }
         }
 
         protected override void ManagePointers()
