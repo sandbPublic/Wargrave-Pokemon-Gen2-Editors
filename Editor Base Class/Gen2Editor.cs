@@ -16,7 +16,6 @@ namespace Editor_Base_Class
     public partial class Gen2Editor : Form
     {
         protected OpenFileDialog ofdOffsets;
-        protected string offsets_FilePath;
 
         protected OpenFileDialog ofdROM;
         public ROM_FileStream ROM_File;
@@ -76,23 +75,23 @@ namespace Editor_Base_Class
         {
             if (ofdOffsets.ShowDialog() == DialogResult.OK)
             {
-                offsets_FilePath = ofdOffsets.FileName;
+                string offsetFileName = ofdOffsets.FileName;
                 ofdOffsets.Dispose();
 
                 List<string> offsetsStrings = new List<string>();
-                foreach (string s in File.ReadLines(offsets_FilePath)) offsetsStrings.Add(s);
+                foreach (string s in File.ReadLines(offsetFileName)) offsetsStrings.Add(s);
 
-                bool validOffsets = true;
                 if (offsetsStrings.Count < NUM_OF_OFFSETS)
                 {
                     FormMessage warning = new FormMessage(
                         "Warning: not enough lines in offset file." + Environment.NewLine
-                        + offsets_FilePath + Environment.NewLine
+                        + offsetFileName + Environment.NewLine
                         + "Lines read: " + offsetsStrings.Count + Environment.NewLine
                         + "Lines expected: " + NUM_OF_OFFSETS);
                     warning.Show();
 
-                    validOffsets = false;
+                    openROM_TSMI.Enabled = false;
+                    return;
                 }
 
                 for (int offset_i = 0; offset_i < NUM_OF_OFFSETS; offset_i++)
@@ -105,17 +104,16 @@ namespace Editor_Base_Class
                     catch (Exception e)
                     {
                         new FormMessage(
-                            "Bad offset file: " + offsets_FilePath + Environment.NewLine
+                            "Bad offset file: " + offsetFileName + Environment.NewLine
                             + e.Message + Environment.NewLine
                             + "Line# " + (offset_i + 1)).Show();
 
-                        validOffsets = false;
+                        openROM_TSMI.Enabled = false;
+                        return;
                     }
                 }
 
-                // do not allow the user to open a ROM 
-                // if the offset file was invalid
-                if (!validOffsets) offsets_FilePath = null;
+                openROM_TSMI.Enabled = true;
             }
         }
 

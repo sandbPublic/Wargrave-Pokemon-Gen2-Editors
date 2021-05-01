@@ -52,7 +52,7 @@ namespace Editor_Base_Class
             this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(284, 29);
+            this.menuStrip1.Size = new System.Drawing.Size(284, 30);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -66,22 +66,23 @@ namespace Editor_Base_Class
             this.importData_TSMI,
             this.exportData_TSMI});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(66, 25);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(62, 26);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // openOffsets_TSMI
             // 
             this.openOffsets_TSMI.Name = "openOffsets_TSMI";
             this.openOffsets_TSMI.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
-            this.openOffsets_TSMI.Size = new System.Drawing.Size(321, 26);
+            this.openOffsets_TSMI.Size = new System.Drawing.Size(300, 26);
             this.openOffsets_TSMI.Text = "Open offsets";
             this.openOffsets_TSMI.Click += new System.EventHandler(this.OpenOffsets_TSMI_Click);
             // 
             // openROM_TSMI
             // 
+            this.openROM_TSMI.Enabled = false;
             this.openROM_TSMI.Name = "openROM_TSMI";
             this.openROM_TSMI.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.openROM_TSMI.Size = new System.Drawing.Size(321, 26);
+            this.openROM_TSMI.Size = new System.Drawing.Size(300, 26);
             this.openROM_TSMI.Text = "Open ROM";
             this.openROM_TSMI.Click += new System.EventHandler(this.OpenROM_TSMI_Click);
             // 
@@ -90,7 +91,7 @@ namespace Editor_Base_Class
             this.saveROM_TSMI.Enabled = false;
             this.saveROM_TSMI.Name = "saveROM_TSMI";
             this.saveROM_TSMI.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.saveROM_TSMI.Size = new System.Drawing.Size(321, 26);
+            this.saveROM_TSMI.Size = new System.Drawing.Size(300, 26);
             this.saveROM_TSMI.Text = "Save ROM";
             this.saveROM_TSMI.Click += new System.EventHandler(this.SaveROM_TSMI_Click);
             // 
@@ -99,7 +100,7 @@ namespace Editor_Base_Class
             this.managePtrs_TSMI.Enabled = false;
             this.managePtrs_TSMI.Name = "managePtrs_TSMI";
             this.managePtrs_TSMI.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
-            this.managePtrs_TSMI.Size = new System.Drawing.Size(321, 26);
+            this.managePtrs_TSMI.Size = new System.Drawing.Size(300, 26);
             this.managePtrs_TSMI.Text = "Manage pointers";
             this.managePtrs_TSMI.Click += new System.EventHandler(this.ManagePtrs_TSMI_Click);
             // 
@@ -107,7 +108,7 @@ namespace Editor_Base_Class
             // 
             this.importData_TSMI.Name = "importData_TSMI";
             this.importData_TSMI.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.I)));
-            this.importData_TSMI.Size = new System.Drawing.Size(321, 26);
+            this.importData_TSMI.Size = new System.Drawing.Size(300, 26);
             this.importData_TSMI.Text = "Import data";
             this.importData_TSMI.Click += new System.EventHandler(this.ImportData_TSMI_Click);
             // 
@@ -116,7 +117,7 @@ namespace Editor_Base_Class
             this.exportData_TSMI.Enabled = false;
             this.exportData_TSMI.Name = "exportData_TSMI";
             this.exportData_TSMI.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
-            this.exportData_TSMI.Size = new System.Drawing.Size(321, 26);
+            this.exportData_TSMI.Size = new System.Drawing.Size(300, 26);
             this.exportData_TSMI.Text = "Export data";
             this.exportData_TSMI.Click += new System.EventHandler(this.ExportData_TSMI_Click);
             // 
@@ -125,24 +126,24 @@ namespace Editor_Base_Class
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.about_TSMI});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(66, 25);
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(62, 26);
             this.helpToolStripMenuItem.Text = "Help";
             // 
             // about_TSMI
             // 
             this.about_TSMI.Name = "about_TSMI";
             this.about_TSMI.ShortcutKeys = System.Windows.Forms.Keys.F1;
-            this.about_TSMI.Size = new System.Drawing.Size(167, 26);
+            this.about_TSMI.Size = new System.Drawing.Size(160, 26);
             this.about_TSMI.Text = "About";
             this.about_TSMI.Click += new System.EventHandler(this.About_TSMI_Click);
             // 
-            // GSCEditor
+            // Gen2Editor
             // 
             this.ClientSize = new System.Drawing.Size(284, 261);
             this.Controls.Add(this.menuStrip1);
             this.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.MainMenuStrip = this.menuStrip1;
-            this.Name = "GSCEditor";
+            this.Name = "Gen2Editor";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -157,8 +158,7 @@ namespace Editor_Base_Class
 
         private void OpenROM_TSMI_Click(object sender, EventArgs e)
         {
-            if (offsets_FilePath == null) OpenOffsets_TSMI_Click(sender, e);
-            else LoadFrom(ofdROM, true);
+            LoadFrom(ofdROM, true);
         }
 
         // requires ROM data for immutable data
